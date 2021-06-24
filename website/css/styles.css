@@ -33,6 +33,11 @@ h1 {
 .yes { color: var(--darktheme) }
 .no { color: var(--red) }
 
+.spacer {
+    width: 100%;
+    height: 4rem;
+}
+
 .table {
     margin-bottom: 1.5rem;
 }
@@ -138,6 +143,14 @@ h1 {
 }
 
 .risk-edit label {
+    position: relative;
+}
+
+.risk-factor-edit label {
+    position: relative;
+}
+
+.modal label {
     position: relative;
 }
 
@@ -389,7 +402,7 @@ button:focus {
     border-radius: 8px;
 }
 
-.modal-form input {
+.modal-form label {
     margin-bottom: 16px;
 }
 

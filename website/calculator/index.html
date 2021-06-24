@@ -23,12 +23,12 @@
             <div class="inputs">
                 <label>
                     Target Availability
-                    <input id="downtime-percent" class="labelled-input" name="downtime-percent" type="number" min="0" max="100" step="0.01" placeholder=""/>
+                    <input id="downtime-percent" class="labelled-input" name="downtime-percent" type="number" min="0" max="100" step="0.01" placeholder="e.g. 99.999"/>
                     <span class="percentage-input">%</span>
                 </label>
                 <label>
                     Unacceptable risk level for individual risk (% error budget)
-                    <input id="unacceptable-threshold" class="labelled-input" name="unacceptable-threshold" type="number" min="0" max="100" step="0.01" placeholder=""/>
+                    <input id="unacceptable-threshold" class="labelled-input" name="unacceptable-threshold" type="number" min="0" max="100" step="0.01" placeholder="e.g. 15"/>
                     <span class="percentage-input">%</span>
                 </label>
             </div>
@@ -52,7 +52,6 @@
             </div>
         </div>
         <h2>Risks</h2>
-
         <div id="risks-table" class="table">
             <div id="risks-table-head" class="table-head risks-table-row table-row">
                 <h3>Risk</h3>
@@ -125,128 +124,145 @@
                 </details>
             </div>
         </div>
-        <a class="modal-launcher" data-target="new-risk-modal">Add new risk</a>
+        <button class="modal-launcher" data-target="new-risk-modal">+ Create new risk</button>
+        <div class="spacer"></div>
+        <h2>Global risk factors</h2>
+        <div id="risk-factors-table" class="table">
+            <div id="risk-factors-table-head" class="table-head risk-factors-table-row table-row">
+                <h3>Risk Factor</h3>
+                <h3>More</h3>
+            </div>
+            <div id="risk-factors-table-body">
+                <details class="table-hidden-row" data-risk-factor="no-phone">
+                    <summary class="risk-factors-table-row table-row">
+                        <span>Engineers don't have cell phones</span>
+                        <span class="table-center-data show-details">· · ·</span>
+                    </summary>
+                    <h4>Edit this risk factor</h4>
+                    <form class="risk-factor-edit" data-risk-factor="no-phone">
+                        <div class="inputs">
+                            <label>
+                                Risk Factor ID
+                                <input id="no-phone-riskFactorId" class="labelled-input" name="riskFactorId" value="no-phone" placeholder=""/>
+                            </label>
+                            <label>
+                                Risk Description
+                                <input id="no-phone-riskDesc" class="labelled-input" name="riskDesc" value="Service pods down" placeholder=""/>
+                            </label>
+                            <label>
+                                <span>
+                                    ETTD
+                                    <span class="tooltip" data-tip="Estimated time to detect the risk">ⓘ</span>
+                                </span>
+                                <input id="no-phone-riskEttd" class="labelled-input" name="riskDesc" value="Service pods down" placeholder=""/>
+                            </label>
+                            <label>
+                                <span>
+                                    ETTR
+                                    <span class="tooltip" data-tip="Estimated time to recover from the risk">ⓘ</span>
+                                </span>
+                                <input id="no-phone-riskEttr" class="labelled-input" name="riskDesc" value="Service pods down" placeholder=""/>
+                            </label>
+                            <label>
+                                Impact (% users)
+                                <input id="no-phone-riskImpact" class="labelled-input" name="riskDesc" value="Service pods down" type="number" min="0" max="100" step="0.01" placeholder=""/>
+                                <span class="percentage-input">%</span>
+                            </label>
+                            <label>
+                                <span>
+                                    ETTF
+                                    <span class="tooltip" data-tip="Estimated time to fix the risk">ⓘ</span>
+                                </span>
+                                <input id="no-phone-riskEttf" class="labelled-input" name="riskDesc" value="Service pods down" placeholder=""/>
+                            </label>
+                        </div>
+                        <div class="buttons">
+                            <button type="submit" class="edit-btn">Edit</button>
+                            <button type="button" class="delete-btn">Delete</button>
+                        </div>
+                    </form>
+                </details>
+            </div>
+        </div>
+        <button class="modal-launcher" data-target="new-risk-factor-modal">+ Create new risk factor</button>
     </main>
-    <div id="edit-risk-modal" class="modal hidden" data-risk="undefined">
-        <span class="close-modal" data-target="edit-risk-modal">x</span>
-        <form id="edit-risk-modal-form" class="modal-form">
-            <label for="edit-riskId">
-                Risk ID
-            </label>
-            <input id="edit-riskId" name="edit-riskId" value="" placeholder=""/>
-            <label for="edit-riskDesc">
-                Risk Description
-            </label>
-            <input id="edit-riskDesc" name="edit-riskId" value="" placeholder=""/>
-            <label for="edit-riskEttd">
-                ETTD
-            </label>
-            <input id="edit-riskEttd" name="edit-riskEttd" value="" placeholder=""/>
-            <label for="edit-riskEttr">
-                ETTR
-            </label>
-            <input id="edit-riskEttr" name="edit-riskEttr" value="" placeholder=""/>
-            <label for="edit-riskImpact">
-                % impact
-            </label>
-            <input id="edit-riskImpact" name="edit-riskImpact" value="" placeholder=""/>
-            <label for="edit-riskEttf">
-                ETTF
-            </label>
-            <input id="edit-riskEttf" name="edit-riskEttf" value="" placeholder=""/>
-            <button type="submit">Edit</button>
-        </form>
-    </div>
     <div id="new-risk-modal" class="modal hidden">
-        <span class="close-modal" data-target="new-risk-modal">x</span>
         <form id="new-risk-modal-form" class="modal-form">
-            <label for="new-riskId">
+            <h2>Add a new risk</h2>
+            <label>
                 Risk ID
+                <input class="labelled-input" name="riskId" value="" placeholder=""/>
             </label>
-            <input id="new-riskId" name="new-riskId" value="" placeholder=""/>
-            <label for="new-riskDesc">
+            <label>
                 Risk Description
+                <input class="labelled-input" name="riskDesc" value="" placeholder=""/>
             </label>
-            <input id="new-riskDesc" name="new-riskId" value="" placeholder=""/>
-            <label for="new-riskEttd">
-                ETTD
+            <label>
+                <span>
+                    ETTD
+                    <span class="tooltip" data-tip="Estimated time to detect the risk">ⓘ</span>
+                </span>
+                <input class="labelled-input" name="riskEttd" value="" placeholder=""/>
             </label>
-            <input id="new-riskEttd" name="new-riskEttd" value="" placeholder=""/>
-            <label for="new-riskEttr">
-                ETTR
+            <label>
+                <span>
+                    ETTR
+                    <span class="tooltip" data-tip="Estimated time to recover from the risk">ⓘ</span>
+                </span>
+                <input class="labelled-input" name="riskEttr" value="" placeholder=""/>
             </label>
-            <input id="new-riskEttr" name="new-riskEttr" value="" placeholder=""/>
-            <label for="new-riskImpact">
-                % impact
+            <label>
+                Impact (% users)
+                <input class="labelled-input" name="riskImpact" value="" type="number" min="0" max="100" step="0.01" placeholder=""/>
+                <span class="percentage-input">%</span>
             </label>
-            <input id="new-riskImpact" name="new-riskImpact" value="" placeholder=""/>
-            <label for="new-riskEttf">
-                ETTF
+            <label>
+                <span>
+                    ETTF
+                    <span class="tooltip" data-tip="Estimated time to fix the risk">ⓘ</span>
+                </span>
+                <input class="labelled-input" name="riskEttf" value="" placeholder=""/>
             </label>
-            <input id="new-riskEttf" name="new-riskEttf" value="" placeholder=""/>
             <button type="submit">Create</button>
         </form>
     </div>
-
-
-
-    <div id="edit-risk-factor-modal" class="modal hidden" data-riskFactor="undefined">
-        <span class="close-modal" data-target="edit-risk-factor-modal">x</span>
-        <form id="edit-risk-factor-modal-form" class="modal-form">
-            <label for="edit-riskFactorId">
-                Risk Factor ID
-            </label>
-            <input id="edit-riskFactorId" name="edit-riskFactorId" value="" placeholder=""/>
-            <label for="edit-riskFactorDesc">
-                Risk Factor
-            </label>
-            <input id="edit-riskFactorDesc" name="edit-riskFactorId" value="" placeholder=""/>
-            <label for="edit-riskFactorEttd">
-                + ETTD
-            </label>
-            <input id="edit-riskFactorEttd" name="edit-riskFactorEttd" value="" placeholder=""/>
-            <label for="edit-riskFactorEttr">
-                + ETTR
-            </label>
-            <input id="edit-riskFactorEttr" name="edit-riskFactorEttr" value="" placeholder=""/>
-            <label for="edit-riskFactorImpact">
-                + % impact
-            </label>
-            <input id="edit-riskFactorImpact" name="edit-riskFactorImpact" value="" placeholder=""/>
-            <label for="edit-riskFactorEttf">
-                + ETTF
-            </label>
-            <input id="edit-riskFactorEttf" name="edit-riskFactorEttf" value="" placeholder=""/>
-            <button type="submit">Edit</button>
-        </form>
-    </div>
     <div id="new-risk-factor-modal" class="modal hidden">
-        <span class="close-modal" data-target="new-risk-factor-modal">x</span>
         <form id="new-risk-factor-modal-form" class="modal-form">
-            <label for="new-risk-factorId">
+            <h2>Add a new risk factor</h2>
+            <label>
                 Risk Factor ID
+                <input class="labelled-input" name="riskFactorId" value="" placeholder=""/>
             </label>
-            <input id="new-risk-factorId" name="serviceId" value="" placeholder=""/>
-            <label for="new-risk-factorDesc">
-                Risk Factor
+            <label>
+                Risk Factor Description
+                <input class="labelled-input" name="riskFactorDesc" value="" placeholder=""/>
             </label>
-            <input id="new-risk-factorDesc" name="new-risk-factorId" value="" placeholder=""/>
-            <label for="new-risk-factorEttd">
-                + ETTD
+            <label>
+                <span>
+                    + ETTD
+                    <span class="tooltip" data-tip="Estimated additional time to detect the risk">ⓘ</span>
+                </span>
+                <input class="labelled-input" name="riskFactorEttd" value="" placeholder=""/>
             </label>
-            <input id="new-risk-factorEttd" name="new-risk-factorEttd" value="" placeholder=""/>
-            <label for="new-risk-factorEttr">
-                + ETTR
+            <label>
+                <span>
+                    + ETTR
+                    <span class="tooltip" data-tip="Estimated additional time to recover from the risk">ⓘ</span>
+                </span>
+                <input class="labelled-input" name="riskFactorEttr" value="" placeholder=""/>
             </label>
-            <input id="new-risk-factorEttr" name="new-risk-factorEttr" value="" placeholder=""/>
-            <label for="new-risk-factorImpact">
-                + % impact
+            <label>
+                + Impact (% users)
+                <input class="labelled-input" name="riskFactorImpact" value="" type="number" min="0" max="100" step="0.01" placeholder=""/>
+                <span class="percentage-input">%</span>
             </label>
-            <input id="new-risk-factorImpact" name="new-risk-factorImpact" value="" placeholder=""/>
-            <label for="new-risk-factorEttf">
-                + ETTF
+            <label>
+                <span>
+                    + ETTF
+                    <span class="tooltip" data-tip="Estimated additional time to fix TODO the risk">ⓘ</span>
+                </span>
+                <input class="labelled-input" name="riskFactorEttf" value="" placeholder=""/>
             </label>
-            <input id="new-risk-factorEttf" name="new-risk-factorEttf" value="" placeholder=""/>
             <button type="submit">Create</button>
         </form>
     </div>

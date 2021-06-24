@@ -97,6 +97,7 @@ function setUpModals() {
         
         createService(data)
             .then(getAllServices)
+            .then(() => document.querySelector('#new-modal-form').reset())
             .then(() => { document.querySelector('#new-modal').classList.add('hidden'); })
     })
 
