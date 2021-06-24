@@ -10,11 +10,11 @@ function appendService(toPopulate, service) {
             <div class="inputs">
                 <label>
                     Service ID
-                    <input id="${service.serviceId}-serviceId" name="serviceId" value="${service.serviceId}" placeholder=""/>
+                    <input id="${service.serviceId}-serviceId" class="labelled-input" name="serviceId" value="${service.serviceId}" placeholder=""/>
                 </label>
                 <label>
                     Service Name
-                    <input id="${service.serviceId}-serviceName" name="serviceName" value="${service.serviceName}" placeholder=""/>
+                    <input id="${service.serviceId}-serviceName" class="labelled-input" name="serviceName" value="${service.serviceName}" placeholder=""/>
                 </label>
             </div>
             <div class="buttons">
@@ -30,7 +30,8 @@ function appendService(toPopulate, service) {
         e.preventDefault();
 
         if (confirm(`Are you sure you want to delete ${service.serviceName}?`)) {
-            deleteService(service.serviceId);
+            deleteService(service.serviceId)
+                .then(getAllServices);
         }
     })
 
@@ -43,7 +44,8 @@ function appendService(toPopulate, service) {
         editFd.forEach((value, key) => data[key] = value);
         
         if (confirm(`Are you sure you want to update ${service.serviceName}?`)) {
-            updateService(service.serviceId, data);
+            updateService(service.serviceId, data)
+                .then(getAllServices);
         }
     })
 
@@ -92,10 +94,16 @@ function setUpModals() {
         let data = {};
         newFd.forEach((value, key) => data[key] = value);
         
-        createService(data);
+        createService(data)
+            .then(getAllServices)
+            .then(() => { document.querySelector('#new-modal').classList.add('hidden'); })
     })
 
-    
+    document.querySelector('#new-modal').addEventListener('click', (e) => {
+        if (!Boolean(e.target.closest('form'))) {
+            document.querySelector('#new-modal').classList.add('hidden');
+        }
+    })
 }
 
 window.addEventListener('load', () => {

@@ -92,16 +92,16 @@
         <button class="modal-launcher" data-target="new-modal">+ Create new service</button>
     </main>
     <div id="new-modal" class="modal hidden">
-        <span class="close-modal" data-target="new-modal">x</span>
         <form id="new-modal-form" class="modal-form">
-            <label for="new-serviceId">
+            <h2>Add a new service</h2>
+            <label>
                 Service ID
+                <input name="serviceId" class="labelled-input" value="" placeholder=""/>
             </label>
-            <input id="new-serviceId" name="new-serviceId" value="" placeholder=""/>
-            <label for="new-serviceName">
+            <label>
                 Service Name
+                <input name="serviceName" class="labelled-input" value="" placeholder=""/>
             </label>
-            <input id="new-serviceName" name="new-serviceName" value="" placeholder=""/>
             <button type="submit">Create</button>
         </form>
     </div>

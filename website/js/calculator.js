@@ -1,10 +1,5 @@
 let currentService = '';
 
-function getCurrentServiceName() {
-    // stub
-    return currentService.toUpperCase();
-}
-
 function getRisks() {
     // stub
     return new Promise((resolve, reject) => {
@@ -84,28 +79,31 @@ function transform(risk) {
 }
 
 function getAllRisks() {
-    getCurrentServiceName();
+    return new Promise((resolve, reject) => {
+        getServiceNameFromId((new URLSearchParams(window.location.search)).get('service'))
+            .then(name => currentService = name)
+            .then(getRisks)
+            .then(data => {
+                let toPopulate = document.querySelector('#risk-populate');
 
-    getRisks()
-        .then(data => {
-            let toPopulate = document.querySelector('#risk-populate');
+                while (toPopulate.firstChild) toPopulate.removeChild(toPopulate.lastChild);
 
-            while (toPopulate.firstChild) toPopulate.removeChild(toPopulate.lastChild);
-
-            data.forEach(risk => {
-                appendRisk(toPopulate, risk, transform(risk));
+                data.forEach(risk => {
+                    appendRisk(toPopulate, risk, transform(risk));
+                })
             })
-        })
+            .then(resolve)
+            .catch(reject)
+    })
 }
 
 function setUpCalculator() {
-    let search = window.location.search;
-    let urlParams = new URLSearchParams(search);
-
-    if (!urlParams.has('service')) window.location.href = '/services';
-    currentService = urlParams.get('service');
-
     document.querySelector('h1').textContent = currentService;
+
+    document.querySelector("#downtime-percent").addEventListener('input', () => {
+        updateState({ "uptime": document.querySelector("#downtime-percent").value / 100 });
+        recalculate();
+    })
 }
 
 function setUpModals() {
@@ -174,9 +172,13 @@ function setUpModals() {
     })
 }
 
-window.addEventListener('load', () => {
-    getAllRisks();
-    // getAllRiskFactors();
+function setUpSynchronous() {
     setUpCalculator();
     setUpModals();
+}
+
+window.addEventListener('load', () => {
+    getAllRisks()
+        // .then(getAllRiskFactors)
+        .then(setUpSynchronous);
 })

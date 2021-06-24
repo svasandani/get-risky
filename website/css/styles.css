@@ -4,6 +4,7 @@
 
 :root {
     --lightgrey: lightgrey;
+    --transparentgrey: #00000073;
     --darktheme: rgb(1, 122, 78);
     --bg: rgb(255, 253, 250);
     --blue: rgb(39, 119, 165);
@@ -26,6 +27,7 @@ main {
 
 h1 {
     font-size: 3rem;
+    margin-bottom: 0;
 }
 
 .table {
@@ -89,7 +91,7 @@ h1 {
     grid-gap: 16px;
 }
 
-.table-hidden-row form .inputs input {
+label > input.labelled-input {
     margin-top: 0.25rem;
 }
 
@@ -121,6 +123,26 @@ input {
 input:focus, input:focus-visible {
     outline: none;
     box-shadow: inset 0px 0px 0px 2px var(--darktheme);
+}
+
+.percentage-input {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 button {
@@ -166,14 +188,15 @@ button:focus {
 
 .modal {
     position: fixed;
-    top: 20vh;
-    left: 20vw;
-    height: auto;
-    width: 60vw;
-    background: white;
-    padding: 5vw;
-    border: 1px solid black;
-    border-radius: 5px;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background: var(--transparentgrey);
+
+    display: grid;
+    align-items: center;
+    justify-content: center;
 }
 
 .modal.hidden {
@@ -185,27 +208,32 @@ button:focus {
     top: 20px;
     right: 20px;
     padding: 5px;
-    color: red;
+    transition: 0.1s ease-in;
 }
 
 .close-modal:hover {
     cursor: pointer;
-    color: darkred;
+    color: var(--red);
 }
 
 .modal-form {
     display: flex;
     flex-flow: column nowrap;
+    
+    width: 40vw;
+    padding: 5vh 3rem;
+    padding-bottom: calc(5vh + 2rem);
+
+    background: var(--bg);
+    border-radius: 8px;
 }
 
 .modal-form input {
-    height: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 16px;
 }
 
 .modal-form button {
-    height: 2.5rem;
-    font-size: 1rem;
+    margin-top: 1.2rem;
 }
 
 @media (max-width: 768px) {
@@ -213,8 +241,40 @@ button:focus {
         padding: 0 5vw;
     }
 
-    .modal {
-        left: 5vw;
+    .modal-form {
         width: 90vw;
     }
+}
+
+.heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.heading a {
+    margin-bottom: 0.5rem;
+}
+
+#risk-calculator {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+#risk-calculator label {
+    margin-bottom: 1.5rem;
+    margin-right: 16px;
+}
+
+#risk-calculator label.main-input {
+    width: 100%;
+    position: relative;
+}
+
+#risk-calculator input {
+    margin-top: 0.25rem;
+}
+
+#risk-calculator .calculated {
+    font-size: 2rem;
 }
