@@ -11,15 +11,30 @@ function appendRisk(toPopulate, risk) {
         </summary>
         <div class="risk-details">
             <label>
-                Incidents per year
+                <span>
+                    Incidents per year
+                    <span class="tooltip" data-tip="Without factors: ${risk._baseIncidents}">ⓘ</span>
+                </span>
                 <span id="${risk.riskId}-incidents" class="calculated">${risk.incidents}</span>
             </label>
             <label>
-                Affected time (min/yr)
+                <span>
+                    Affected time (min/yr)
+                    <span class="tooltip" data-tip="Without factors: ${risk._baseAffectedTime}">ⓘ</span>
+                </span>
                 <span id="${risk.riskId}-affected-min" class="calculated">${risk.affectedTime}</span>
             </label>
             <label>
-                Tolerable?
+                ${
+                    risk.tolerable
+                    ? `Tolerable?`
+                    :   `
+                            <span>
+                                Tolerable?
+                                <span class="tooltip" data-tip="This risk in not tolerable for the following reasons: ${risk.reasons.join(', and ')}.">ⓘ</span>
+                            </span>
+                        `
+                }
                 <span id="${risk.riskId}-tolerable" class="calculated ${risk.tolerable ? 'yes' : 'no'}">${risk.tolerable ? 'Yes' : 'No'}</span>
             </label>
             <label class="custom-checkbox">
@@ -194,8 +209,12 @@ function getAllRisks() {
                     addComputedRisk(risk);
                 }
 
-                data.forEach(risk => {
-                    appendRisk(toPopulate, getComputedRisk(risk.riskId));
+                let computedData = getAllComputedRisks();
+
+                computedData.sort((a,b) => b.affectedTime - a.affectedTime);
+
+                computedData.forEach(risk => {
+                    appendRisk(toPopulate, risk);
                 })
             })
             .then(resolve)
@@ -212,13 +231,15 @@ function getAllRiskFactors() {
                 while (toPopulate.firstChild) toPopulate.removeChild(toPopulate.lastChild);
 
                 for (riskFactor of data) {
-                    addComputedRiskFactor(risk);
+                    addComputedRiskFactor(riskFactor);
                 }
 
                 data.forEach(riskFactor => {
                     appendRiskFactor(toPopulate, riskFactor);
                 })
             })
+            .then(recalculate)
+            .then(updateAllRisks)
             .then(resolve)
             .catch(reject)
     })
@@ -230,9 +251,15 @@ function updateAllRisks() {
 
         while (toPopulate.firstChild) toPopulate.removeChild(toPopulate.lastChild);
 
-        getAllComputedRisks().forEach(risk => {
+        let computedData = getAllComputedRisks();
+
+        computedData.sort((a,b) => b.affectedTime - a.affectedTime);
+
+        computedData.forEach(risk => {
             appendRisk(toPopulate, getComputedRisk(risk.riskId));
         })
+
+        resolve();
     })
 }
 

@@ -9,7 +9,7 @@ const datastore = {
                     "riskDesc": "Service pods down",
                     "riskEttd": 1440,
                     "riskEttr": 120,
-                    "riskImpact": 1.0,
+                    "riskImpact": 5,
                     "riskEttf": 365
                 },
                 {
@@ -17,7 +17,7 @@ const datastore = {
                     "riskDesc": "Prometheus retention misconfigured",
                     "riskEttd": 1440,
                     "riskEttr": 30,
-                    "riskImpact": 1.0,
+                    "riskImpact": 5,
                     "riskEttf": 365
                 },
                 {
@@ -25,7 +25,7 @@ const datastore = {
                     "riskDesc": "Kubernetes DNS issue",
                     "riskEttd": 20,
                     "riskEttr": 30,
-                    "riskImpact": 0.05,
+                    "riskImpact": 1,
                     "riskEttf": 30
                 }
             ],
@@ -35,7 +35,7 @@ const datastore = {
                     "riskFactorDesc": "Engineers don't have cellphones",
                     "riskFactorEttd": 60,
                     "riskFactorEttr": 4,
-                    "riskFactorImpact": 0.05,
+                    "riskFactorImpact": 1,
                     "riskFactorEttf": 1
                 },
                 {
@@ -43,7 +43,7 @@ const datastore = {
                     "riskFactorDesc": "Engineers don't understand services",
                     "riskFactorEttd": 0,
                     "riskFactorEttr": 30,
-                    "riskFactorImpact": 0.2,
+                    "riskFactorImpact": 10,
                     "riskFactorEttf": 0
                 }
             ]
@@ -57,7 +57,7 @@ const datastore = {
                     "riskDesc": "Service pods down",
                     "riskEttd": 1440,
                     "riskEttr": 120,
-                    "riskImpact": 1.0,
+                    "riskImpact": 5,
                     "riskEttf": 365
                 },
                 {
@@ -65,7 +65,7 @@ const datastore = {
                     "riskDesc": "Prometheus retention misconfigured",
                     "riskEttd": 1440,
                     "riskEttr": 30,
-                    "riskImpact": 1.0,
+                    "riskImpact": 5,
                     "riskEttf": 365
                 },
                 {
@@ -73,7 +73,7 @@ const datastore = {
                     "riskDesc": "Kubernetes DNS issue",
                     "riskEttd": 20,
                     "riskEttr": 30,
-                    "riskImpact": 0.05,
+                    "riskImpact": 1,
                     "riskEttf": 30
                 }
             ],
@@ -83,7 +83,7 @@ const datastore = {
                     "riskFactorDesc": "Engineers don't have cellphones",
                     "riskFactorEttd": 60,
                     "riskFactorEttr": 4,
-                    "riskFactorImpact": 0.05,
+                    "riskFactorImpact": 1,
                     "riskFactorEttf": 1
                 },
                 {
@@ -91,7 +91,7 @@ const datastore = {
                     "riskFactorDesc": "Engineers don't understand services",
                     "riskFactorEttd": 0,
                     "riskFactorEttr": 30,
-                    "riskFactorImpact": 0.2,
+                    "riskFactorImpact": 10,
                     "riskFactorEttf": 0
                 }
             ]
@@ -105,7 +105,7 @@ const datastore = {
                     "riskDesc": "Service pods down",
                     "riskEttd": 1440,
                     "riskEttr": 120,
-                    "riskImpact": 1.0,
+                    "riskImpact": 5,
                     "riskEttf": 365
                 },
                 {
@@ -113,7 +113,7 @@ const datastore = {
                     "riskDesc": "Prometheus retention misconfigured",
                     "riskEttd": 1440,
                     "riskEttr": 30,
-                    "riskImpact": 1.0,
+                    "riskImpact": 5,
                     "riskEttf": 365
                 },
                 {
@@ -121,7 +121,7 @@ const datastore = {
                     "riskDesc": "Kubernetes DNS issue",
                     "riskEttd": 20,
                     "riskEttr": 30,
-                    "riskImpact": 0.05,
+                    "riskImpact": 1,
                     "riskEttf": 30
                 }
             ],
@@ -131,7 +131,7 @@ const datastore = {
                     "riskFactorDesc": "Engineers don't have cellphones",
                     "riskFactorEttd": 60,
                     "riskFactorEttr": 4,
-                    "riskFactorImpact": 0.05,
+                    "riskFactorImpact": 1,
                     "riskFactorEttf": 1
                 },
                 {
@@ -139,7 +139,7 @@ const datastore = {
                     "riskFactorDesc": "Engineers don't understand services",
                     "riskFactorEttd": 0,
                     "riskFactorEttr": 30,
-                    "riskFactorImpact": 0.2,
+                    "riskFactorImpact": 10,
                     "riskFactorEttf": 0
                 }
             ]

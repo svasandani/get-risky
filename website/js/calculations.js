@@ -49,11 +49,29 @@ function addComputedRisk(risk) {
     if (typeof foundRisk === 'undefined'){
         risks.push({
             ...risk,
-            get incidents() {
+            get _baseIncidents() {
                 return f(365.25 / this.riskEttf)
             },
+            get incidents() {
+                return f(365.25 / this.netEttf)
+            },
+            get _baseAffectedTime() {
+                return f((this.riskEttd + this.riskEttr) * this.riskImpact * this._baseIncidents)
+            },
+            get netEttd() {
+                return state.riskFactors.reduce((acc, curr) => acc + curr.riskFactorEttd, this.riskEttd)
+            },
+            get netEttr() {
+                return state.riskFactors.reduce((acc, curr) => acc + curr.riskFactorEttr, this.riskEttr)
+            },
+            get netImpact() {
+                return state.riskFactors.reduce((acc, curr) => acc + curr.riskFactorImpact, this.riskImpact)
+            },
+            get netEttf() {
+                return state.riskFactors.reduce((acc, curr) => acc + curr.riskFactorEttf, this.riskEttf)
+            },
             get affectedTime() {
-                return f((this.riskEttd + this.riskEttr) * this.riskImpact * this.incidents)
+                return f((this.netEttd + this.netEttr) * this.netImpact * this.incidents)
             },
             get _tolerableBudget() {
                 return this.affectedTime < state.budget

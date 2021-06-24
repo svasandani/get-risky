@@ -231,6 +231,7 @@ span.tooltip:after {
     transition: 0.1s ease-in;
     padding: 8px;
     white-space: nowrap;
+    z-index: 100;
 }
 
 span.tooltip:hover:after {
@@ -354,9 +355,10 @@ button:focus {
         margin-top: 16px;
         margin-left: 0;
     }
-    
-    label:hover .tooltip {
-        opacity: 0;
+
+    span.tooltip:after {
+        min-width: 50vw;
+        white-space: unset;
     }
 }
 
