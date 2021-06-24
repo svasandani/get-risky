@@ -6,6 +6,7 @@ function appendService(toPopulate, service) {
             <span class="hover-reveal" data-reveal="&nbsp;&nbsp;>">${service.serviceName}</span>
             <span class="table-center-data show-details">· · ·</span>
         </summary>
+        <h4>Edit this service</h4>
         <form class="service-details" data-service="${service.serviceId}">
             <div class="inputs">
                 <label>

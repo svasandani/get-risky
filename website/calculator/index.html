@@ -59,7 +59,7 @@
                 <h3>More</h3>
             </div>
             <div id="risks-table-body">
-                <details class="table-hidden-row" data-risk="pods-down">
+                <details class="table-hidden-row not-tolerable" data-risk="pods-down">
                     <summary class="risks-table-row table-row">
                         <span>Service pods down</span>
                         <span class="table-center-data show-details">· · ·</span>
@@ -79,15 +79,42 @@
                             <span class="custom-checkbox"></span>
                         </label>
                     </div>
-                    <form class="risk-edit" data-service="appraisals">
+                    <h4>Edit this risk</h4>
+                    <form class="risk-edit" data-risk="pods-down">
                         <div class="inputs">
                             <label>
-                                Service ID
-                                <input id="appraisal-serviceId" name="serviceId" value="appraisal" placeholder=""/>
+                                Risk ID
+                                <input id="pods-down-riskId" class="labelled-input" name="riskId" value="pods-down" placeholder=""/>
                             </label>
                             <label>
-                                Service Name
-                                <input id="appraisal-serviceName" name="serviceName" value="Appraisal" placeholder=""/>
+                                Risk Description
+                                <input id="pods-down-riskDesc" class="labelled-input" name="riskDesc" value="Service pods down" placeholder=""/>
+                            </label>
+                            <label>
+                                <span>
+                                    ETTD
+                                    <span class="tooltip" data-tip="Estimated time to detect the risk">ⓘ</span>
+                                </span>
+                                <input id="pods-down-riskEttd" class="labelled-input" name="riskDesc" value="Service pods down" placeholder=""/>
+                            </label>
+                            <label>
+                                <span>
+                                    ETTR
+                                    <span class="tooltip" data-tip="Estimated time to recover from the risk">ⓘ</span>
+                                </span>
+                                <input id="pods-down-riskEttr" class="labelled-input" name="riskDesc" value="Service pods down" placeholder=""/>
+                            </label>
+                            <label>
+                                Impact (% users)
+                                <input id="pods-down-riskImpact" class="labelled-input" name="riskDesc" value="Service pods down" type="number" min="0" max="100" step="0.01" placeholder=""/>
+                                <span class="percentage-input">%</span>
+                            </label>
+                            <label>
+                                <span>
+                                    ETTF
+                                    <span class="tooltip" data-tip="Estimated time to fix the risk">ⓘ</span>
+                                </span>
+                                <input id="pods-down-riskEttf" class="labelled-input" name="riskDesc" value="Service pods down" placeholder=""/>
                             </label>
                         </div>
                         <div class="buttons">
@@ -98,65 +125,6 @@
                 </details>
             </div>
         </div>
-
-        <table>
-            <thead>
-                <tr>
-                    <td>Risk description</td>
-                    <td>Bad mins/year</td>
-                    <td>Can accept?</td>
-                    <td>Force accept</td>
-                    <td>Actions</td>
-                </tr>
-            </thead>
-            <tbody id="risk-populate">
-                <tr data-risk="pods-down">
-                    <td>Service pods down</td>
-                    <td>17556</td>
-                    <td class="accept accept-no">No</td>
-                    <td>
-                        <input type="checkbox" disabled="true">
-                    </td>
-                    <td>
-                        <div class="risk-actions">
-                            <a class="edit-risk edit-btn" data-risk="pods-down">edit</a>
-                            /
-                            <a class="delete-risk delete-btn" data-risk="pods-down">delete</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr data-risk="prometheus-misconfigured">
-                    <td>Prometheus retention misconfigured</td>
-                    <td>2892</td>
-                    <td class="accept accept-no">No</td>
-                    <td>
-                        <input type="checkbox" disabled="true">
-                    </td>
-                    <td>
-                        <div class="risk-actions">
-                            <a class="edit-risk edit-btn" data-risk="prometheus-misconfigured">edit</a>
-                            /
-                            <a class="delete-risk delete-btn" data-risk="prometheus-misconfigured">delete</a>
-                        </div>
-                    </td>
-                </tr>
-                <tr data-risk="k8s-dns">
-                    <td>Kubernetes DNS issue</td>
-                    <td>1557</td>
-                    <td class="accept accept-yes">Yes</td>
-                    <td>
-                        <input type="checkbox">
-                    </td>
-                    <td>
-                        <div class="risk-actions">
-                            <a class="edit-risk edit-btn" data-risk="k8s-dns">edit</a>
-                            /
-                            <a class="delete-risk delete-btn" data-risk="k8s-dns">delete</a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
         <a class="modal-launcher" data-target="new-risk-modal">Add new risk</a>
     </main>
     <div id="edit-risk-modal" class="modal hidden" data-risk="undefined">

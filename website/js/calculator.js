@@ -1,72 +1,101 @@
-let currentService = '';
+let currentServiceId = '';
+let currentServiceName = '';
 
-function getRisks() {
-    // stub
-    return new Promise((resolve, reject) => {
-        resolve([
-            {
-                "riskId": "pods-down",
-                "riskDesc": "Service pods down",
-                "riskEttd": 1440,
-                "riskEttr": 120,
-                "riskImpact": 1.0,
-                "riskEttf": 365
-            },
-            {
-                "riskId": "prometheus-misconfigured",
-                "riskDesc": "Prometheus retention misconfigured",
-                "riskEttd": 1440,
-                "riskEttr": 30,
-                "riskImpact": 1.0,
-                "riskEttf": 365
-            },
-            {
-                "riskId": "k8s-dns",
-                "riskDesc": "Kubernetes DNS issue",
-                "riskEttd": 20,
-                "riskEttr": 30,
-                "riskImpact": 0.05,
-                "riskEttf": 30
-            }
-        ]);
-    })
-}
-
-function appendRisk(toPopulate, risk, transformedRisk) {
+function appendRisk(toPopulate, risk) {
     toPopulate.insertAdjacentHTML('beforeEnd',
     `
-    <tr data-risk="${risk.riskId}">
-        <td>${risk.riskDesc}</td>
-        <td>${transformedRisk.badMinsYear}</td>
-        <td class="accept accept-${transformedRisk.canAccept ? 'yes' : 'no'}">${transformedRisk.canAccept ? 'Yes' : 'No'}</td>
-        <td>
-            <input type="checkbox" ${transformedRisk.canAccept ? '' : 'disabled="true"'}>
-        </td>
-        <td>
-            <div class="risk-actions">
-                <a class="edit-risk edit-btn" data-risk="${risk.riskId}">edit</a>
-                /
-                <a class="delete-risk delete-btn" data-risk="${risk.riskId}">delete</a>
+    <details class="table-hidden-row ${risk.tolerable ? (risk.isTolerated ? 'tolerated' : 'tolerable') : 'not-tolerable'}" data-risk="${risk.riskId}">
+        <summary class="risks-table-row table-row">
+            <span>${risk.riskDesc}</span>
+            <span class="table-center-data show-details">· · ·</span>
+        </summary>
+        <div class="risk-details">
+            <label>
+                Incidents per year
+                <span id="${risk.riskId}-incidents" class="calculated">${risk.incidents}</span>
+            </label>
+            <label>
+                Affected time (min/yr)
+                <span id="${risk.riskId}-affected-min" class="calculated">${risk.affectedTime}</span>
+            </label>
+            <label>
+                Tolerable?
+                <span id="${risk.riskId}-tolerable" class="calculated ${risk.tolerable ? 'yes' : 'no'}">${risk.tolerable ? 'Yes' : 'No'}</span>
+            </label>
+            <label class="custom-checkbox">
+                Accept this risk
+                <input id="${risk.riskId}-accept" name="${risk.riskId}-accept" class="custom-checkbox" type="checkbox" ${risk.tolerable ? '' : 'disabled'}/>
+                <span class="custom-checkbox"></span>
+            </label>
+        </div>
+        <h4>Edit this risk</h4>
+        <form class="risk-edit" data-risk="${risk.riskId}">
+            <div class="inputs">
+                <label>
+                    Risk ID
+                    <input id="${risk.riskId}-riskId" class="labelled-input" name="riskId" value="${risk.riskId}" placeholder=""/>
+                </label>
+                <label>
+                    Risk Description
+                    <input id="${risk.riskId}-riskDesc" class="labelled-input" name="riskDesc" value="${risk.riskDesc}" placeholder=""/>
+                </label>
+                <label>
+                    <span>
+                        ETTD
+                        <span class="tooltip" data-tip="Estimated time to detect the risk">ⓘ</span>
+                    </span>
+                    <input id="${risk.riskId}-riskEttd" class="labelled-input" name="riskEttd" value="${risk.riskEttd}" placeholder=""/>
+                </label>
+                <label>
+                    <span>
+                        ETTR
+                        <span class="tooltip" data-tip="Estimated time to recover from the risk">ⓘ</span>
+                    </span>
+                    <input id="${risk.riskId}-riskEttr" class="labelled-input" name="riskEttr" value="${risk.riskEttr}" placeholder=""/>
+                </label>
+                <label>
+                    Impact (% users)
+                    <input id="${risk.riskId}-riskImpact" class="labelled-input" name="riskImpact" value="${risk.riskImpact}" type="number" min="0" max="100" step="0.01" placeholder=""/>
+                    <span class="percentage-input">%</span>
+                </label>
+                <label>
+                    <span>
+                        ETTF
+                        <span class="tooltip" data-tip="Estimated time to fix the risk">ⓘ</span>
+                    </span>
+                    <input id="${risk.riskId}-riskEttf" class="labelled-input" name="riskEttf" value="${risk.riskEttf}" placeholder=""/>
+                </label>
             </div>
-        </td>
-    </tr>
+            <div class="buttons">
+                <button type="submit" class="edit-btn">Edit</button>
+                <button type="button" class="delete-btn">Delete</button>
+            </div>
+        </form>
+    </details>
     `
     )
 
-    toPopulate.querySelector(`.delete-risk[data-risk="${risk.riskId}"]`).addEventListener('click', () => {
-        if (confirm(`Are you sure you want to delete ${risk.riskId}?`)) {
-            // deleteService(service.serviceId);
+    toPopulate.querySelector(`details[data-risk="${risk.riskId}"] .delete-btn`).addEventListener('click', (e) => {
+        e.preventDefault();
+
+        if (confirm(`Are you sure you want to delete ${risk.riskDesc}?`)) {
+            deleteRisk(currentServiceId, risk.riskId)
+                .then(getAllRisks);
         }
     })
 
-    toPopulate.querySelector(`.edit-risk[data-risk="${risk.riskId}"]`).addEventListener('click', () => {
-        let m = document.querySelector(`#edit-risk-modal`);
-        m.classList.remove('hidden');
+    let editThisRisk = toPopulate.querySelector(`form.risk-edit[data-risk="${risk.riskId}"]`);
+    editThisRisk.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-        m.dataset.risk = risk.riskId;
-
-        // m.querySelector('[name="serviceId"]').value = service.serviceId;
-        // m.querySelector('[name="serviceName"]').value = service.serviceName;
+        let editFd = new FormData(editThisRisk);
+        let data = {};
+        editFd.forEach((value, key) => data[key] = value);
+        
+        if (confirm(`Are you sure you want to update ${risk.riskDesc}?`)) {
+            updateRisk(currentServiceId, risk.riskId, data)
+                .then(getAllRisks);
+        }
     })
 }
 
@@ -80,16 +109,22 @@ function transform(risk) {
 
 function getAllRisks() {
     return new Promise((resolve, reject) => {
-        getServiceNameFromId((new URLSearchParams(window.location.search)).get('service'))
-            .then(name => currentService = name)
-            .then(getRisks)
+        currentServiceId = (new URLSearchParams(window.location.search)).get('service');
+
+        getServiceNameFromId(currentServiceId)
+            .then(name => currentServiceName = name)
+            .then (() => getRisks(currentServiceId))
             .then(data => {
-                let toPopulate = document.querySelector('#risk-populate');
+                let toPopulate = document.querySelector('#risks-table-body');
 
                 while (toPopulate.firstChild) toPopulate.removeChild(toPopulate.lastChild);
 
+                for (risk of data) {
+                    addComputedRisk(risk);
+                }
+
                 data.forEach(risk => {
-                    appendRisk(toPopulate, risk, transform(risk));
+                    appendRisk(toPopulate, getComputedRisk(risk.riskId));
                 })
             })
             .then(resolve)
@@ -97,12 +132,25 @@ function getAllRisks() {
     })
 }
 
+function updateAllRisks() {
+    return new Promise((resolve, reject) => {
+        let toPopulate = document.querySelector('#risks-table-body');
+
+        while (toPopulate.firstChild) toPopulate.removeChild(toPopulate.lastChild);
+
+        getAllComputedRisks().forEach(risk => {
+            appendRisk(toPopulate, getComputedRisk(risk.riskId));
+        })
+    })
+}
+
 function setUpCalculator() {
-    document.querySelector('h1').textContent = currentService;
+    document.querySelector('h1').textContent = currentServiceName;
 
     document.querySelector("#downtime-percent").addEventListener('input', () => {
         updateState({ "uptime": document.querySelector("#downtime-percent").value / 100 });
-        recalculate();
+        recalculate()
+            .then(updateAllRisks);
     })
 }
 

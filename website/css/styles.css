@@ -66,7 +66,51 @@ h1 {
     margin: 0 auto;
 }
 
-.table-hidden-row:hover {
+.table-hidden-row.not-tolerable summary span:nth-child(1):after {
+    content: 'NOT TOLERABLE';
+    color: var(--red);
+    font-weight: bold;
+    margin-left: 1ch;
+}
+
+.table-hidden-row.tolerable summary span:nth-child(1):after {
+    content: 'TOLERABLE';
+    color: var(--darktheme);
+    font-weight: bold;
+    margin-left: 1ch;
+}
+
+.table-hidden-row.tolerated summary span:nth-child(1):after {
+    content: 'TOLERATED';
+    color: var(--blue);
+    font-weight: bold;
+    margin-left: 1ch;
+}
+
+@media  (max-width: 768px) {
+    .table-hidden-row.not-tolerable summary span:nth-child(1):after {
+        content: '✕';
+        color: var(--red);
+        font-weight: bold;
+        margin-left: 1ch;
+    }
+    
+    .table-hidden-row.tolerable summary span:nth-child(1):after {
+        content: 'OK';
+        color: var(--darktheme);
+        font-weight: bold;
+        margin-left: 1ch;
+    }
+    
+    .table-hidden-row.tolerated summary span:nth-child(1):after {
+        content: '—';
+        color: var(--blue);
+        font-weight: bold;
+        margin-left: 1ch;
+    }
+}
+
+.table-hidden-row summary:hover {
     cursor: pointer;
 }
 
@@ -91,6 +135,18 @@ h1 {
     margin-bottom: 1.5rem;
     margin-right: 32px;
     position: relative;
+}
+
+.risk-edit label {
+    position: relative;
+}
+
+.table-hidden-row h4 {
+    margin-top: 16px;
+}
+
+.table-hidden-row[data-service] h4 {
+    margin-top: calc(1.5rem + 16px);
 }
 
 .table-hidden-row form {
@@ -138,6 +194,34 @@ input {
 input:focus, input:focus-visible {
     outline: none;
     box-shadow: inset 0px 0px 0px 2px var(--darktheme);
+}
+
+span.tooltip {
+    position: relative;
+}
+
+span.tooltip:hover {
+    cursor: pointer;
+}
+
+span.tooltip:after {
+    content: attr(data-tip);
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    top: calc(-1.75rem - 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid var(--darktheme);
+    border-radius: 2px;
+    transition: 0.1s ease-in;
+    padding: 8px;
+    white-space: nowrap;
+}
+
+span.tooltip:hover:after {
+    opacity: 1;
 }
 
 label.custom-checkbox:hover {
@@ -248,7 +332,7 @@ button:focus {
 
 @media (max-width: 768px) {
     .table-hidden-row form .inputs {
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: auto;
         grid-template-columns: auto;
     }
 
@@ -256,6 +340,10 @@ button:focus {
         width: 100%;
         margin-top: 16px;
         margin-left: 0;
+    }
+    
+    label:hover .tooltip {
+        opacity: 0;
     }
 }
 
@@ -373,7 +461,7 @@ button:focus {
     }
 
     #risk-calculator .inputs {
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: auto;
         grid-template-columns: auto;
         grid-gap: 0px;
     }
