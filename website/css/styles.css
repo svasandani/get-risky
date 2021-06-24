@@ -1,0 +1,220 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+:root {
+    --lightgrey: lightgrey;
+    --darktheme: rgb(1, 122, 78);
+    --bg: rgb(255, 253, 250);
+    --blue: rgb(39, 119, 165);
+    --red: rgb(158, 63, 60);
+}
+
+html {
+    font-family: 'Rubik', Arial, Helvetica, sans-serif;
+}
+
+body {
+    padding: 20vh 0;
+    background: var(--bg);
+}
+
+main {
+    width: 100%;
+    padding: 0 20vw;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+.table {
+    margin-bottom: 1.5rem;
+}
+
+.table * {
+    margin: 0;
+}
+
+.table-head {
+    font-weight: bold;
+}
+
+.table-head.table-row {
+    padding: 1.5rem 0;
+}
+
+.table-row {
+    border-bottom: 1px solid var(--lightgrey);
+}
+
+.table-row span {
+    padding: 1.5rem 0;
+}
+
+.services-table-row {
+    display: grid;
+    grid-template-columns: 1fr 4ch;
+}
+
+.table-center-data {
+    margin: 0 auto;
+}
+
+.table-hidden-row:hover {
+    cursor: pointer;
+}
+
+.table-hidden-row .hover-reveal:after {
+    content: attr(data-reveal);
+    opacity: 0;
+    transition: 0.1s ease-in;
+}
+
+.table-hidden-row .hover-reveal:hover:after {
+    content: attr(data-reveal);
+    opacity: 1;
+}
+
+.table-hidden-row form {
+    padding: 1.5rem 0;
+    display: flex;
+    flex-flow: column;
+    border-bottom: 1px solid var(--lightgrey);
+}
+
+.table-hidden-row form .inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 16px;
+}
+
+.table-hidden-row form .inputs input {
+    margin-top: 0.25rem;
+}
+
+.table-hidden-row form .buttons {
+    margin-top: 1.5rem;
+    text-align: right;
+}
+
+.table-hidden-row form .buttons button {
+    margin-left: 16px;
+}
+
+label {
+    display: flex;
+    flex-flow: column;
+    font-size: 0.75rem;
+}
+
+input {
+    font-family: 'Rubik', Arial, Helvetica, sans-serif;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid var(--darktheme);
+    box-shadow: inset 0px 0px 0px 0px var(--darktheme);
+    transition: 0.1s ease-in;
+}
+
+input:focus, input:focus-visible {
+    outline: none;
+    box-shadow: inset 0px 0px 0px 2px var(--darktheme);
+}
+
+button {
+    font-family: 'Rubik', Arial, Helvetica, sans-serif;
+    background: white;
+    border-radius: 4px;
+    padding: 0.75rem 6ch;
+    border: 1px solid var(--darktheme);
+    transition: 0.1s ease-in;
+    font-weight: bold;
+}
+
+button.edit-btn {
+    color: var(--blue);
+}
+
+button.delete-btn {
+    color: var(--red);
+}
+
+button:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 0px 2px var(--darktheme);
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0px 0px 0px 2px var(--darktheme);
+}
+
+@media (max-width: 768px) {
+    .table-hidden-row form .inputs {
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: auto;
+    }
+
+    .table-hidden-row form .buttons button {
+        width: 100%;
+        margin-top: 16px;
+        margin-left: 0;
+    }
+}
+
+.modal {
+    position: fixed;
+    top: 20vh;
+    left: 20vw;
+    height: auto;
+    width: 60vw;
+    background: white;
+    padding: 5vw;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 5px;
+    color: red;
+}
+
+.close-modal:hover {
+    cursor: pointer;
+    color: darkred;
+}
+
+.modal-form {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.modal-form input {
+    height: 2rem;
+    margin-bottom: 2rem;
+}
+
+.modal-form button {
+    height: 2.5rem;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 0 5vw;
+    }
+
+    .modal {
+        left: 5vw;
+        width: 90vw;
+    }
+}

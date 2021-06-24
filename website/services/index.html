@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <main>
+        <h1>Services</h1>
+        <div id="services-table" class="table">
+            <div id="services-table-head" class="table-head services-table-row table-row">
+                <h3>Service</h3>
+                <h3>More</h3>
+            </div>
+            <div id="services-table-body">
+                <details class="table-hidden-row" data-service="appraisals">
+                    <summary class="services-table-row table-row">
+                        <span class="hover-reveal" data-reveal="&nbsp;&nbsp;>">Appraisals</span>
+                        <span class="table-center-data show-details">· · ·</span>
+                    </summary>
+                    <form class="service-details" data-service="appraisals">
+                        <div class="inputs">
+                            <label>
+                                Service ID
+                                <input id="appraisal-serviceId" name="serviceId" value="appraisal" placeholder=""/>
+                            </label>
+                            <label>
+                                Service Name
+                                <input id="appraisal-serviceName" name="serviceName" value="Appraisal" placeholder=""/>
+                            </label>
+                        </div>
+                        <div class="buttons">
+                            <button type="submit" class="edit-btn">Edit</button>
+                            <button type="button" class="delete-btn">Delete</button>
+                        </div>
+                    </form>
+                </details>
+                <details class="table-hidden-row" data-service="backend">
+                    <summary class="services-table-row table-row">
+                        <span class="hover-reveal" data-reveal="&nbsp;&nbsp;>">Backend</span>
+                        <span class="table-center-data show-details">· · ·</span>
+                    </summary>
+                    <form class="service-details" data-service="backend">
+                        <div class="inputs">
+                            <label>
+                                Service ID
+                                <input id="appraisal-serviceId" name="serviceId" value="backend" placeholder=""/>
+                            </label>
+                            <label>
+                                Service Name
+                                <input id="appraisal-serviceName" name="serviceName" value="Backend" placeholder=""/>
+                            </label>
+                        </div>
+                        <div class="buttons">
+                            <button type="submit" class="edit-btn">Edit</button>
+                            <button type="button" class="delete-btn">Delete</button>
+                        </div>
+                    </form>
+                </details>
+                <details class="table-hidden-row" data-service="barrel">
+                    <summary class="services-table-row table-row">
+                        <span class="hover-reveal" data-reveal="&nbsp;&nbsp;>">Barrel</span>
+                        <span class="table-center-data show-details">· · ·</span>
+                    </summary>
+                    <form class="service-details" data-service="barrel">
+                        <div class="inputs">
+                            <label>
+                                Service ID
+                                <input id="appraisal-serviceId" name="serviceId" value="barrel" placeholder=""/>
+                            </label>
+                            <label>
+                                Service Name
+                                <input id="appraisal-serviceName" name="serviceName" value="Barrel" placeholder=""/>
+                            </label>
+                        </div>
+                        <div class="buttons">
+                            <button type="submit" class="edit-btn">Edit</button>
+                            <button type="button" class="delete-btn">Delete</button>
+                        </div>
+                    </form>
+                </details>
+            </div>
+        </div>
+        <button class="modal-launcher" data-target="new-modal">+ Create new service</button>
+    </main>
+    <div id="new-modal" class="modal hidden">
+        <span class="close-modal" data-target="new-modal">x</span>
+        <form id="new-modal-form" class="modal-form">
+            <label for="new-serviceId">
+                Service ID
+            </label>
+            <input id="new-serviceId" name="new-serviceId" value="" placeholder=""/>
+            <label for="new-serviceName">
+                Service Name
+            </label>
+            <input id="new-serviceName" name="new-serviceName" value="" placeholder=""/>
+            <button type="submit">Create</button>
+        </form>
+    </div>
+</body>
+
+<script src="/js/apicalls.js"></script>
+<script src="/js/services.js"></script>
+
+</html>
