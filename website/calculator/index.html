@@ -18,31 +18,87 @@
             <h1>Service Name</h1>
             <a href="/services">Choose another service</a>
         </div>
-        <h2>Calculator</h2>
+        <h2>Risk Calculator</h2>
         <div id="risk-calculator">
-            <label class="main-input">
-                Target Availability
-                <input id="downtime-percent" class="labelled-input" name="downtime-percent" type="number" min="0" max="100" step="0.01" placeholder=""/>
-                <span class="percentage-input">%</span>
-            </label>
-            <label>
-                Budget (min/yr)
-                <span id="budget-min" class="calculated">5.2596</span>
-            </label>
-            <label>
-                Accepted (min/yr)
-                <span id="accepted-min" class="calculated">0</span>
-            </label>
-            <label>
-                Unallocated (min/yr)
-                <span id="unallocated-min" class="calculated">5.2596</span>
-            </label>
-            <label>
-                Too big threshold (min/yr)
-                <span id="toobig-min" class="calculated">5.2596</span>
-            </label>
+            <div class="inputs">
+                <label>
+                    Target Availability
+                    <input id="downtime-percent" class="labelled-input" name="downtime-percent" type="number" min="0" max="100" step="0.01" placeholder=""/>
+                    <span class="percentage-input">%</span>
+                </label>
+                <label>
+                    Unacceptable risk level for individual risk (% error budget)
+                    <input id="unacceptable-threshold" class="labelled-input" name="unacceptable-threshold" type="number" min="0" max="100" step="0.01" placeholder=""/>
+                    <span class="percentage-input">%</span>
+                </label>
+            </div>
+            <div class="outputs">
+                <label>
+                    Budget (min/yr)
+                    <span id="budget-min" class="calculated">5.2596</span>
+                </label>
+                <label>
+                    Accepted (min/yr)
+                    <span id="accepted-min" class="calculated">0</span>
+                </label>
+                <label>
+                    Unallocated (min/yr)
+                    <span id="unallocated-min" class="calculated">5.2596</span>
+                </label>
+                <label>
+                    Individual risk threshold (min/yr)
+                    <span id="toobig-min" class="calculated">5.2596</span>
+                </label>
+            </div>
         </div>
         <h2>Risks</h2>
+
+        <div id="risks-table" class="table">
+            <div id="risks-table-head" class="table-head risks-table-row table-row">
+                <h3>Risk</h3>
+                <h3>More</h3>
+            </div>
+            <div id="risks-table-body">
+                <details class="table-hidden-row" data-risk="pods-down">
+                    <summary class="risks-table-row table-row">
+                        <span>Service pods down</span>
+                        <span class="table-center-data show-details">· · ·</span>
+                    </summary>
+                    <div class="risk-details">
+                        <label>
+                            Affected time (min/yr)
+                            <span id="pods-down-affected-min" class="calculated">5.2596</span>
+                        </label>
+                        <label>
+                            Tolerable?
+                            <span id="pods-down-tolerable" class="calculated no">No</span>
+                        </label>
+                        <label class="custom-checkbox">
+                            Accept this risk
+                            <input id="pods-down-accept" name="pods-down-accept" class="custom-checkbox" type="checkbox" disabled/>
+                            <span class="custom-checkbox"></span>
+                        </label>
+                    </div>
+                    <form class="risk-edit" data-service="appraisals">
+                        <div class="inputs">
+                            <label>
+                                Service ID
+                                <input id="appraisal-serviceId" name="serviceId" value="appraisal" placeholder=""/>
+                            </label>
+                            <label>
+                                Service Name
+                                <input id="appraisal-serviceName" name="serviceName" value="Appraisal" placeholder=""/>
+                            </label>
+                        </div>
+                        <div class="buttons">
+                            <button type="submit" class="edit-btn">Edit</button>
+                            <button type="button" class="delete-btn">Delete</button>
+                        </div>
+                    </form>
+                </details>
+            </div>
+        </div>
+
         <table>
             <thead>
                 <tr>

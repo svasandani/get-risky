@@ -30,6 +30,9 @@ h1 {
     margin-bottom: 0;
 }
 
+.yes { color: var(--darktheme) }
+.no { color: var(--red) }
+
 .table {
     margin-bottom: 1.5rem;
 }
@@ -54,7 +57,7 @@ h1 {
     padding: 1.5rem 0;
 }
 
-.services-table-row {
+.table-row {
     display: grid;
     grid-template-columns: 1fr 4ch;
 }
@@ -76,6 +79,18 @@ h1 {
 .table-hidden-row .hover-reveal:hover:after {
     content: attr(data-reveal);
     opacity: 1;
+}
+
+.risk-details {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.risk-details label {
+    margin-bottom: 1.5rem;
+    margin-right: 32px;
+    position: relative;
 }
 
 .table-hidden-row form {
@@ -123,6 +138,64 @@ input {
 input:focus, input:focus-visible {
     outline: none;
     box-shadow: inset 0px 0px 0px 2px var(--darktheme);
+}
+
+label.custom-checkbox:hover {
+    cursor: pointer;
+}
+
+input.custom-checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+span.custom-checkbox {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0;
+    height: 1.5rem;
+    width: 1.5rem;
+    background: white;
+    border-radius: 2px;
+    border: 1px solid var(--darktheme);
+    box-shadow: inset 0px 0px 0px 0px var(--darktheme);
+    transition: 0.1s ease-in;
+}
+
+label.custom-checkbox:hover span.custom-checkbox {
+    box-shadow: inset 0px 0px 0px 2px var(--darktheme);
+}
+
+label.custom-checkbox input.custom-checkbox[disabled] ~ span.custom-checkbox {
+    background: var(--lightgrey);
+    border: 1px solid var(--transparentgrey);
+}
+
+label.custom-checkbox:hover input.custom-checkbox[disabled] ~ span.custom-checkbox {
+    box-shadow: inset 0px 0px 0px 0px var(--darktheme);
+}
+
+label.custom-checkbox input.custom-checkbox ~ span.custom-checkbox:after {
+    content: '✕';
+    color: white;
+    opacity: 0;
+    transition: 0.1s ease-in;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    font-size: 1rem;
+}
+
+label.custom-checkbox input.custom-checkbox:checked ~ span.custom-checkbox {
+    background: var(--darktheme);
+}
+
+label.custom-checkbox input.custom-checkbox:checked ~ span.custom-checkbox:after {
+    opacity: 1
 }
 
 .percentage-input {
@@ -256,25 +329,52 @@ button:focus {
     margin-bottom: 0.5rem;
 }
 
-#risk-calculator {
+#risk-calculator .inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 16px;
+}
+
+#risk-calculator .outputs {
     display: flex;
     flex-flow: row wrap;
 }
 
 #risk-calculator label {
     margin-bottom: 1.5rem;
-    margin-right: 16px;
+    margin-right: 32px;
+    position: relative;
 }
 
-#risk-calculator label.main-input {
-    width: 100%;
-    position: relative;
+#risk-calculator .inputs label {
+    margin-right: 0px;
 }
 
 #risk-calculator input {
     margin-top: 0.25rem;
 }
 
-#risk-calculator .calculated {
+.calculated {
     font-size: 2rem;
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 0 5vw;
+    }
+
+    .modal-form {
+        width: 90vw;
+    }
+
+    .heading {
+        flex-flow: column;
+        align-items: flex-start;
+    }
+
+    #risk-calculator .inputs {
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: auto;
+        grid-gap: 0px;
+    }
 }

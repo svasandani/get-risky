@@ -2,7 +2,11 @@ const state = {
     "uptime": 0,
     get budget() {
         return parseFloat(((1 - this.uptime) * 1440 * 365.25).toPrecision(5))
-    }
+    },
+    "accepted": 0,
+    get unallocated() {
+        return parseFloat((this.budget - this.accepted).toPrecision(5))
+    },
 }
 
 function updateState(data) {
@@ -16,17 +20,10 @@ function getState() {
 
 function recalculate() {
     // stub
-    console.log('Calculating static values...');
 
     let budget = document.querySelector("#budget-min");
     budget.textContent = state.budget;
 
-    console.log('Collecting dynamic inputs...');
-
-
-    console.log('Calculating dynamic values...');
-
-    // accepted + unallocated
-
-
+    let unallocated = document.querySelector("#unallocated-min");
+    unallocated.textContent = state.unallocated;
 }
