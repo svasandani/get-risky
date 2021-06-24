@@ -11,41 +11,25 @@ const datastore = {
                     "riskEttr": 120,
                     "riskImpact": 5,
                     "riskEttf": 365
-                },
-                {
-                    "riskId": "prometheus-misconfigured",
-                    "riskDesc": "Prometheus retention misconfigured",
-                    "riskEttd": 1440,
-                    "riskEttr": 30,
-                    "riskImpact": 5,
-                    "riskEttf": 365
-                },
-                {
-                    "riskId": "k8s-dns",
-                    "riskDesc": "Kubernetes DNS issue",
-                    "riskEttd": 20,
-                    "riskEttr": 30,
-                    "riskImpact": 1,
-                    "riskEttf": 30
                 }
             ],
             "riskFactors": [
-                {
-                    "riskFactorId": "no-phone",
-                    "riskFactorDesc": "Engineers don't have cellphones",
-                    "riskFactorEttd": 60,
-                    "riskFactorEttr": 4,
-                    "riskFactorImpact": 1,
-                    "riskFactorEttf": 1
-                },
-                {
-                    "riskFactorId": "services",
-                    "riskFactorDesc": "Engineers don't understand services",
-                    "riskFactorEttd": 0,
-                    "riskFactorEttr": 30,
-                    "riskFactorImpact": 10,
-                    "riskFactorEttf": 0
-                }
+                // {
+                //     "riskFactorId": "no-phone",
+                //     "riskFactorDesc": "Engineers don't have cellphones",
+                //     "riskFactorEttd": 60,
+                //     "riskFactorEttr": 4,
+                //     "riskFactorImpact": 1,
+                //     "riskFactorEttf": 1
+                // },
+                // {
+                //     "riskFactorId": "services",
+                //     "riskFactorDesc": "Engineers don't understand services",
+                //     "riskFactorEttd": 0,
+                //     "riskFactorEttr": 30,
+                //     "riskFactorImpact": 10,
+                //     "riskFactorEttf": 0
+                // }
             ]
         },
         {
@@ -81,17 +65,17 @@ const datastore = {
                 {
                     "riskFactorId": "no-phone",
                     "riskFactorDesc": "Engineers don't have cellphones",
-                    "riskFactorEttd": 60,
-                    "riskFactorEttr": 4,
-                    "riskFactorImpact": 1,
-                    "riskFactorEttf": 1
+                    "riskFactorEttd": 0,
+                    "riskFactorEttr": 0,
+                    "riskFactorImpact": 0,
+                    "riskFactorEttf": 0
                 },
                 {
                     "riskFactorId": "services",
                     "riskFactorDesc": "Engineers don't understand services",
                     "riskFactorEttd": 0,
-                    "riskFactorEttr": 30,
-                    "riskFactorImpact": 10,
+                    "riskFactorEttr": 0,
+                    "riskFactorImpact": 0,
                     "riskFactorEttf": 0
                 }
             ]

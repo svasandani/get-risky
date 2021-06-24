@@ -3,7 +3,9 @@ const state = {
     get budget() {
         return f((1 - this.uptime) * 1440 * 365.25)
     },
-    "accepted": 0,
+    get accepted() {
+        return this.risks.reduce((acc, curr) => acc + (curr.accepted ? curr.affectedTime : 0), 0)
+    },
     get unallocated() {
         return f(this.budget - this.accepted)
     },
@@ -17,14 +19,6 @@ const state = {
 
 function f(number) {
     return parseFloat(number.toPrecision(5))
-}
-
-function addToleratedRisk(risk) {
-    console.log('Add', risk);
-}
-
-function removeToleratedRisk(risk) {
-    console.log('Remove', risk);
 }
 
 function addComputedRiskFactor(riskFactor) {
@@ -46,7 +40,7 @@ function addComputedRisk(risk) {
 
     let foundRisk = risks.find(r => r.riskId === risk.riskId);
 
-    if (typeof foundRisk === 'undefined'){
+    if (typeof foundRisk === 'undefined') {
         risks.push({
             ...risk,
             get _baseIncidents() {
@@ -90,14 +84,37 @@ function addComputedRisk(risk) {
 
                 return reasons
             },
-            set checked(value) {
-                if (value) addToleratedRisk(this)
-                else removeToleratedRisk(this)
-            }
+            "accepted": false
         })
     } else {
         Object.assign(foundRisk, risk);
     }    
+
+    recalculate();
+}
+
+function accept(riskId) {
+    const risks = state.risks;
+
+    let foundRisk = risks.find(r => r.riskId === riskId);
+
+    if (typeof foundRisk === 'undefined') return;
+    else {
+        foundRisk.accepted = true;
+    }
+
+    recalculate();
+}
+
+function unaccept(riskId) {
+    const risks = state.risks;
+
+    let foundRisk = risks.find(r => r.riskId === riskId);
+
+    if (typeof foundRisk === 'undefined') return;
+    else {
+        foundRisk.accepted = false;
+    }
 
     recalculate();
 }
@@ -128,6 +145,9 @@ function recalculate() {
     return new Promise((resolve, reject) => {
         let budget = document.querySelector("#budget-min");
         budget.textContent = state.budget;
+
+        let accepted = document.querySelector("#accepted-min");
+        accepted.textContent = state.accepted;
 
         let unallocated = document.querySelector("#unallocated-min");
         unallocated.textContent = state.unallocated;

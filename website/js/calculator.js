@@ -4,7 +4,7 @@ let currentServiceName = '';
 function appendRisk(toPopulate, risk) {
     toPopulate.insertAdjacentHTML('beforeEnd',
     `
-    <details class="table-hidden-row ${risk.tolerable ? (risk.isTolerated ? 'tolerated' : 'tolerable') : 'not-tolerable'}" data-risk="${risk.riskId}">
+    <details class="table-hidden-row ${risk.tolerable ? (risk.accepted ? 'tolerated' : 'tolerable') : 'not-tolerable'}" data-risk="${risk.riskId}">
         <summary class="risks-table-row table-row">
             <span>${risk.riskDesc}</span>
             <span class="table-center-data show-details">· · ·</span>
@@ -39,7 +39,7 @@ function appendRisk(toPopulate, risk) {
             </label>
             <label class="custom-checkbox">
                 Accept this risk
-                <input id="${risk.riskId}-accept" name="${risk.riskId}-accept" class="custom-checkbox" type="checkbox" ${risk.tolerable ? '' : 'disabled'}/>
+                <input id="${risk.riskId}-accept" name="${risk.riskId}-accept" class="custom-checkbox" type="checkbox" ${risk.tolerable ? '' : 'disabled'} ${risk.accepted ? 'checked' : ''}/>
                 <span class="custom-checkbox"></span>
             </label>
         </div>
@@ -90,6 +90,19 @@ function appendRisk(toPopulate, risk) {
     `
     )
 
+    if (!risk.tolerable && toPopulate.querySelector(`#${risk.riskId}-accept`).checked) {
+        unaccept(risk.riskId);
+        updateAllRisks();
+        return false;
+    }
+
+    toPopulate.querySelector(`#${risk.riskId}-accept`).addEventListener('click', (e) => {
+        if (toPopulate.querySelector(`#${risk.riskId}-accept`).checked) accept(risk.riskId);
+        else unaccept(risk.riskId);
+
+        updateAllRisks();
+    })
+
     toPopulate.querySelector(`details[data-risk="${risk.riskId}"] .delete-btn`).addEventListener('click', (e) => {
         e.preventDefault();
 
@@ -105,13 +118,15 @@ function appendRisk(toPopulate, risk) {
 
         let editFd = new FormData(editThisRisk);
         let data = {};
-        editFd.forEach((value, key) => data[key] = value);
+        editFd.forEach((value, key) => data[key] = isNaN(value) ? value : parseFloat(value));
         
         // if (confirm(`Are you sure you want to update ${risk.riskDesc}?`)) {
             updateRisk(currentServiceId, risk.riskId, data)
                 .then(getAllRisks);
         // }
     })
+
+    return true;
 }
 
 function appendRiskFactor(toPopulate, riskFactor) {
@@ -184,7 +199,7 @@ function appendRiskFactor(toPopulate, riskFactor) {
 
         let editFd = new FormData(editThisRiskFactor);
         let data = {};
-        editFd.forEach((value, key) => data[key] = value);
+        editFd.forEach((value, key) => data[key] = isNaN(value) ? value : parseFloat(value));
         
         // if (confirm(`Are you sure you want to update ${risk.riskDesc}?`)) {
             updateRiskFactor(currentServiceId, riskFactor.riskFactorId, data)
@@ -253,10 +268,14 @@ function updateAllRisks() {
 
         let computedData = getAllComputedRisks();
 
+        console.log('before', computedData);
+
         computedData.sort((a,b) => b.affectedTime - a.affectedTime);
 
-        computedData.forEach(risk => {
-            appendRisk(toPopulate, getComputedRisk(risk.riskId));
+        console.log('after', computedData);
+
+        computedData.every(risk => {
+            return appendRisk(toPopulate, getComputedRisk(risk.riskId));
         })
 
         resolve();
@@ -297,7 +316,7 @@ function setUpModals() {
 
         let newFd = new FormData(document.querySelector('#new-risk-modal-form'));
         let data = {};
-        newFd.forEach((value, key) => data[key] = value);
+        newFd.forEach((value, key) => data[key] = isNaN(value) ? value : parseFloat(value));
         
         createRisk(currentServiceId, data)
             .then(getAllRisks)
@@ -316,7 +335,7 @@ function setUpModals() {
 
         let newFd = new FormData(document.querySelector('#new-risk-factor-modal-form'));
         let data = {};
-        newFd.forEach((value, key) => data[key] = value);
+        newFd.forEach((value, key) => data[key] = isNaN(value) ? value : parseFloat(value));
         
         createRiskFactor(currentServiceId, data)
             .then(getAllRiskFactors)

@@ -42,7 +42,7 @@ function appendService(toPopulate, service) {
 
         let editFd = new FormData(editThisService);
         let data = {};
-        editFd.forEach((value, key) => data[key] = value);
+        editFd.forEach((value, key) => data[key] = isNaN(value) ? value : parseFloat(value));
         
         if (confirm(`Are you sure you want to update ${service.serviceName}?`)) {
             updateService(service.serviceId, data)
@@ -93,7 +93,7 @@ function setUpModals() {
 
         let newFd = new FormData(document.querySelector('#new-modal-form'));
         let data = {};
-        newFd.forEach((value, key) => data[key] = value);
+        newFd.forEach((value, key) => data[key] = isNaN(value) ? value : parseFloat(value));
         
         createService(data)
             .then(getAllServices)
