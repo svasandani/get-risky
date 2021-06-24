@@ -13,14 +13,14 @@ function appendRisk(toPopulate, risk) {
             <label>
                 <span>
                     Incidents per year
-                    <span class="tooltip" data-tip="Without factors: ${risk._baseIncidents}">ⓘ</span>
+                    <span class="tooltip" data-tip="Without risk factors: ${risk._baseIncidents}">ⓘ</span>
                 </span>
                 <span id="${risk.riskId}-incidents" class="calculated">${risk.incidents}</span>
             </label>
             <label>
                 <span>
                     Affected time (min/yr)
-                    <span class="tooltip" data-tip="Without factors: ${risk._baseAffectedTime}">ⓘ</span>
+                    <span class="tooltip" data-tip="Without risk factors: ${risk._baseAffectedTime}">ⓘ</span>
                 </span>
                 <span id="${risk.riskId}-affected-min" class="calculated">${risk.affectedTime}</span>
             </label>
@@ -31,7 +31,7 @@ function appendRisk(toPopulate, risk) {
                     :   `
                             <span>
                                 Tolerable?
-                                <span class="tooltip" data-tip="This risk in not tolerable for the following reasons: ${risk.reasons.join(', and ')}.">ⓘ</span>
+                                <span class="tooltip" data-tip="This risk is not tolerable for the following reasons: ${risk.reasons.join(', and ')}.">ⓘ</span>
                             </span>
                         `
                 }
@@ -59,18 +59,18 @@ function appendRisk(toPopulate, risk) {
                         ETTD
                         <span class="tooltip" data-tip="Estimated time to detect the risk">ⓘ</span>
                     </span>
-                    <input id="${risk.riskId}-riskEttd" class="labelled-input" name="riskEttd" value="${risk.riskEttd}" placeholder=""/>
+                    <input id="${risk.riskId}-riskEttd" class="labelled-input" name="riskEttd" value="${risk.riskEttd}" type="number" placeholder=""/>
                 </label>
                 <label>
                     <span>
                         ETTR
                         <span class="tooltip" data-tip="Estimated time to recover from the risk">ⓘ</span>
                     </span>
-                    <input id="${risk.riskId}-riskEttr" class="labelled-input" name="riskEttr" value="${risk.riskEttr}" placeholder=""/>
+                    <input id="${risk.riskId}-riskEttr" class="labelled-input" name="riskEttr" value="${risk.riskEttr}" type="number" placeholder=""/>
                 </label>
                 <label>
                     Impact (% users)
-                    <input id="${risk.riskId}-riskImpact" class="labelled-input" name="riskImpact" value="${risk.riskImpact}" type="number" min="0" max="100" step="0.01" placeholder=""/>
+                    <input id="${risk.riskId}-riskImpact" class="labelled-input" name="riskImpact" value="${risk.riskImpact}" type="number" min="0" max="100" step="0.001" placeholder=""/>
                     <span class="percentage-input">%</span>
                 </label>
                 <label>
@@ -78,7 +78,7 @@ function appendRisk(toPopulate, risk) {
                         ETTF
                         <span class="tooltip" data-tip="Estimated time to fix TODO the risk">ⓘ</span>
                     </span>
-                    <input id="${risk.riskId}-riskEttf" class="labelled-input" name="riskEttf" value="${risk.riskEttf}" placeholder=""/>
+                    <input id="${risk.riskId}-riskEttf" class="labelled-input" name="riskEttf" value="${risk.riskEttf}" type="number" placeholder=""/>
                 </label>
             </div>
             <div class="buttons">
@@ -164,7 +164,7 @@ function appendRiskFactor(toPopulate, riskFactor) {
                 </label>
                 <label>
                     + Impact (% users)
-                    <input id="${riskFactor.riskFactorId}-riskFactorImpact" class="labelled-input" name="riskFactorImpact" value="${riskFactor.riskFactorImpact}" type="number" min="0" max="100" step="0.01" placeholder=""/>
+                    <input id="${riskFactor.riskFactorId}-riskFactorImpact" class="labelled-input" name="riskFactorImpact" value="${riskFactor.riskFactorImpact}" type="number" min="0" max="100" step="0.001" placeholder=""/>
                     <span class="percentage-input">%</span>
                 </label>
                 <label>

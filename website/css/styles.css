@@ -64,54 +64,64 @@ h1 {
 
 .table-row {
     display: grid;
-    grid-template-columns: 1fr 4ch;
+    grid-template-columns: 1fr 8ch;
+}
+
+.table-row span:nth-child(1) {
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .table-center-data {
     margin: 0 auto;
+    white-space: nowrap;
+}
+
+.table-hidden-row summary span:nth-child(1):not(.hover-reveal):after {
+    opacity: 1;
+    font-weight: bold;
+    margin-left: 1ch;
 }
 
 .table-hidden-row.not-tolerable summary span:nth-child(1):after {
     content: 'NOT TOLERABLE';
     color: var(--red);
-    font-weight: bold;
-    margin-left: 1ch;
 }
 
 .table-hidden-row.tolerable summary span:nth-child(1):after {
     content: 'TOLERABLE';
     color: var(--darktheme);
-    font-weight: bold;
-    margin-left: 1ch;
 }
 
 .table-hidden-row.tolerated summary span:nth-child(1):after {
     content: 'TOLERATED';
     color: var(--blue);
-    font-weight: bold;
-    margin-left: 1ch;
 }
 
 @media  (max-width: 768px) {
-    .table-hidden-row.not-tolerable summary span:nth-child(1):after {
+    .table-hidden-row summary span:nth-child(1):after {
+        display: none;
+        opacity: 0;
+    }
+
+    .table-hidden-row summary span:nth-child(1):before {
+        margin-right: 1ch;
+        font-weight: bold;
+    }
+
+    .table-hidden-row.not-tolerable summary span:nth-child(1):before {
         content: '✕';
         color: var(--red);
-        font-weight: bold;
-        margin-left: 1ch;
     }
     
-    .table-hidden-row.tolerable summary span:nth-child(1):after {
+    .table-hidden-row.tolerable summary span:nth-child(1):before {
         content: 'OK';
         color: var(--darktheme);
-        font-weight: bold;
-        margin-left: 1ch;
     }
     
-    .table-hidden-row.tolerated summary span:nth-child(1):after {
+    .table-hidden-row.tolerated summary span:nth-child(1):before {
         content: '—';
         color: var(--blue);
-        font-weight: bold;
-        margin-left: 1ch;
     }
 }
 
@@ -345,6 +355,10 @@ button:focus {
 }
 
 @media (max-width: 768px) {
+    span.custom-checkbox {
+        bottom: 0.4rem;
+    }
+
     .table-hidden-row form .inputs {
         grid-template-rows: auto;
         grid-template-columns: auto;
