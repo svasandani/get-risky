@@ -4,7 +4,7 @@ let currentServiceName = '';
 function appendRisk(toPopulate, risk) {
     toPopulate.insertAdjacentHTML('beforeEnd',
     `
-    <details class="table-hidden-row ${risk.tolerable ? (risk.accepted ? 'tolerated' : 'tolerable') : 'not-tolerable'}" data-risk="${risk.riskId}">
+    <details class="table-hidden-row ${ risk.accepted ? 'tolerated' : (risk.tolerable ? 'tolerable' : 'not-tolerable')}" data-risk="${risk.riskId}">
         <summary class="risks-table-row table-row">
             <span>${risk.riskDesc}</span>
             <span class="table-center-data show-details">· · ·</span>
@@ -35,11 +35,11 @@ function appendRisk(toPopulate, risk) {
                             </span>
                         `
                 }
-                <span id="${risk.riskId}-tolerable" class="calculated ${risk.tolerable ? 'yes' : 'no'}">${risk.tolerable ? 'Yes' : 'No'}</span>
+                <span id="${risk.riskId}-tolerable" class="calculated ${risk.accepted || risk.tolerable ? 'yes' : 'no'}">${risk.accepted || risk.tolerable ? 'Yes' : 'No'}</span>
             </label>
             <label class="custom-checkbox">
                 Accept this risk
-                <input id="${risk.riskId}-accept" name="${risk.riskId}-accept" class="custom-checkbox" type="checkbox" ${risk.tolerable ? '' : 'disabled'} ${risk.accepted ? 'checked' : ''}/>
+                <input id="${risk.riskId}-accept" name="${risk.riskId}-accept" class="custom-checkbox" type="checkbox" ${risk.accepted || risk.tolerable ? '' : 'disabled'} ${risk.accepted ? 'checked' : ''}/>
                 <span class="custom-checkbox"></span>
             </label>
         </div>
@@ -268,11 +268,7 @@ function updateAllRisks() {
 
         let computedData = getAllComputedRisks();
 
-        console.log('before', computedData);
-
         computedData.sort((a,b) => b.affectedTime - a.affectedTime);
-
-        console.log('after', computedData);
 
         computedData.every(risk => {
             return appendRisk(toPopulate, getComputedRisk(risk.riskId));

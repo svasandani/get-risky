@@ -68,13 +68,13 @@ function addComputedRisk(risk) {
                 return f((this.netEttd + this.netEttr) * this.netImpact * this.incidents)
             },
             get _tolerableBudget() {
-                return this.affectedTime < state.budget
+                return this.affectedTime < state.unallocated
             },
             get _tolerableIndividual() {
                 return state.threshold == 0 || this.affectedTime < state.threshold
             },
             get tolerable() {
-                return this._tolerableBudget && this._tolerableIndividual
+                return (this.accepted ? state.unallocated >= 0 : this._tolerableBudget) && this._tolerableIndividual
             },
             get reasons() {
                 let reasons = []
