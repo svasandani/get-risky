@@ -54,7 +54,7 @@ function appendService(toPopulate, service) {
         if (e.target.nodeName === 'SPAN' && !e.target.classList.contains('show-details')) {
             e.preventDefault();
 
-            window.location.href = `/calculator?service=${service.serviceId}`;
+            window.location.href = `../calculator?service=${service.serviceId}`;
         }
     })
 }
