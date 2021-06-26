@@ -108,6 +108,7 @@ function appendRisk(toPopulate, risk) {
 
         if (confirm(`Are you sure you want to delete ${risk.riskDesc}?`)) {
             deleteRisk(currentServiceId, risk.riskId)
+                .then(() => deleteComputedRisk(risk.riskId))
                 .then(getAllRisks);
         }
     })
@@ -122,6 +123,7 @@ function appendRisk(toPopulate, risk) {
         
         // if (confirm(`Are you sure you want to update ${risk.riskDesc}?`)) {
             updateRisk(currentServiceId, risk.riskId, data)
+                .then(() => updateComputedRisk(risk.riskId, data))
                 .then(getAllRisks);
         // }
     })
@@ -172,7 +174,7 @@ function appendRiskFactor(toPopulate, riskFactor) {
                         + ETTF
                         <span class="tooltip" data-tip="Estimated additional time to fix TODO the risk">ⓘ</span>
                     </span>
-                    <input id="${riskFactor.riskFactorId}-riskFactorEttf" class="labelled-input" name="riskFactorEttf" value="${riskFactor.riskFactorEttd}" placeholder=""/>
+                    <input id="${riskFactor.riskFactorId}-riskFactorEttf" class="labelled-input" name="riskFactorEttf" value="${riskFactor.riskFactorEttf}" placeholder=""/>
                 </label>
             </div>
             <div class="buttons">
@@ -189,6 +191,7 @@ function appendRiskFactor(toPopulate, riskFactor) {
 
         if (confirm(`Are you sure you want to delete ${riskFactor.riskFactorDesc}?`)) {
             deleteRiskFactor(currentServiceId, riskFactor.riskFactorId)
+                .then(() => deleteComputedRiskFactor(riskFactor.riskFactorId))
                 .then(getAllRiskFactors);
         }
     })
@@ -203,6 +206,7 @@ function appendRiskFactor(toPopulate, riskFactor) {
         
         // if (confirm(`Are you sure you want to update ${risk.riskDesc}?`)) {
             updateRiskFactor(currentServiceId, riskFactor.riskFactorId, data)
+                .then(() => updateComputedRiskFactor(riskFactor.riskFactorId, data))
                 .then(getAllRiskFactors);
         // }
     })
@@ -273,6 +277,8 @@ function updateAllRisks() {
         computedData.every(risk => {
             return appendRisk(toPopulate, getComputedRisk(risk.riskId));
         })
+
+        recalculate();
 
         resolve();
     })
@@ -354,5 +360,6 @@ function setUpSynchronous() {
 window.addEventListener('load', () => {
     getAllRisks()
         .then(getAllRiskFactors)
-        .then(setUpSynchronous);
+        .then(setUpSynchronous)
+        .catch(err => console.log(err));
 })
