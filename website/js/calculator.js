@@ -218,6 +218,7 @@ function getAllRisks() {
 
         getServiceNameFromId(currentServiceId)
             .then(name => currentServiceName = name)
+            .then(() => document.title = `${currentServiceName} — Risk Calculator`)
             .then (() => getRisks(currentServiceId))
             .then(data => {
                 let toPopulate = document.querySelector('#risks-table-body');
