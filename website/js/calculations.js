@@ -17,8 +17,8 @@ const state = {
     riskFactors: []
 }
 
-function f(number) {
-    return parseFloat(number.toPrecision(5))
+function f(number, precision=5) {
+    return parseFloat(number.toPrecision(precision))
 }
 
 function addComputedRiskFactor(riskFactor) {
@@ -66,6 +66,12 @@ function addComputedRisk(risk) {
             },
             get affectedTime() {
                 return f((this.netEttd + this.netEttr) * this.netImpact * this.incidents)
+            },
+            get _baseShareOfTotalBudget() {
+                return f((this._baseAffectedTime / state.budget) * 100, 3)
+            },
+            get shareOfTotalBudget() {
+                return f((this.affectedTime / state.budget) * 100, 3)
             },
             get _tolerableBudget() {
                 return this.affectedTime < state.unallocated

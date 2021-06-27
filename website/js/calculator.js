@@ -25,6 +25,13 @@ function appendRisk(toPopulate, risk) {
                 <span id="${risk.riskId}-affected-min" class="calculated">${risk.affectedTime}</span>
             </label>
             <label>
+                <span>
+                    Share of total budget (%)
+                    <span class="tooltip" data-tip="Without risk factors: ${risk._baseShareOfTotalBudget}%">ⓘ</span>
+                </span>
+                <span id="${risk.riskId}-share-min" class="calculated">${risk.shareOfTotalBudget}%</span>
+            </label>
+            <label>
                 ${
                     risk.tolerable
                     ? `Tolerable?`
