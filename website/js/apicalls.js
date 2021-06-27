@@ -1,8 +1,8 @@
 const datastore = {
     "services": [
         {
-            "serviceId": "appraisals",
-            "serviceName": "Appraisals",
+            "serviceId": "auth",
+            "serviceName": "Authentication",
             "risks": [
                 {
                     "riskId": "pods-down",
@@ -55,7 +55,7 @@ const datastore = {
                 },
                 {
                     "riskFactorId": "services",
-                    "riskFactorDesc": "Engineers don't understand services",
+                    "riskFactorDesc": "Engineers don't understand relevant service",
                     "riskFactorEttd": 0,
                     "riskFactorEttr": 0,
                     "riskFactorImpact": 0,
@@ -64,8 +64,8 @@ const datastore = {
             ]
         },
         {
-            "serviceId": "barrel",
-            "serviceName": "Barrel",
+            "serviceId": "event",
+            "serviceName": "EventBus",
             "risks": [
                 {
                     "riskId": "pods-down",
@@ -103,7 +103,7 @@ const datastore = {
                 },
                 {
                     "riskFactorId": "services",
-                    "riskFactorDesc": "Engineers don't understand services",
+                    "riskFactorDesc": "Engineers don't understand relevant service",
                     "riskFactorEttd": 0,
                     "riskFactorEttr": 30,
                     "riskFactorImpact": 10,
@@ -112,8 +112,8 @@ const datastore = {
             ]
         },
         {
-            "serviceId": "preapproval",
-            "serviceName": "Preapproval",
+            "serviceId": "geo",
+            "serviceName": "Geolocation",
             "risks": [
                 {
                     "riskId": "pods-down",
@@ -151,7 +151,7 @@ const datastore = {
                 },
                 {
                     "riskFactorId": "services",
-                    "riskFactorDesc": "Engineers don't understand services",
+                    "riskFactorDesc": "Engineers don't understand relevant service",
                     "riskFactorEttd": 0,
                     "riskFactorEttr": 30,
                     "riskFactorImpact": 10,
