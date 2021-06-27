@@ -131,7 +131,7 @@ function getAllComputedRisks() {
     return state.risks;
 }
 
-function updateComputedRiskFactor() {
+function updateComputedRiskFactor(riskFactorId, data) {
     return new Promise((resolve, reject) => {
         const riskFactors = state.riskFactors;
 
