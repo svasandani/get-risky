@@ -248,6 +248,10 @@ span.tooltip:hover:after {
     opacity: 1;
 }
 
+label.custom-checkbox {
+    padding-bottom: 2.25rem;
+}
+
 label.custom-checkbox:hover {
     cursor: pointer;
 }
@@ -294,7 +298,7 @@ label.custom-checkbox input.custom-checkbox ~ span.custom-checkbox:after {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-53%);
     font-size: 1rem;
 }
 
@@ -408,7 +412,7 @@ button:focus {
 
 .modal-form {
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row wrap;
     
     width: 40vw;
     padding: 5vh 3rem;
@@ -418,8 +422,17 @@ button:focus {
     border-radius: 8px;
 }
 
+.modal-form h2 {
+    width: 100%;
+}
+
 .modal-form label {
     margin-bottom: 16px;
+    width: calc(50% - 8px);
+}
+
+.modal-form label:nth-child(2n) {
+    margin-right: 16px;
 }
 
 .modal-form button {
@@ -433,6 +446,12 @@ button:focus {
 
     .modal-form {
         width: 90vw;
+        flex-flow: column nowrap;
+    }
+
+    .modal-form label {
+        width: 100%;
+        margin-right: 0px;
     }
 }
 
