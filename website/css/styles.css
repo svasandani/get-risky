@@ -99,6 +99,10 @@ h1 {
 }
 
 @media  (max-width: 768px) {
+    h1 {
+        font-size: 2.25rem;
+    }
+    
     .table-hidden-row summary span:nth-child(1):after {
         display: none;
         opacity: 0;
