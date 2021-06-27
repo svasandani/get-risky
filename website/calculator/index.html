@@ -111,7 +111,7 @@
                             <label>
                                 <span>
                                     ETTF
-                                    <span class="tooltip" data-tip="Estimated time to fix the risk">ⓘ</span>
+                                    <span class="tooltip" data-tip="Estimated time to failure (i.e. frequency)">ⓘ</span>
                                 </span>
                                 <input id="pods-down-riskEttf" class="labelled-input" name="riskDesc" value="Service pods down" placeholder=""/>
                             </label>
@@ -171,7 +171,7 @@
                             <label>
                                 <span>
                                     ETTF
-                                    <span class="tooltip" data-tip="Estimated time to fix the risk">ⓘ</span>
+                                    <span class="tooltip" data-tip="Estimated time to failure (i.e. frequency)">ⓘ</span>
                                 </span>
                                 <input id="no-phone-riskEttf" class="labelled-input" name="riskDesc" value="Service pods down" placeholder=""/>
                             </label>
@@ -219,7 +219,7 @@
             <label>
                 <span>
                     ETTF
-                    <span class="tooltip" data-tip="Estimated time to fix the risk">ⓘ</span>
+                    <span class="tooltip" data-tip="Estimated time to failure (i.e. frequency)">ⓘ</span>
                 </span>
                 <input class="labelled-input" name="riskEttf" value="" type="number" placeholder=""/>
             </label>
@@ -239,27 +239,27 @@
             </label>
             <label>
                 <span>
-                    + ETTD
-                    <span class="tooltip" data-tip="Estimated additional time to detect the risk">ⓘ</span>
+                    Δ ETTD
+                    <span class="tooltip" data-tip="Estimated difference in time to detect the risk">ⓘ</span>
                 </span>
                 <input class="labelled-input" name="riskFactorEttd" value="" type="number" placeholder=""/>
             </label>
             <label>
                 <span>
-                    + ETTR
-                    <span class="tooltip" data-tip="Estimated additional time to recover from the risk">ⓘ</span>
+                    Δ ETTR
+                    <span class="tooltip" data-tip="Estimated difference in time to recover from the risk">ⓘ</span>
                 </span>
                 <input class="labelled-input" name="riskFactorEttr" value="" type="number" placeholder=""/>
             </label>
             <label>
-                + Impact (% users)
+                Δ Impact (% users)
                 <input class="labelled-input" name="riskFactorImpact" value="" type="number" min="0" max="100" step="0.001" placeholder=""/>
                 <span class="percentage-input">%</span>
             </label>
             <label>
                 <span>
-                    + ETTF
-                    <span class="tooltip" data-tip="Estimated additional time to fix TODO the risk">ⓘ</span>
+                    Δ ETTF
+                    <span class="tooltip" data-tip="Estimated difference in time to failure (i.e. frequency)">ⓘ</span>
                 </span>
                 <input class="labelled-input" name="riskFactorEttf" value="" type="number" placeholder=""/>
             </label>

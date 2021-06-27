@@ -83,7 +83,7 @@ function appendRisk(toPopulate, risk) {
                 <label>
                     <span>
                         ETTF
-                        <span class="tooltip" data-tip="Estimated time to fix TODO the risk">ⓘ</span>
+                        <span class="tooltip" data-tip="Estimated time to failure (i.e. frequency)">ⓘ</span>
                     </span>
                     <input id="${risk.riskId}-riskEttf" class="labelled-input" name="riskEttf" value="${risk.riskEttf}" type="number" placeholder=""/>
                 </label>
@@ -159,27 +159,27 @@ function appendRiskFactor(toPopulate, riskFactor) {
                 </label>
                 <label>
                     <span>
-                        + ETTD
-                        <span class="tooltip" data-tip="Estimated additional time to detect the risk">ⓘ</span>
+                        Δ ETTD
+                        <span class="tooltip" data-tip="Estimated difference in time to detect the risk">ⓘ</span>
                     </span>
                     <input id="${riskFactor.riskFactorId}-riskFactorEttd" class="labelled-input" name="riskFactorEttd" value="${riskFactor.riskFactorEttd}" placeholder=""/>
                 </label>
                 <label>
                     <span>
-                        + ETTR
-                        <span class="tooltip" data-tip="Estimated additional time to recover from the risk">ⓘ</span>
+                        Δ ETTR
+                        <span class="tooltip" data-tip="Estimated difference in time to recover from the risk">ⓘ</span>
                     </span>
                     <input id="${riskFactor.riskFactorId}-riskFactorEttr" class="labelled-input" name="riskFactorEttr" value="${riskFactor.riskFactorEttr}" placeholder=""/>
                 </label>
                 <label>
-                    + Impact (% users)
+                    Δ Impact (% users)
                     <input id="${riskFactor.riskFactorId}-riskFactorImpact" class="labelled-input" name="riskFactorImpact" value="${riskFactor.riskFactorImpact}" type="number" min="0" max="100" step="0.001" placeholder=""/>
                     <span class="percentage-input">%</span>
                 </label>
                 <label>
                     <span>
-                        + ETTF
-                        <span class="tooltip" data-tip="Estimated additional time to fix TODO the risk">ⓘ</span>
+                        Δ ETTF
+                        <span class="tooltip" data-tip="Estimated difference in time to failure (i.e. frequency)">ⓘ</span>
                     </span>
                     <input id="${riskFactor.riskFactorId}-riskFactorEttf" class="labelled-input" name="riskFactorEttf" value="${riskFactor.riskFactorEttf}" placeholder=""/>
                 </label>
