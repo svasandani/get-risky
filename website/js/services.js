@@ -11,11 +11,11 @@ function appendService(toPopulate, service) {
             <div class="inputs">
                 <label>
                     Service ID
-                    <input id="${service.serviceId}-serviceId" class="labelled-input" name="serviceId" value="${service.serviceId}" placeholder=""/>
+                    <input id="${service.serviceId}-serviceId" class="labelled-input" name="serviceId" value="${service.serviceId}" placeholder="" required/>
                 </label>
                 <label>
                     Service Name
-                    <input id="${service.serviceId}-serviceName" class="labelled-input" name="serviceName" value="${service.serviceName}" placeholder=""/>
+                    <input id="${service.serviceId}-serviceName" class="labelled-input" name="serviceName" value="${service.serviceName}" placeholder="" required/>
                 </label>
             </div>
             <div class="buttons">

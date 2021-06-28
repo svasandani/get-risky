@@ -191,29 +191,29 @@
             <h2>Add a new risk</h2>
             <label>
                 Risk ID
-                <input class="labelled-input" name="riskId" value="" placeholder=""/>
+                <input class="labelled-input" name="riskId" value="" placeholder="" required/>
             </label>
             <label>
                 Risk Description
-                <input class="labelled-input" name="riskDesc" value="" placeholder=""/>
+                <input class="labelled-input" name="riskDesc" value="" placeholder="" required/>
             </label>
             <label>
                 <span>
                     ETTD
                     <span class="tooltip" data-tip="Estimated time to detect the risk">ⓘ</span>
                 </span>
-                <input class="labelled-input" name="riskEttd" value="" type="number" placeholder=""/>
+                <input class="labelled-input" name="riskEttd" value="" type="number" placeholder="" required/>
             </label>
             <label>
                 <span>
                     ETTR
                     <span class="tooltip" data-tip="Estimated time to recover from the risk">ⓘ</span>
                 </span>
-                <input class="labelled-input" name="riskEttr" value="" type="number" placeholder=""/>
+                <input class="labelled-input" name="riskEttr" value="" type="number" placeholder="" required/>
             </label>
             <label>
                 Impact (% users)
-                <input class="labelled-input" name="riskImpact" value="" type="number" min="0" max="100" step="0.001" placeholder=""/>
+                <input class="labelled-input" name="riskImpact" value="" type="number" min="0" max="100" step="0.001" placeholder="" required/>
                 <span class="percentage-input">%</span>
             </label>
             <label>
@@ -221,7 +221,7 @@
                     ETTF
                     <span class="tooltip" data-tip="Estimated time to failure (i.e. frequency)">ⓘ</span>
                 </span>
-                <input class="labelled-input" name="riskEttf" value="" type="number" placeholder=""/>
+                <input class="labelled-input" name="riskEttf" value="" type="number" placeholder="" required/>
             </label>
             <button type="submit">Create</button>
         </form>
@@ -231,29 +231,29 @@
             <h2>Add a new risk factor</h2>
             <label>
                 Risk Factor ID
-                <input class="labelled-input" name="riskFactorId" value="" placeholder=""/>
+                <input class="labelled-input" name="riskFactorId" value="" placeholder="" required/>
             </label>
             <label>
                 Risk Factor Description
-                <input class="labelled-input" name="riskFactorDesc" value="" placeholder=""/>
+                <input class="labelled-input" name="riskFactorDesc" value="" placeholder="" required/>
             </label>
             <label>
                 <span>
                     Δ ETTD
                     <span class="tooltip" data-tip="Estimated difference in time to detect the risk">ⓘ</span>
                 </span>
-                <input class="labelled-input" name="riskFactorEttd" value="" type="number" placeholder=""/>
+                <input class="labelled-input" name="riskFactorEttd" value="" type="number" placeholder="" required/>
             </label>
             <label>
                 <span>
                     Δ ETTR
                     <span class="tooltip" data-tip="Estimated difference in time to recover from the risk">ⓘ</span>
                 </span>
-                <input class="labelled-input" name="riskFactorEttr" value="" type="number" placeholder=""/>
+                <input class="labelled-input" name="riskFactorEttr" value="" type="number" placeholder="" required/>
             </label>
             <label>
                 Δ Impact (% users)
-                <input class="labelled-input" name="riskFactorImpact" value="" type="number" min="0" max="100" step="0.001" placeholder=""/>
+                <input class="labelled-input" name="riskFactorImpact" value="" type="number" min="0" max="100" step="0.001" placeholder="" required/>
                 <span class="percentage-input">%</span>
             </label>
             <label>
@@ -261,7 +261,7 @@
                     Δ ETTF
                     <span class="tooltip" data-tip="Estimated difference in time to failure (i.e. frequency)">ⓘ</span>
                 </span>
-                <input class="labelled-input" name="riskFactorEttf" value="" type="number" placeholder=""/>
+                <input class="labelled-input" name="riskFactorEttf" value="" type="number" placeholder="" required/>
             </label>
             <button type="submit">Create</button>
         </form>
