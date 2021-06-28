@@ -97,9 +97,11 @@ function appendRisk(toPopulate, risk) {
     `
     )
     
-    toPopulate.querySelector(`details[data-risk="${risk.riskId}"]`).addEventListener('click', () => {
+    toPopulate.querySelector(`details[data-risk="${risk.riskId}"]`).addEventListener('toggle', () => {
+        console.log(toPopulate.querySelector(`details[data-risk="${risk.riskId}"]`).open)
         if (toPopulate.querySelector(`details[data-risk="${risk.riskId}"]`).open) setIsRiskOpen(risk.riskId, true);
         else setIsRiskOpen(risk.riskId, false);
+        console.log(getAllComputedRisks())
     })
 
     if (!risk.tolerable && toPopulate.querySelector(`#${risk.riskId}-accept`).checked) {
@@ -112,6 +114,7 @@ function appendRisk(toPopulate, risk) {
         if (toPopulate.querySelector(`#${risk.riskId}-accept`).checked) accept(risk.riskId);
         else unaccept(risk.riskId);
 
+        console.log(getAllComputedRisks())
         updateAllRisks();
     })
 
