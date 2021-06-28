@@ -27,7 +27,24 @@ function addComputedRiskFactor(riskFactor) {
     let foundRiskFactor = riskFactors.find(r => r.riskFactorId === riskFactor.riskFactorId);
 
     if (typeof foundRiskFactor === 'undefined'){
-        riskFactors.push(riskFactor)
+        riskFactors.push({
+            ...riskFactor,
+            get contribution() {
+                return this.enabled
+                    ? f(state.risks.reduce((acc, curr) => {
+                        let riskContribution = (
+                            curr.riskEttd + this.riskFactorEttd + 
+                            curr.riskEttr + this.riskFactorEttr
+                        ) * (curr.riskImpact + this.riskFactorImpact)
+                        * f(365.25 / (curr.riskEttf + this.riskFactorEttf));
+                        
+                        return acc + f(riskContribution) - curr._baseAffectedTime;
+                    }, 0))
+                    : 0;
+            },
+            "enabled": true,
+            "open": false
+        })
     } else {
         Object.assign(foundRiskFactor, riskFactor);
     }    
@@ -53,16 +70,16 @@ function addComputedRisk(risk) {
                 return f((this.riskEttd + this.riskEttr) * this.riskImpact * this._baseIncidents)
             },
             get netEttd() {
-                return state.riskFactors.reduce((acc, curr) => acc + curr.riskFactorEttd, this.riskEttd)
+                return state.riskFactors.reduce((acc, curr) => curr.enabled ? acc + curr.riskFactorEttd : acc, this.riskEttd)
             },
             get netEttr() {
-                return state.riskFactors.reduce((acc, curr) => acc + curr.riskFactorEttr, this.riskEttr)
+                return state.riskFactors.reduce((acc, curr) => curr.enabled ? acc + curr.riskFactorEttr : acc, this.riskEttr)
             },
             get netImpact() {
-                return state.riskFactors.reduce((acc, curr) => acc + curr.riskFactorImpact, this.riskImpact)
+                return state.riskFactors.reduce((acc, curr) => curr.enabled ? acc + curr.riskFactorImpact : acc, this.riskImpact)
             },
             get netEttf() {
-                return state.riskFactors.reduce((acc, curr) => acc + curr.riskFactorEttf, this.riskEttf)
+                return state.riskFactors.reduce((acc, curr) => curr.enabled ? acc + curr.riskFactorEttf : acc, this.riskEttf)
             },
             get affectedTime() {
                 return f((this.netEttd + this.netEttr) * this.netImpact * this.incidents)
@@ -90,11 +107,38 @@ function addComputedRisk(risk) {
 
                 return reasons
             },
-            "accepted": false
+            "accepted": false,
+            "open": false
         })
     } else {
         Object.assign(foundRisk, risk);
     }    
+
+    recalculate();
+}
+
+function enable(riskFactorId) {
+    const riskFactors = state.riskFactors;
+
+    let foundRiskFactor = riskFactors.find(r => r.riskFactorId === riskFactorId);
+
+    if (typeof foundRiskFactor === 'undefined') return;
+    else {
+        foundRiskFactor.enabled = true;
+    }
+
+    recalculate();
+}
+
+function unenable(riskFactorId) {
+    const riskFactors = state.riskFactors;
+
+    let foundRiskFactor = riskFactors.find(r => r.riskFactorId === riskFactorId);
+
+    if (typeof foundRiskFactor === 'undefined') return;
+    else {
+        foundRiskFactor.enabled = false;
+    }
 
     recalculate();
 }
@@ -125,6 +169,14 @@ function unaccept(riskId) {
     recalculate();
 }
 
+function getComputedRiskFactor(riskFactorId) {
+    const riskFactors = state.riskFactors;
+
+    let foundRiskFactor = riskFactors.find(r => r.riskFactorId === riskFactorId);
+
+    return foundRiskFactor;
+}
+
 function getComputedRisk(riskId) {
     const risks = state.risks;
 
@@ -135,6 +187,10 @@ function getComputedRisk(riskId) {
 
 function getAllComputedRisks() {
     return state.risks;
+}
+
+function getAllComputedRiskFactors() {
+    return state.riskFactors;
 }
 
 function updateComputedRiskFactor(riskFactorId, data) {
@@ -187,6 +243,28 @@ function deleteComputedRisk(riskId) {
 
         resolve();
     })
+}
+
+function setIsRiskFactorOpen(riskFactorId, isOpen) {
+    const riskFactors = state.riskFactors;
+
+    let foundRiskFactor = riskFactors.find(r => r.riskFactorId === riskFactorId);
+
+    if (typeof foundRiskFactor === 'undefined') return;
+    else {
+        foundRiskFactor.open = isOpen;
+    }
+}
+
+function setIsRiskOpen(riskId, isOpen) {
+    const risks = state.risks;
+
+    let foundRisk = risks.find(r => r.riskId === riskId);
+
+    if (typeof foundRisk === 'undefined') return;
+    else {
+        foundRisk.open = isOpen;
+    }
 }
 
 function updateState(data) {

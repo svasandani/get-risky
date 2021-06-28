@@ -77,6 +77,11 @@ h1 {
     white-space: nowrap;
 }
 
+.table-hidden-row.disabled summary span:nth-child(1) {
+    color: var(--lightgrey);
+    text-decoration: line-through;
+}
+
 .table-hidden-row summary span:nth-child(1):not(.hover-reveal):after {
     opacity: 1;
     font-weight: bold;
@@ -144,13 +149,13 @@ h1 {
     opacity: 1;
 }
 
-.risk-details {
+.expanded-details {
     margin-top: 1.5rem;
     display: flex;
     flex-flow: row wrap;
 }
 
-.risk-details label {
+.expanded-details label {
     margin-bottom: 1.5rem;
     margin-right: 32px;
     position: relative;
@@ -252,6 +257,61 @@ span.tooltip:hover:after {
     opacity: 1;
 }
 
+label.custom-toggle {
+    padding-bottom: 2rem;
+}
+
+label.custom-toggle:hover {
+    cursor: pointer;
+}
+
+input.custom-toggle {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+span.custom-toggle {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 0;
+    height: 1rem;
+    width: 2.5rem;
+    background: white;
+    border-radius: 0.5rem;
+    border: 1px solid var(--darktheme);
+    transition: 0.1s ease-in;
+}
+
+span.custom-toggle:after {
+    content: '';
+    position: absolute;
+    height: 1.5rem;
+    width: 1.5rem;
+    left: -0.25rem;
+    bottom: calc(-0.25rem - 1px);
+    background: white;
+    border: 1px solid var(--darktheme);
+    box-shadow: 0px 0px 0px 0px var(--darktheme);
+    border-radius: 0.75rem;
+    transition: 0.1s ease-in;
+}
+
+label.custom-toggle:hover span.custom-toggle:after {
+    box-shadow: 0px 0px 0px 2px var(--darktheme);
+}
+
+label.custom-toggle input.custom-toggle:checked ~ span.custom-toggle {
+    background: var(--darktheme);
+}
+
+label.custom-toggle input.custom-toggle:checked ~ span.custom-toggle:after {
+    left: unset;
+    right: -0.25rem;
+}
+
 label.custom-checkbox {
     padding-bottom: 2.25rem;
 }
@@ -294,7 +354,7 @@ label.custom-checkbox:hover input.custom-checkbox[disabled] ~ span.custom-checkb
     box-shadow: inset 0px 0px 0px 0px var(--darktheme);
 }
 
-label.custom-checkbox input.custom-checkbox ~ span.custom-checkbox:after {
+span.custom-checkbox:after {
     content: '✕';
     color: white;
     opacity: 0;

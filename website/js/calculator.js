@@ -4,12 +4,12 @@ let currentServiceName = '';
 function appendRisk(toPopulate, risk) {
     toPopulate.insertAdjacentHTML('beforeEnd',
     `
-    <details class="table-hidden-row ${ risk.accepted ? 'tolerated' : (risk.tolerable ? 'tolerable' : 'not-tolerable')}" data-risk="${risk.riskId}">
+    <details class="table-hidden-row ${ risk.accepted ? 'tolerated' : (risk.tolerable ? 'tolerable' : 'not-tolerable')}" data-risk="${risk.riskId}" ${risk.open ? 'open' : ''}>
         <summary class="risks-table-row table-row">
             <span>${risk.riskDesc}</span>
             <span class="table-center-data show-details">· · ·</span>
         </summary>
-        <div class="risk-details">
+        <div class="expanded-details">
             <label>
                 <span>
                     Incidents per year
@@ -96,6 +96,11 @@ function appendRisk(toPopulate, risk) {
     </details>
     `
     )
+    
+    toPopulate.querySelector(`details[data-risk="${risk.riskId}"]`).addEventListener('click', () => {
+        if (toPopulate.querySelector(`details[data-risk="${risk.riskId}"]`).open) setIsRiskOpen(risk.riskId, true);
+        else setIsRiskOpen(risk.riskId, false);
+    })
 
     if (!risk.tolerable && toPopulate.querySelector(`#${risk.riskId}-accept`).checked) {
         unaccept(risk.riskId);
@@ -103,7 +108,7 @@ function appendRisk(toPopulate, risk) {
         return false;
     }
 
-    toPopulate.querySelector(`#${risk.riskId}-accept`).addEventListener('click', (e) => {
+    toPopulate.querySelector(`#${risk.riskId}-accept`).addEventListener('click', () => {
         if (toPopulate.querySelector(`#${risk.riskId}-accept`).checked) accept(risk.riskId);
         else unaccept(risk.riskId);
 
@@ -141,11 +146,22 @@ function appendRisk(toPopulate, risk) {
 function appendRiskFactor(toPopulate, riskFactor) {
     toPopulate.insertAdjacentHTML('beforeEnd',
     `
-    <details class="table-hidden-row" data-risk-factor="${riskFactor.riskFactorId}">
+    <details class="table-hidden-row ${riskFactor.enabled ? '' : 'disabled'}" data-risk-factor="${riskFactor.riskFactorId}" ${riskFactor.open ? 'open' : ''}>
         <summary class="risk-factors-table-row table-row">
             <span>${riskFactor.riskFactorDesc}</span>
             <span class="table-center-data show-details">· · ·</span>
         </summary>
+        <div class="expanded-details">
+            <label>
+                Contribution (min/yr)
+                <span id="${riskFactor.riskFactorId}-contribution" class="calculated">${riskFactor.contribution}</span>
+            </label>
+            <label class="custom-toggle">
+                Enable this risk factor
+                <input id="${riskFactor.riskFactorId}-enable" name="${riskFactor.riskFactorId}-enable" class="custom-toggle" type="checkbox" ${riskFactor.enabled ? 'checked' : ''}/>
+                <span class="custom-toggle"></span>
+            </label>
+        </div>
         <h4>Edit this risk factor</h4>
         <form class="risk-factor-edit" data-risk-factor="${riskFactor.riskFactorId}">
             <div class="inputs">
@@ -192,6 +208,19 @@ function appendRiskFactor(toPopulate, riskFactor) {
     </details>
     `
     )
+    
+    toPopulate.querySelector(`details[data-risk-factor="${riskFactor.riskFactorId}"]`).addEventListener('click', () => {
+        if (toPopulate.querySelector(`details[data-risk-factor="${riskFactor.riskFactorId}"]`).open) setIsRiskFactorOpen(riskFactor.riskFactorId, true);
+        else setIsRiskFactorOpen(riskFactor.riskFactorId, false);
+    })
+
+    toPopulate.querySelector(`#${riskFactor.riskFactorId}-enable`).addEventListener('click', () => {
+        if (toPopulate.querySelector(`#${riskFactor.riskFactorId}-enable`).checked) enable(riskFactor.riskFactorId);
+        else unenable(riskFactor.riskFactorId);
+
+        updateAllRisks();
+        updateAllRiskFactors();
+    })
 
     toPopulate.querySelector(`details[data-risk-factor="${riskFactor.riskFactorId}"] .delete-btn`).addEventListener('click', (e) => {
         e.preventDefault();
@@ -261,12 +290,15 @@ function getAllRiskFactors() {
                     addComputedRiskFactor(riskFactor);
                 }
 
-                data.forEach(riskFactor => {
+                let computedData = getAllComputedRiskFactors();
+
+                computedData.forEach(riskFactor => {
                     appendRiskFactor(toPopulate, riskFactor);
                 })
             })
             .then(recalculate)
             .then(updateAllRisks)
+            .then(updateAllRiskFactors)
             .then(resolve)
             .catch(reject)
     })
@@ -292,19 +324,39 @@ function updateAllRisks() {
     })
 }
 
+function updateAllRiskFactors() {
+    return new Promise((resolve, reject) => {
+        let toPopulate = document.querySelector('#risk-factors-table-body');
+
+        while (toPopulate.firstChild) toPopulate.removeChild(toPopulate.lastChild);
+
+        let computedData = getAllComputedRiskFactors();
+
+        computedData.every(riskFactor => {
+            return appendRiskFactor(toPopulate, getComputedRiskFactor(riskFactor.riskFactorId));
+        })
+
+        recalculate();
+
+        resolve();
+    })
+}
+
 function setUpCalculator() {
     document.querySelector('h1').textContent = currentServiceName;
 
     document.querySelector("#downtime-percent").addEventListener('input', () => {
         updateState({ "uptime": document.querySelector("#downtime-percent").value / 100 });
         recalculate()
-            .then(updateAllRisks);
+            .then(updateAllRisks)
+            .then(updateAllRiskFactors);
     })
 
     document.querySelector("#unacceptable-threshold").addEventListener('input', () => {
         updateState({ "individualLevel": document.querySelector("#unacceptable-threshold").value / 100 });
         recalculate()
-            .then(updateAllRisks);
+            .then(updateAllRisks)
+            .then(updateAllRiskFactors);
     })
 }
 
