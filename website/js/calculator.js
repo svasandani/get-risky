@@ -98,10 +98,8 @@ function appendRisk(toPopulate, risk) {
     )
     
     toPopulate.querySelector(`details[data-risk="${risk.riskId}"]`).addEventListener('toggle', () => {
-        console.log(toPopulate.querySelector(`details[data-risk="${risk.riskId}"]`).open)
         if (toPopulate.querySelector(`details[data-risk="${risk.riskId}"]`).open) setIsRiskOpen(risk.riskId, true);
         else setIsRiskOpen(risk.riskId, false);
-        console.log(getAllComputedRisks())
     })
 
     if (!risk.tolerable && toPopulate.querySelector(`#${risk.riskId}-accept`).checked) {
@@ -113,8 +111,7 @@ function appendRisk(toPopulate, risk) {
     toPopulate.querySelector(`#${risk.riskId}-accept`).addEventListener('click', () => {
         if (toPopulate.querySelector(`#${risk.riskId}-accept`).checked) accept(risk.riskId);
         else unaccept(risk.riskId);
-
-        console.log(getAllComputedRisks())
+        
         updateAllRisks();
     })
 
@@ -221,7 +218,7 @@ function appendRiskFactor(toPopulate, riskFactor) {
     `
     )
     
-    toPopulate.querySelector(`details[data-risk-factor="${riskFactor.riskFactorId}"]`).addEventListener('click', () => {
+    toPopulate.querySelector(`details[data-risk-factor="${riskFactor.riskFactorId}"]`).addEventListener('toggle', () => {
         if (toPopulate.querySelector(`details[data-risk-factor="${riskFactor.riskFactorId}"]`).open) setIsRiskFactorOpen(riskFactor.riskFactorId, true);
         else setIsRiskFactorOpen(riskFactor.riskFactorId, false);
     })
@@ -258,6 +255,8 @@ function appendRiskFactor(toPopulate, riskFactor) {
                 .then(getAllRiskFactors);
         // }
     })
+
+    return true;
 }
 
 function getAllRisks() {
@@ -310,7 +309,6 @@ function getAllRiskFactors() {
             })
             .then(recalculate)
             .then(updateAllRisks)
-            .then(updateAllRiskFactors)
             .then(resolve)
             .catch(reject)
     })
@@ -345,7 +343,7 @@ function updateAllRiskFactors() {
         let computedData = getAllComputedRiskFactors();
 
         computedData.every(riskFactor => {
-            return appendRiskFactor(toPopulate, getComputedRiskFactor(riskFactor.riskFactorId));
+            return appendRiskFactor(toPopulate, riskFactor);
         })
 
         recalculate();
