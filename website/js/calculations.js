@@ -30,18 +30,23 @@ function addComputedRiskFactor(riskFactor) {
         riskFactors.push({
             ...riskFactor,
             get contribution() {
+                this.reasons = [];
+                
                 return this.enabled
                     ? f(state.risks.reduce((acc, curr) => {
-                        let riskContribution = (
+                        let riskContribution = f((
                             curr.riskEttd + this.riskFactorEttd + 
                             curr.riskEttr + this.riskFactorEttr
                         ) * (curr.riskImpact + this.riskFactorImpact)
-                        * f(365.25 / (curr.riskEttf + this.riskFactorEttf));
+                        * f(365.25 / (curr.riskEttf + this.riskFactorEttf))) - curr._baseAffectedTime;
+
+                        this.reasons.push(`${curr.riskDesc}: ${f(riskContribution)}`);
                         
-                        return acc + f(riskContribution) - curr._baseAffectedTime;
+                        return acc + riskContribution;
                     }, 0))
                     : 0;
             },
+            reasons: [],
             "enabled": true,
             "open": false
         })

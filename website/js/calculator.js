@@ -156,7 +156,16 @@ function appendRiskFactor(toPopulate, riskFactor) {
         </summary>
         <div class="expanded-details">
             <label>
-                Contribution (min/yr)
+                ${
+                    riskFactor.contribution == 0
+                    ? `Contribution (min/yr)`
+                    :   `
+                            <span>
+                                Contribution (min/yr)
+                                <span class="tooltip" data-tip="${riskFactor.reasons.join(', ')}">ⓘ</span>
+                            </span>
+                        `
+                }
                 <span id="${riskFactor.riskFactorId}-contribution" class="calculated">${riskFactor.contribution}</span>
             </label>
             <label class="custom-toggle">
