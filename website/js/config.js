@@ -41,13 +41,8 @@ function appendConfig(toPopulate, config) {
     )
     
     toPopulate.querySelector(`#${config.configId}-enable`).addEventListener('click', () => {
-        if (toPopulate.querySelector(`#${config.configId}-enable`).checked) {
-            updateConfig(currentServiceId, config.configId, true)
-                .then(updateAllConfig)
-        } else {
-            updateConfig(currentServiceId, config.configId, false)
-                .then(updateAllConfig)
-        }
+        if (toPopulate.querySelector(`#${config.configId}-enable`).checked) updateConfig(currentServiceId, config.configId, true)
+        else updateConfig(currentServiceId, config.configId, false)
     })
 }
 
