@@ -90,10 +90,30 @@ function addComputedRisk(risk) {
                 return f((this.netEttd + this.netEttr) * this.netImpact * this.incidents)
             },
             get _baseShareOfTotalBudget() {
-                return f((this._baseAffectedTime / state.budget) * 100, 3)
+                return state.budget == 0
+                    ? 0
+                    : f((this._baseAffectedTime / state.budget) * 100, 3);
             },
             get shareOfTotalBudget() {
-                return f((this.affectedTime / state.budget) * 100, 3)
+                return state.budget == 0
+                    ? 0
+                    : f((this.affectedTime / state.budget) * 100, 3);
+            },
+            get _baseShareOfTolerated() {
+                return this.accepted
+                    ? 
+                        state.accepted == 0
+                        ? 0
+                        : f((this._baseAffectedTime / state.accepted) * 100, 3)
+                    : 'N/A';
+            },
+            get shareOfTolerated() {
+                return this.accepted
+                    ? 
+                        state.accepted == 0
+                        ? 0
+                        : f((this.affectedTime / state.accepted) * 100, 3)
+                    : 'N/A';
             },
             get _tolerableBudget() {
                 return this.affectedTime < state.unallocated

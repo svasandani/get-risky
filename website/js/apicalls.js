@@ -124,23 +124,68 @@ const datastore = {
                     "riskFactorEttf": 0
                 }
             ],
-            "config": {
-                "global": {
-                    "budget-min": true,
-                    "accepted-min": true,
-                    "unallocated-min": true,
-                    "toobig-min": true
+            "config": [
+                {
+                    "configId": "budget",
+                    "configDesc": "Shows the total number of minutes that a service can be down each year to meet the specified availability.",
+                    "configCategory": "global",
+                    "configValue": false
                 },
-                "risk": {
-                    "incidents": true,
-                    "affectedTime": true,
-                    "share": true
+                {
+                    "configId": "accepted",
+                    "configDesc": "Shows the amount of downtime that has been marked as tolerated.",
+                    "configCategory": "global",
+                    "configValue": true
                 },
-                "riskFactor": {
-                    "contribution": false,
-                    "enable": false
+                {
+                    "configId": "unallocated",
+                    "configDesc": "Shows the total number of remaining minutes in the budget after subtracting tolerated minutes.",
+                    "configCategory": "global",
+                    "configValue": true
+                },
+                {
+                    "configId": "individualThreshold",
+                    "configDesc": "Shows the number of minutes that represents the individual threshold for any one risk.",
+                    "configCategory": "global",
+                    "configValue": true
+                },
+                {
+                    "configId": "incidents",
+                    "configDesc": "Shows the number of incidents each year that are expected to happen regarding this risk.",
+                    "configCategory": "risk",
+                    "configValue": true
+                },
+                {
+                    "configId": "affectedTime",
+                    "configDesc": "Shows the calculated downtime that this risk will generate each year.",
+                    "configCategory": "risk",
+                    "configValue": true
+                },
+                {
+                    "configId": "shareBudget",
+                    "configDesc": "Shows the percentage of the total budget that this risk represents.",
+                    "configCategory": "risk",
+                    "configValue": true
+                },
+                {
+                    "configId": "shareTolerated",
+                    "configDesc": "Shows the percentage of the total number of tolerated minutes that this risk represents.",
+                    "configCategory": "risk",
+                    "configValue": true
+                },
+                {
+                    "configId": "contribution",
+                    "configDesc": "Shows the number of minutes that this risk factor contributed to the total.",
+                    "configCategory": "riskFactor",
+                    "configValue": false
+                },
+                {
+                    "configId": "enable",
+                    "configDesc": "Shows a toggle to enable or disable a risk factor temporarily.",
+                    "configCategory": "riskFactor",
+                    "configValue": false
                 }
-            }
+            ]
         },
         {
             "serviceId": "event",
@@ -189,23 +234,68 @@ const datastore = {
                     "riskFactorEttf": 0
                 }
             ],
-            "config": {
-                "global": {
-                    "budget-min": true,
-                    "accepted-min": true,
-                    "unallocated-min": true,
-                    "toobig-min": true
+            "config": [
+                {
+                    "configId": "budget",
+                    "configDesc": "Shows the total number of minutes that a service can be down each year to meet the specified availability.",
+                    "configCategory": "global",
+                    "configValue": false
                 },
-                "risk": {
-                    "incidents": true,
-                    "affectedTime": true,
-                    "share": true
+                {
+                    "configId": "accepted",
+                    "configDesc": "Shows the amount of downtime that has been marked as tolerated.",
+                    "configCategory": "global",
+                    "configValue": true
                 },
-                "riskFactor": {
-                    "contribution": true,
-                    "enable": true
+                {
+                    "configId": "unallocated",
+                    "configDesc": "Shows the total number of remaining minutes in the budget after subtracting tolerated minutes.",
+                    "configCategory": "global",
+                    "configValue": true
+                },
+                {
+                    "configId": "individualThreshold",
+                    "configDesc": "Shows the number of minutes that represents the individual threshold for any one risk.",
+                    "configCategory": "global",
+                    "configValue": true
+                },
+                {
+                    "configId": "incidents",
+                    "configDesc": "Shows the number of incidents each year that are expected to happen regarding this risk.",
+                    "configCategory": "risk",
+                    "configValue": true
+                },
+                {
+                    "configId": "affectedTime",
+                    "configDesc": "Shows the calculated downtime that this risk will generate each year.",
+                    "configCategory": "risk",
+                    "configValue": true
+                },
+                {
+                    "configId": "shareBudget",
+                    "configDesc": "Shows the percentage of the total budget that this risk represents.",
+                    "configCategory": "risk",
+                    "configValue": true
+                },
+                {
+                    "configId": "shareTolerated",
+                    "configDesc": "Shows the percentage of the total number of tolerated minutes that this risk represents.",
+                    "configCategory": "risk",
+                    "configValue": true
+                },
+                {
+                    "configId": "contribution",
+                    "configDesc": "Shows the number of minutes that this risk factor contributed to the total.",
+                    "configCategory": "riskFactor",
+                    "configValue": true
+                },
+                {
+                    "configId": "enable",
+                    "configDesc": "Shows a toggle to enable or disable a risk factor temporarily.",
+                    "configCategory": "riskFactor",
+                    "configValue": true
                 }
-            }
+            ]
         },
         {
             "serviceId": "geo",
@@ -254,23 +344,68 @@ const datastore = {
                     "riskFactorEttf": 0
                 }
             ],
-            "config": {
-                "global": {
-                    "budget-min": true,
-                    "accepted-min": true,
-                    "unallocated-min": true,
-                    "toobig-min": true
+            "config": [
+                {
+                    "configId": "budget",
+                    "configDesc": "Shows the total number of minutes that a service can be down each year to meet the specified availability.",
+                    "configCategory": "global",
+                    "configValue": false
                 },
-                "risk": {
-                    "incidents": true,
-                    "affectedTime": true,
-                    "share": true
+                {
+                    "configId": "accepted",
+                    "configDesc": "Shows the amount of downtime that has been marked as tolerated.",
+                    "configCategory": "global",
+                    "configValue": true
                 },
-                "riskFactor": {
-                    "contribution": true,
-                    "enable": true
+                {
+                    "configId": "unallocated",
+                    "configDesc": "Shows the total number of remaining minutes in the budget after subtracting tolerated minutes.",
+                    "configCategory": "global",
+                    "configValue": true
+                },
+                {
+                    "configId": "individualThreshold",
+                    "configDesc": "Shows the number of minutes that represents the individual threshold for any one risk.",
+                    "configCategory": "global",
+                    "configValue": true
+                },
+                {
+                    "configId": "incidents",
+                    "configDesc": "Shows the number of incidents each year that are expected to happen regarding this risk.",
+                    "configCategory": "risk",
+                    "configValue": true
+                },
+                {
+                    "configId": "affectedTime",
+                    "configDesc": "Shows the calculated downtime that this risk will generate each year.",
+                    "configCategory": "risk",
+                    "configValue": true
+                },
+                {
+                    "configId": "shareBudget",
+                    "configDesc": "Shows the percentage of the total budget that this risk represents.",
+                    "configCategory": "risk",
+                    "configValue": true
+                },
+                {
+                    "configId": "shareTolerated",
+                    "configDesc": "Shows the percentage of the total number of tolerated minutes that this risk represents.",
+                    "configCategory": "risk",
+                    "configValue": true
+                },
+                {
+                    "configId": "contribution",
+                    "configDesc": "Shows the number of minutes that this risk factor contributed to the total.",
+                    "configCategory": "riskFactor",
+                    "configValue": true
+                },
+                {
+                    "configId": "enable",
+                    "configDesc": "Shows a toggle to enable or disable a risk factor temporarily.",
+                    "configCategory": "riskFactor",
+                    "configValue": true
                 }
-            }
+            ]
         }
     ]
 }

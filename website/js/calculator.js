@@ -11,7 +11,7 @@ function appendRisk(toPopulate, risk) {
             <span class="table-center-data show-details">· · ·</span>
         </summary>
         <div class="expanded-details">
-            <label${config.risk.budget ? '' : ' class="invisible"'}>
+            <label${config.risk.incidents ? '' : ' class="invisible"'}>
                 <span>
                     Incidents per year
                     <span class="tooltip" data-tip="Without risk factors: ${risk._baseIncidents}">ⓘ</span>
@@ -25,12 +25,19 @@ function appendRisk(toPopulate, risk) {
                 </span>
                 <span id="${risk.riskId}-affected-min" class="calculated">${risk.affectedTime}</span>
             </label>
-            <label${config.risk.share ? '' : ' class="invisible"'}>
+            <label${config.risk.shareBudget ? '' : ' class="invisible"'}>
                 <span>
                     Share of total budget (%)
                     <span class="tooltip" data-tip="Without risk factors: ${risk._baseShareOfTotalBudget}%">ⓘ</span>
                 </span>
                 <span id="${risk.riskId}-share-min" class="calculated">${risk.shareOfTotalBudget}%</span>
+            </label>
+            <label${config.risk.shareTolerated ? '' : ' class="invisible"'}>
+                <span>
+                    Share of tolerated minutes (%)
+                    <span class="tooltip" data-tip="Without risk factors: ${risk._baseShareOfTolerated}%">ⓘ</span>
+                </span>
+                <span id="${risk.riskId}-sharet-min" class="calculated">${risk.shareOfTolerated}%</span>
             </label>
             <label>
                 ${
