@@ -25,6 +25,10 @@ main {
     padding: 0 20vw;
 }
 
+.invisible {
+    display: none;
+}
+
 h1 {
     font-size: 3rem;
     margin-bottom: 0;

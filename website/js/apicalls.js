@@ -13,7 +13,24 @@ const datastore = {
                     "riskEttf": 365
                 }
             ],
-            "riskFactors": []
+            "riskFactors": [],
+            "config": {
+                "global": {
+                    "budget-min": true,
+                    "accepted-min": true,
+                    "unallocated-min": true,
+                    "toobig-min": true
+                },
+                "risk": {
+                    "incidents": true,
+                    "affectedTime": true,
+                    "share": true
+                },
+                "riskFactor": {
+                    "contribution": true,
+                    "enable": true
+                }
+            }
         },
         {
             "serviceId": "backend",
@@ -61,7 +78,24 @@ const datastore = {
                     "riskFactorImpact": 0,
                     "riskFactorEttf": 0
                 }
-            ]
+            ],
+            "config": {
+                "global": {
+                    "budget-min": true,
+                    "accepted-min": true,
+                    "unallocated-min": true,
+                    "toobig-min": true
+                },
+                "risk": {
+                    "incidents": true,
+                    "affectedTime": true,
+                    "share": true
+                },
+                "riskFactor": {
+                    "contribution": false,
+                    "enable": false
+                }
+            }
         },
         {
             "serviceId": "event",
@@ -109,7 +143,24 @@ const datastore = {
                     "riskFactorImpact": 10,
                     "riskFactorEttf": 0
                 }
-            ]
+            ],
+            "config": {
+                "global": {
+                    "budget-min": true,
+                    "accepted-min": true,
+                    "unallocated-min": true,
+                    "toobig-min": true
+                },
+                "risk": {
+                    "incidents": true,
+                    "affectedTime": true,
+                    "share": true
+                },
+                "riskFactor": {
+                    "contribution": true,
+                    "enable": true
+                }
+            }
         },
         {
             "serviceId": "geo",
@@ -157,7 +208,24 @@ const datastore = {
                     "riskFactorImpact": 10,
                     "riskFactorEttf": 0
                 }
-            ]
+            ],
+            "config": {
+                "global": {
+                    "budget-min": true,
+                    "accepted-min": true,
+                    "unallocated-min": true,
+                    "toobig-min": true
+                },
+                "risk": {
+                    "incidents": true,
+                    "affectedTime": true,
+                    "share": true
+                },
+                "riskFactor": {
+                    "contribution": true,
+                    "enable": true
+                }
+            }
         }
     ]
 }
@@ -223,7 +291,17 @@ function getServiceNameFromId(serviceId) {
     })
 }
 
-// TODO: refactor and add 'getRisk'
+function getConfig(serviceId) {
+    // stub
+    return new Promise((resolve, reject) => {
+        const services = datastore.services;
+
+        let foundService = services.find(s => s.serviceId === serviceId);
+
+        if (typeof foundService === 'undefined') reject('Could not find service');
+        else resolve(foundService.config);
+    })
+}
 
 function getRiskFactors(serviceId) {
     // stub

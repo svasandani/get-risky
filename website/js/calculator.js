@@ -1,5 +1,6 @@
 let currentServiceId = '';
 let currentServiceName = '';
+const config = {};
 
 function appendRisk(toPopulate, risk) {
     toPopulate.insertAdjacentHTML('beforeEnd',
@@ -10,21 +11,21 @@ function appendRisk(toPopulate, risk) {
             <span class="table-center-data show-details">· · ·</span>
         </summary>
         <div class="expanded-details">
-            <label>
+            <label${config.risk.budget ? '' : ' class="invisible"'}>
                 <span>
                     Incidents per year
                     <span class="tooltip" data-tip="Without risk factors: ${risk._baseIncidents}">ⓘ</span>
                 </span>
                 <span id="${risk.riskId}-incidents" class="calculated">${risk.incidents}</span>
             </label>
-            <label>
+            <label${config.risk.affectedTime ? '' : ' class="invisible"'}>
                 <span>
                     Affected time (min/yr)
                     <span class="tooltip" data-tip="Without risk factors: ${risk._baseAffectedTime}">ⓘ</span>
                 </span>
                 <span id="${risk.riskId}-affected-min" class="calculated">${risk.affectedTime}</span>
             </label>
-            <label>
+            <label${config.risk.share ? '' : ' class="invisible"'}>
                 <span>
                     Share of total budget (%)
                     <span class="tooltip" data-tip="Without risk factors: ${risk._baseShareOfTotalBudget}%">ⓘ</span>
@@ -152,7 +153,7 @@ function appendRiskFactor(toPopulate, riskFactor) {
             <span class="table-center-data show-details">· · ·</span>
         </summary>
         <div class="expanded-details">
-            <label>
+            <label${config.riskFactor.contribution ? '' : ' class="invisible"'}>
                 ${
                     riskFactor.contribution == 0
                     ? `Contribution (min/yr)`
@@ -165,7 +166,7 @@ function appendRiskFactor(toPopulate, riskFactor) {
                 }
                 <span id="${riskFactor.riskFactorId}-contribution" class="calculated">${riskFactor.contribution}</span>
             </label>
-            <label class="custom-toggle">
+            <label class="custom-toggle${config.riskFactor.enable ? '' : ' invisible'}">
                 Enable this risk factor
                 <input id="${riskFactor.riskFactorId}-enable" name="${riskFactor.riskFactorId}-enable" class="custom-toggle" type="checkbox" ${riskFactor.enabled ? 'checked' : ''}/>
                 <span class="custom-toggle"></span>
@@ -261,12 +262,7 @@ function appendRiskFactor(toPopulate, riskFactor) {
 
 function getAllRisks() {
     return new Promise((resolve, reject) => {
-        currentServiceId = (new URLSearchParams(window.location.search)).get('service');
-
-        getServiceNameFromId(currentServiceId)
-            .then(name => currentServiceName = name)
-            .then(() => document.title = `${currentServiceName} — Risk Calculator`)
-            .then (() => getRisks(currentServiceId))
+        getRisks(currentServiceId)
             .then(data => {
                 let toPopulate = document.querySelector('#risks-table-body');
 
@@ -368,6 +364,10 @@ function setUpCalculator() {
             .then(updateAllRisks)
             .then(updateAllRiskFactors);
     })
+    
+    for (const [id, display] of Object.entries(config.global)) {
+        if (!display) document.querySelector(`#${id}-container`).classList.add('invisible');
+    }
 }
 
 function setUpModals() {
@@ -428,7 +428,14 @@ function setUpSynchronous() {
 }
 
 window.addEventListener('load', () => {
-    getAllRisks()
+    currentServiceId = (new URLSearchParams(window.location.search)).get('service');
+
+    getServiceNameFromId(currentServiceId)
+        .then(name => currentServiceName = name)
+        .then(() => document.title = `${currentServiceName} — Risk Calculator`)
+        .then(() => getConfig(currentServiceId))
+        .then(cfg => Object.assign(config, cfg))
+        .then(getAllRisks)
         .then(getAllRiskFactors)
         .then(setUpSynchronous)
         .catch(err => console.log(err));
