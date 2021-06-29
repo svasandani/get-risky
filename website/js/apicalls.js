@@ -31,7 +31,7 @@ const datastore = {
                     "configId": "unallocated",
                     "configDesc": "Shows the total number of remaining minutes in the budget after subtracting tolerated minutes.",
                     "configCategory": "global",
-                    "configValue": true
+                    "configValue": false
                 },
                 {
                     "configId": "individualThreshold",
@@ -61,7 +61,7 @@ const datastore = {
                     "configId": "shareTolerated",
                     "configDesc": "Shows the percentage of the total number of tolerated minutes that this risk represents.",
                     "configCategory": "risk",
-                    "configValue": true
+                    "configValue": false
                 },
                 {
                     "configId": "contribution",
@@ -239,7 +239,7 @@ const datastore = {
                     "configId": "budget",
                     "configDesc": "Shows the total number of minutes that a service can be down each year to meet the specified availability.",
                     "configCategory": "global",
-                    "configValue": false
+                    "configValue": true
                 },
                 {
                     "configId": "accepted",
@@ -349,7 +349,7 @@ const datastore = {
                     "configId": "budget",
                     "configDesc": "Shows the total number of minutes that a service can be down each year to meet the specified availability.",
                     "configCategory": "global",
-                    "configValue": false
+                    "configValue": true
                 },
                 {
                     "configId": "accepted",

@@ -71,6 +71,10 @@ a {
 }
 
 .table-row span:not(.custom-toggle) {
+    padding: 1.5rem 0;
+}
+
+.services-table-row span:not(.custom-toggle) {
     padding: 1.5rem;
 }
 
@@ -157,13 +161,13 @@ a {
 .table-hidden-row .hover-reveal:before {
     content: attr(data-reveal);
     position: absolute;
-    width: calc(100% - 4px);
-    height: calc(100% - 4px);
-    left: 2px;
-    bottom: 2px;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    left: 4px;
+    bottom: 4px;
     border-radius: 4px;
     border: 1px solid var(--darktheme);
-    opacity: 0;
+    opacity: 1;
     background: white;
     z-index: -1;
     transition: 0.1s ease-in;
@@ -171,10 +175,11 @@ a {
     flex-flow: row-reverse;
     align-items: center;
     padding-right: 1.5rem;
+    color: var(--darktheme);
 }
 
 .table-hidden-row .hover-reveal:hover:before {
-    opacity: 1;
+    box-shadow: 0px 0px 0px 2px var(--darktheme);
 }
 
 .expanded-details {
@@ -559,7 +564,7 @@ button:focus {
 
 @media (max-width: 1000px) {
     main {
-        padding: 0 5vw;
+        padding: 0 2.5vw;
     }
 
     .modal-form {
@@ -653,17 +658,13 @@ button:focus {
 }
 
 @media (max-width: 1000px) {
-    main {
-        padding: 0 5vw;
-    }
-
     .heading {
         flex-flow: column;
         align-items: flex-start;
     }
 
     .heading-links {
-        flex-flow: row nowrap;
+        flex-flow: row wrap;
     }
 
     .heading a {
