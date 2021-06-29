@@ -343,7 +343,7 @@ span.custom-toggle:after {
     border: 1px solid var(--darktheme);
     box-shadow: 0px 0px 0px 0px var(--darktheme);
     border-radius: 0.75rem;
-    transition: 0.1s ease-in;
+    transition: 0.05s ease-in;
 }
 
 label.custom-toggle:hover span.custom-toggle:after {
@@ -355,8 +355,7 @@ label.custom-toggle input.custom-toggle:checked ~ span.custom-toggle {
 }
 
 label.custom-toggle input.custom-toggle:checked ~ span.custom-toggle:after {
-    left: unset;
-    right: -0.25rem;
+    left: 1.25rem;
 }
 
 label.custom-checkbox {
