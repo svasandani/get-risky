@@ -348,6 +348,13 @@ function updateAllRiskFactors() {
     })
 }
 
+function parseConfig(cfg) {
+    cfg.forEach(c => {
+        if (!(c.configCategory in config)) config[c.configCategory] = {};
+        config[c.configCategory][c.configId] = c.configValue
+    })
+}
+
 function setUpCalculator() {
     document.querySelector('h1').textContent = currentServiceName;
 
@@ -364,6 +371,8 @@ function setUpCalculator() {
             .then(updateAllRisks)
             .then(updateAllRiskFactors);
     })
+
+    console.log(config);
     
     for (const [id, display] of Object.entries(config.global)) {
         if (!display) document.querySelector(`#${id}-container`).classList.add('invisible');
@@ -434,7 +443,7 @@ window.addEventListener('load', () => {
         .then(name => currentServiceName = name)
         .then(() => document.title = `${currentServiceName} — Risk Calculator`)
         .then(() => getConfig(currentServiceId))
-        .then(cfg => Object.assign(config, cfg))
+        .then(parseConfig)
         .then(getAllRisks)
         .then(getAllRiskFactors)
         .then(setUpSynchronous)

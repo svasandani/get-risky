@@ -284,16 +284,16 @@ function getState() {
 function recalculate() {
     // stub
     return new Promise((resolve, reject) => {
-        let budget = document.querySelector("#budget-min");
+        let budget = document.querySelector("#budget");
         budget.textContent = state.budget;
 
-        let accepted = document.querySelector("#accepted-min");
+        let accepted = document.querySelector("#accepted");
         accepted.textContent = state.accepted;
 
-        let unallocated = document.querySelector("#unallocated-min");
+        let unallocated = document.querySelector("#unallocated");
         unallocated.textContent = state.unallocated;
 
-        let threshold = document.querySelector("#toobig-min");
+        let threshold = document.querySelector("#individualThreshold");
         threshold.textContent = state.threshold;
 
         resolve();

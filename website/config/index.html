@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+
+    <link href="../css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <main>
+        <h1>Configuring Service</h1>
+        <div id="config-table" class="table">
+            <div id="config-table-head" class="table-head config-table-row table-row">
+                <h3>Property</h3>
+                <h3 class="table-center-data">Enable</h3>
+            </div>
+            <div id="config-table-body">
+                <h2>Globals</h2>
+                <details class="table-hidden-row" data-cfg="global/budget-min">
+                    <summary class="services-table-row table-row">
+                        <span class="hover-reveal" data-reveal="&nbsp;&nbsp;>">Appraisals</span>
+                        <label class="custom-toggle">
+                            <input id="global/budget-min-enable" name="global/budget-min-enable" class="custom-toggle" type="checkbox"/>
+                            <span class="custom-toggle"></span>
+                        </label>
+                    </summary>
+                    <form class="service-details" data-service="appraisals">
+                        <div class="inputs">
+                            <label>
+                                Service ID
+                                <input id="appraisal-serviceId" name="serviceId" value="appraisal" placeholder=""/>
+                            </label>
+                            <label>
+                                Service Name
+                                <input id="appraisal-serviceName" name="serviceName" value="Appraisal" placeholder=""/>
+                            </label>
+                        </div>
+                        <div class="buttons">
+                            <button type="submit" class="edit-btn">Edit</button>
+                            <button type="button" class="delete-btn">Delete</button>
+                        </div>
+                    </form>
+                </details>
+            </div>
+        </div>
+    </main>
+</body>
+
+<script src="../js/apicalls.js"></script>
+<script src="../js/config.js"></script>
+
+</html>
