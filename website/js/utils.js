@@ -38,7 +38,7 @@ function addNotification(msg, thisId, onClick, timeout) {
     }, timeout)
 }
 
-function pushNotification(data, timeout=10000) {
+function pushNotification(data, timeout=5000) {
     let thisId = uuid();
 
     notifications.push({

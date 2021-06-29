@@ -410,7 +410,7 @@ const datastore = {
     ]
 }
 
-function deleteIfNotUndo(msg, callback, resolve, timeout=10000) {
+function deleteIfNotUndo(msg, callback, resolve, timeout=5000) {
     let notifId = pushNotification({ 
         msg,
         onClick: (id) => {
@@ -419,7 +419,13 @@ function deleteIfNotUndo(msg, callback, resolve, timeout=10000) {
         }
     }, timeout);
 
+    let handler;
+    window.addEventListener('beforeunload', handler = function(e) {
+        if (popNotification(notifId)) callback();
+    });
+
     setTimeout(() => {
+        window.removeEventListener('beforeunload', handler);
         if (popNotification(notifId)) {
             callback();
             resolve();
