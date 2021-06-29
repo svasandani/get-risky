@@ -4,7 +4,7 @@ const state = {
         return f((1 - this.uptime) * 1440 * 365.25)
     },
     get accepted() {
-        return this.risks.reduce((acc, curr) => acc + (curr.deleted ? 0 : (curr.accepted ? curr.affectedTime : 0)), 0)
+        return f(this.risks.reduce((acc, curr) => acc + (curr.deleted ? 0 : (curr.accepted ? curr.affectedTime : 0)), 0))
     },
     get unallocated() {
         return f(this.budget - this.accepted)
