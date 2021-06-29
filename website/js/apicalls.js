@@ -410,7 +410,7 @@ const datastore = {
     ]
 }
 
-function deleteIfNotUndo(msg, callback, timeout=3000, resolve) {
+function deleteIfNotUndo(msg, callback, resolve, timeout=10000) {
     let notifId = pushNotification({ 
         msg,
         onClick: (id) => {
@@ -469,10 +469,10 @@ function deleteService(serviceId) {
 
         if (foundServiceIndex === -1) reject('Could not find service');
         
-        deleteIfNotUndo(`Deleted service ${services[foundServiceIndex].serviceName}. <a>Click to undo.</a>`, () => {
+        deleteIfNotUndo(`Deleted service <em>${services[foundServiceIndex].serviceName}</em>. <a>Click to undo.</a>`, () => {
             services.splice(foundServiceIndex, 1);
             console.log(`Deleted service with id: ${serviceId}`);
-        }, 3000, resolve)
+        }, resolve)
     })
 }
 
@@ -584,10 +584,10 @@ function deleteRiskFactor(serviceId, riskFactorId) {
 
         if (foundRiskFactorIndex === -1) reject('Could not find risk');
         
-        deleteIfNotUndo(`Deleted risk factor ${riskFactors[foundRiskFactorIndex].riskFactorDesc}. <a>Click to undo.</a>`, () => {
+        deleteIfNotUndo(`Deleted risk factor <em>${riskFactors[foundRiskFactorIndex].riskFactorDesc}</em>. <a>Click to undo.</a>`, () => {
             riskFactors.splice(foundRiskFactorIndex, 1);
             console.log(`Deleted risk factor with id ${riskFactorId} from ${foundService.serviceName}`);
-        }, 3000, resolve)
+        }, resolve)
     })
 }
 
@@ -654,9 +654,9 @@ function deleteRisk(serviceId, riskId) {
 
         if (foundRiskIndex === -1) reject('Could not find risk');
         
-        deleteIfNotUndo(`Deleted risk ${risks[foundRiskIndex].riskDesc}. <a>Click to undo.</a>`, () => {
+        deleteIfNotUndo(`Deleted risk <em>${risks[foundRiskIndex].riskDesc}</em>. <a>Click to undo.</a>`, () => {
             risks.splice(foundRiskIndex, 1);
             console.log(`Deleted risk with id ${riskId} from ${foundService.serviceName}`);
-        }, 3000, resolve)
+        }, resolve)
     })
 }

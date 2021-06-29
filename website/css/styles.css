@@ -707,6 +707,12 @@ button:focus {
     width: 100%;
     padding: 16px;
     transition: 0.1s ease-in;
+    opacity: 1;
+}
+
+.notification.hidden {
+    opacity: 0;
+    transition: 0.1s ease-in;
 }
 
 .notification:hover {

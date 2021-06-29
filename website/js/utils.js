@@ -23,18 +23,22 @@ function uuid(len=16) {
 function addNotification(msg, thisId, onClick, timeout) {
     document.querySelector('#notifications').insertAdjacentHTML(`beforeEnd`,
     `
-    <div class="notification" id=${thisId}>${msg}</div>
+    <div class="notification hidden" id=${thisId}>${msg}</div>
     `)
+
+    setTimeout(() => document.querySelector(`#${thisId}`).classList.remove('hidden'), 100);
 
     document.querySelector(`#${thisId}`).addEventListener('click', () => { onClick(thisId) });
 
     setTimeout(() => {
-        if (document.querySelector(`#${thisId}`) !== null)
-            document.querySelector('#notifications').removeChild(document.querySelector(`#${thisId}`));
+        if (document.querySelector(`#${thisId}`) !== null) {
+            document.querySelector(`#${thisId}`).classList.add('hidden');
+            setTimeout(() => { if (document.querySelector(`#${thisId}`) !== null) document.querySelector('#notifications').removeChild(document.querySelector(`#${thisId}`)) }, 100);
+        }
     }, timeout)
 }
 
-function pushNotification(data, timeout=3000) {
+function pushNotification(data, timeout=10000) {
     let thisId = uuid();
 
     notifications.push({
@@ -60,8 +64,10 @@ function popNotification(id) {
     if (foundIndex >= 0) notifications.splice(foundIndex, 1);
     notification_mtx = false;
 
-    if (document.querySelector(`#${id}`) !== null)
-        document.querySelector('#notifications').removeChild(document.querySelector(`#${id}`));
+    if (document.querySelector(`#${id}`) !== null) {
+        document.querySelector(`#${id}`).classList.add('hidden');
+        setTimeout(() => { if (document.querySelector(`#${id}`) !== null) document.querySelector('#notifications').removeChild(document.querySelector(`#${id}`)) }, 100);
+    }
 
     return foundIndex >= 0;
 }

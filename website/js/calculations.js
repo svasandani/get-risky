@@ -4,7 +4,7 @@ const state = {
         return f((1 - this.uptime) * 1440 * 365.25)
     },
     get accepted() {
-        return this.risks.reduce((acc, curr) => acc + (curr.accepted ? curr.affectedTime : 0), 0)
+        return this.risks.reduce((acc, curr) => acc + (curr.deleted ? 0 : (curr.accepted ? curr.affectedTime : 0)), 0)
     },
     get unallocated() {
         return f(this.budget - this.accepted)
@@ -34,6 +34,8 @@ function addComputedRiskFactor(riskFactor) {
                 
                 return this.enabled
                     ? f(state.risks.reduce((acc, curr) => {
+                        if (curr.deleted) return acc;
+
                         let riskContribution = f((
                             curr.riskEttd + this.riskFactorEttd + 
                             curr.riskEttr + this.riskFactorEttr
@@ -48,7 +50,8 @@ function addComputedRiskFactor(riskFactor) {
             },
             reasons: [],
             "enabled": true,
-            "open": false
+            "open": false,
+            "deleted": false
         })
     } else {
         Object.assign(foundRiskFactor, riskFactor);
@@ -75,16 +78,16 @@ function addComputedRisk(risk) {
                 return f((this.riskEttd + this.riskEttr) * this.riskImpact * this._baseIncidents)
             },
             get netEttd() {
-                return state.riskFactors.reduce((acc, curr) => curr.enabled ? acc + curr.riskFactorEttd : acc, this.riskEttd)
+                return state.riskFactors.reduce((acc, curr) => (!curr.deleted && curr.enabled) ? acc + curr.riskFactorEttd : acc, this.riskEttd)
             },
             get netEttr() {
-                return state.riskFactors.reduce((acc, curr) => curr.enabled ? acc + curr.riskFactorEttr : acc, this.riskEttr)
+                return state.riskFactors.reduce((acc, curr) => (!curr.deleted && curr.enabled) ? acc + curr.riskFactorEttr : acc, this.riskEttr)
             },
             get netImpact() {
-                return state.riskFactors.reduce((acc, curr) => curr.enabled ? acc + curr.riskFactorImpact : acc, this.riskImpact)
+                return state.riskFactors.reduce((acc, curr) => (!curr.deleted && curr.enabled) ? acc + curr.riskFactorImpact : acc, this.riskImpact)
             },
             get netEttf() {
-                return state.riskFactors.reduce((acc, curr) => curr.enabled ? acc + curr.riskFactorEttf : acc, this.riskEttf)
+                return state.riskFactors.reduce((acc, curr) => (!curr.deleted && curr.enabled) ? acc + curr.riskFactorEttf : acc, this.riskEttf)
             },
             get affectedTime() {
                 return f((this.netEttd + this.netEttr) * this.netImpact * this.incidents)
@@ -133,7 +136,8 @@ function addComputedRisk(risk) {
                 return reasons
             },
             "accepted": false,
-            "open": false
+            "open": false,
+            "deleted": false
         })
     } else {
         Object.assign(foundRisk, risk);

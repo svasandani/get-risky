@@ -128,7 +128,9 @@ function appendRisk(toPopulate, risk) {
 
         document.querySelector(`details[data-risk="${risk.riskId}"]`).parentElement.removeChild(document.querySelector(`details[data-risk="${risk.riskId}"]`));
 
-        deleteRisk(currentServiceId, risk.riskId)
+        updateComputedRisk(risk.riskId, { deleted: true })
+            .then(updateAllRisks)
+            .then(() => deleteRisk(currentServiceId, risk.riskId))
             .then(() => deleteComputedRisk(risk.riskId))
             .then(getAllRisks);
     })
@@ -242,7 +244,10 @@ function appendRiskFactor(toPopulate, riskFactor) {
 
         document.querySelector(`details[data-risk-factor="${riskFactor.riskFactorId}"]`).parentElement.removeChild(document.querySelector(`details[data-risk-factor="${riskFactor.riskFactorId}"]`));
 
-        deleteRiskFactor(currentServiceId, riskFactor.riskFactorId)
+        updateComputedRiskFactor(riskFactor.riskFactorId, { deleted: true })
+            .then(updateAllRiskFactors)
+            .then(updateAllRisks)
+            .then(() => deleteRiskFactor(currentServiceId, riskFactor.riskFactorId))
             .then(() => deleteComputedRiskFactor(riskFactor.riskFactorId))
             .then(getAllRiskFactors);
     })
@@ -280,7 +285,7 @@ function getAllRisks() {
                 computedData.sort((a,b) => b.affectedTime - a.affectedTime);
 
                 computedData.forEach(risk => {
-                    appendRisk(toPopulate, risk);
+                    if(!risk.deleted) appendRisk(toPopulate, risk);
                 })
             })
             .then(resolve)
@@ -303,7 +308,7 @@ function getAllRiskFactors() {
                 let computedData = getAllComputedRiskFactors();
 
                 computedData.forEach(riskFactor => {
-                    appendRiskFactor(toPopulate, riskFactor);
+                    if(!riskFactor.deleted) appendRiskFactor(toPopulate, riskFactor);
                 })
             })
             .then(recalculate)
@@ -324,7 +329,8 @@ function updateAllRisks() {
         computedData.sort((a,b) => b.affectedTime - a.affectedTime);
 
         computedData.every(risk => {
-            return appendRisk(toPopulate, getComputedRisk(risk.riskId));
+            if(!risk.deleted) return appendRisk(toPopulate, getComputedRisk(risk.riskId));
+            else return true;
         })
 
         recalculate();
@@ -342,7 +348,8 @@ function updateAllRiskFactors() {
         let computedData = getAllComputedRiskFactors();
 
         computedData.every(riskFactor => {
-            return appendRiskFactor(toPopulate, riskFactor);
+            if (!riskFactor.deleted) return appendRiskFactor(toPopulate, riskFactor);
+            else return true;
         })
 
         recalculate();
