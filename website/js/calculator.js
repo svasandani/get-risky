@@ -28,16 +28,16 @@ function appendRisk(toPopulate, risk) {
             <label${config.risk.shareBudget ? '' : ' class="invisible"'}>
                 <span>
                     Share of total budget (%)
-                    <span class="tooltip" data-tip="Without risk factors: ${risk._baseShareOfTotalBudget}%">ⓘ</span>
+                    <span class="tooltip" data-tip="Without risk factors: ${risk._baseShareOfTotalBudget}${risk._baseShareOfTotalBudget === 'N/A' ? '' : '%'}">ⓘ</span>
                 </span>
-                <span id="${risk.riskId}-share-min" class="calculated">${risk.shareOfTotalBudget}%</span>
+                <span id="${risk.riskId}-share-min" class="calculated">${risk.shareOfTotalBudget}${risk.shareOfTotalBudget === 'N/A' ? '' : '%'}</span>
             </label>
             <label${config.risk.shareTolerated ? '' : ' class="invisible"'}>
                 <span>
-                    Share of tolerated minutes (%)
-                    <span class="tooltip" data-tip="Without risk factors: ${risk._baseShareOfTolerated}%">ⓘ</span>
+                    Share of tolerated (%)
+                    <span class="tooltip" data-tip="Without risk factors: ${risk._baseShareOfTolerated}${risk._baseShareOfTolerated === 'N/A' ? '' : '%'}">ⓘ</span>
                 </span>
-                <span id="${risk.riskId}-sharet-min" class="calculated">${risk.shareOfTolerated}%</span>
+                <span id="${risk.riskId}-sharet-min" class="calculated">${risk.shareOfTolerated}${risk.shareOfTolerated === 'N/A' ? '' : '%'}</span>
             </label>
             <label>
                 ${
