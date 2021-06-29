@@ -15,38 +15,19 @@
 <body>
     <main>
         <h1>Configuring Service</h1>
-        <div id="config-table" class="table">
-            <div id="config-table-head" class="table-head config-table-row table-row">
-                <h3>Property</h3>
-                <h3 class="table-center-data">Enable</h3>
-            </div>
-            <div id="config-table-body">
-                <h2>Globals</h2>
-                <details class="table-hidden-row" data-cfg="global/budget-min">
-                    <summary class="services-table-row table-row">
-                        <span class="hover-reveal" data-reveal="&nbsp;&nbsp;>">Appraisals</span>
-                        <label class="custom-toggle">
-                            <input id="global/budget-min-enable" name="global/budget-min-enable" class="custom-toggle" type="checkbox"/>
-                            <span class="custom-toggle"></span>
-                        </label>
-                    </summary>
-                    <form class="service-details" data-service="appraisals">
-                        <div class="inputs">
-                            <label>
-                                Service ID
-                                <input id="appraisal-serviceId" name="serviceId" value="appraisal" placeholder=""/>
-                            </label>
-                            <label>
-                                Service Name
-                                <input id="appraisal-serviceName" name="serviceName" value="Appraisal" placeholder=""/>
-                            </label>
-                        </div>
-                        <div class="buttons">
-                            <button type="submit" class="edit-btn">Edit</button>
-                            <button type="button" class="delete-btn">Delete</button>
-                        </div>
-                    </form>
-                </details>
+        <div id="config-list">
+            <div class="table">
+                <div class="table-head config-table-row table-row">
+                    <h3>Property</h3>
+                    <h3 class="table-center-data">Enable</h3>
+                </div>
+                <div>
+                    <details class="table-hidden-row">
+                        <summary class="table-row">
+                            <span>We're loading config options now...</span>
+                        </summary>
+                    </details>
+                </div>
             </div>
         </div>
     </main>

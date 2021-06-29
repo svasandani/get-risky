@@ -1,51 +1,72 @@
+let currentServiceId = '';
+let currentServiceName = '';
 const config = {};
 
-function updateConfig() {
+function appendConfigGroup(toPopulate, configGroup) {
+    toPopulate.insertAdjacentHTML('beforeEnd',
+    `
+    <h2>${configGroup}</h2>
+    <div id="${configGroup}-table" class="table">
+        <div id="${configGroup}-table-head" class="table-head ${configGroup}-table-row table-row">
+            <h3>Property</h3>
+            <h3 class="table-center-data">Enable</h3>
+        </div>
+        <div id="${configGroup}-table-body">
+        </div>
+    </div>
+    `
+    )
+
+    config[configGroup].forEach(cfg => {
+        appendConfig(document.querySelector(`#${configGroup}-table-body`), cfg);
+    })
+}
+
+function appendConfig(toPopulate, config) {
+    toPopulate.insertAdjacentHTML('beforeEnd',
+    `
+    <details class="table-hidden-row">
+        <summary class="config-table-row table-row">
+            <span>${config.configId}</span>
+            <label class="custom-toggle">
+                <input id="${config.configId}-enable" name="${config.configId}-enable" class="custom-toggle" type="checkbox" ${config.configValue ? 'checked' : ''}/>
+                <span class="custom-toggle"></span>
+            </label>
+        </summary>
+        <div class="expanded-details border-bottom">
+            ${config.configDesc}
+        </div>
+    </details>
+    `
+    )
+    
+    toPopulate.querySelector(`#${config.configId}-enable`).addEventListener('click', () => {
+        if (toPopulate.querySelector(`#${config.configId}-enable`).checked) {
+            updateConfig(currentServiceId, config.configId, true)
+                .then(updateAllConfig)
+        } else {
+            updateConfig(currentServiceId, config.configId, false)
+                .then(updateAllConfig)
+        }
+    })
+}
+
+function updateAllConfig() {
     return new Promise((resolve, reject) => {
-        getServices()
-            .then(data => {
-                let toPopulate = document.querySelector('#services-table-body');
+        let toPopulate = document.querySelector('#config-list');
 
-                while (toPopulate.firstChild) toPopulate.removeChild(toPopulate.lastChild);
-
-                data.forEach(service => {
-                    appendService(toPopulate, service);
-                })
-            })
-            .then(resolve)
+        while (toPopulate.firstChild) toPopulate.removeChild(toPopulate.lastChild);
+        
+        for (let configGroup of Object.keys(config)) {
+            appendConfigGroup(toPopulate, configGroup);
+        }
     });
 }
 
-function setUpModals() {
-    document.querySelectorAll('.close-modal').forEach(close => {
-        close.addEventListener('click', () => {
-            document.querySelector(`#${close.dataset.target}`).classList.add('hidden');
-        })
-    })
-
-    document.querySelectorAll('.modal-launcher').forEach(close => {
-        close.addEventListener('click', () => {
-            document.querySelector(`#${close.dataset.target}`).classList.remove('hidden');
-        })
-    })
-
-    document.querySelector('#new-modal-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        let newFd = new FormData(document.querySelector('#new-modal-form'));
-        let data = {};
-        newFd.forEach((value, key) => data[key] = isNaN(value) ? value : parseFloat(value));
-        
-        createService(data)
-            .then(getAllServices)
-            .then(() => document.querySelector('#new-modal-form').reset())
-            .then(() => { document.querySelector('#new-modal').classList.add('hidden'); })
-    })
-
-    document.querySelector('#new-modal').addEventListener('click', (e) => {
-        if (!Boolean(e.target.closest('form'))) {
-            document.querySelector('#new-modal').classList.add('hidden');
-        }
+function parseConfig(cfg) {
+    cfg.forEach(c => {
+        if (!(c.configCategory in config)) config[c.configCategory] = [];
+        config[c.configCategory].push(c)
     })
 }
 
@@ -57,7 +78,7 @@ window.addEventListener('load', () => {
         .then(() => document.title = `${currentServiceName} — View Configuration`)
         .then(() => document.querySelector('h1').textContent = `Configuring ${currentServiceName}`)
         .then(() => getConfig(currentServiceId))
-        .then(cfg => Object.assign(config, cfg))
-        .then(updateConfig)
+        .then(parseConfig)
+        .then(updateAllConfig)
         .catch(err => console.log(err));
 })

@@ -19,7 +19,7 @@ const datastore = {
                     "configId": "budget",
                     "configDesc": "Shows the total number of minutes that a service can be down each year to meet the specified availability.",
                     "configCategory": "global",
-                    "configValue": false
+                    "configValue": true
                 },
                 {
                     "configId": "accepted",
@@ -129,7 +129,7 @@ const datastore = {
                     "configId": "budget",
                     "configDesc": "Shows the total number of minutes that a service can be down each year to meet the specified availability.",
                     "configCategory": "global",
-                    "configValue": false
+                    "configValue": true
                 },
                 {
                     "configId": "accepted",
@@ -171,7 +171,7 @@ const datastore = {
                     "configId": "shareTolerated",
                     "configDesc": "Shows the percentage of the total number of tolerated minutes that this risk represents.",
                     "configCategory": "risk",
-                    "configValue": true
+                    "configValue": false
                 },
                 {
                     "configId": "contribution",
@@ -480,6 +480,27 @@ function getConfig(serviceId) {
 
         if (typeof foundService === 'undefined') reject('Could not find service');
         else resolve(foundService.config);
+    })
+}
+
+function updateConfig(serviceId, configId, configValue) {
+    // stub
+    return new Promise((resolve, reject) => {
+        const services = datastore.services;
+
+        let foundService = services.find(s => s.serviceId === serviceId);
+
+        if (typeof foundService === 'undefined') reject('Could not find service');
+        
+        const config = foundService.config;
+        
+        let foundConfig = config.find(c => c.configId === configId);
+
+        if (typeof foundConfig === 'undefined') reject('Could not find config option');
+        else {
+            foundConfig.configValue = configValue;
+            resolve();
+        }
     })
 }
 
