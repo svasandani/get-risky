@@ -126,11 +126,11 @@ function appendRisk(toPopulate, risk) {
     toPopulate.querySelector(`details[data-risk="${risk.riskId}"] .delete-btn`).addEventListener('click', (e) => {
         e.preventDefault();
 
-        if (confirm(`Are you sure you want to delete ${risk.riskDesc}?`)) {
-            deleteRisk(currentServiceId, risk.riskId)
-                .then(() => deleteComputedRisk(risk.riskId))
-                .then(getAllRisks);
-        }
+        document.querySelector(`details[data-risk="${risk.riskId}"]`).parentElement.removeChild(document.querySelector(`details[data-risk="${risk.riskId}"]`));
+
+        deleteRisk(currentServiceId, risk.riskId)
+            .then(() => deleteComputedRisk(risk.riskId))
+            .then(getAllRisks);
     })
 
     let editThisRisk = toPopulate.querySelector(`form.risk-edit[data-risk="${risk.riskId}"]`);
@@ -141,11 +141,9 @@ function appendRisk(toPopulate, risk) {
         let data = {};
         editFd.forEach((value, key) => data[key] = isNaN(value) ? value : parseFloat(value));
         
-        // if (confirm(`Are you sure you want to update ${risk.riskDesc}?`)) {
-            updateRisk(currentServiceId, risk.riskId, data)
-                .then(() => updateComputedRisk(risk.riskId, data))
-                .then(getAllRisks);
-        // }
+        updateRisk(currentServiceId, risk.riskId, data)
+            .then(() => updateComputedRisk(risk.riskId, data))
+            .then(getAllRisks);
     })
 
     return true;
@@ -242,11 +240,11 @@ function appendRiskFactor(toPopulate, riskFactor) {
     toPopulate.querySelector(`details[data-risk-factor="${riskFactor.riskFactorId}"] .delete-btn`).addEventListener('click', (e) => {
         e.preventDefault();
 
-        if (confirm(`Are you sure you want to delete ${riskFactor.riskFactorDesc}?`)) {
-            deleteRiskFactor(currentServiceId, riskFactor.riskFactorId)
-                .then(() => deleteComputedRiskFactor(riskFactor.riskFactorId))
-                .then(getAllRiskFactors);
-        }
+        document.querySelector(`details[data-risk-factor="${riskFactor.riskFactorId}"]`).parentElement.removeChild(document.querySelector(`details[data-risk-factor="${riskFactor.riskFactorId}"]`));
+
+        deleteRiskFactor(currentServiceId, riskFactor.riskFactorId)
+            .then(() => deleteComputedRiskFactor(riskFactor.riskFactorId))
+            .then(getAllRiskFactors);
     })
 
     let editThisRiskFactor = toPopulate.querySelector(`form.risk-factor-edit[data-risk-factor="${riskFactor.riskFactorId}"]`);
@@ -257,11 +255,9 @@ function appendRiskFactor(toPopulate, riskFactor) {
         let data = {};
         editFd.forEach((value, key) => data[key] = isNaN(value) ? value : parseFloat(value));
         
-        // if (confirm(`Are you sure you want to update ${risk.riskDesc}?`)) {
-            updateRiskFactor(currentServiceId, riskFactor.riskFactorId, data)
-                .then(() => updateComputedRiskFactor(riskFactor.riskFactorId, data))
-                .then(getAllRiskFactors);
-        // }
+        updateRiskFactor(currentServiceId, riskFactor.riskFactorId, data)
+            .then(() => updateComputedRiskFactor(riskFactor.riskFactorId, data))
+            .then(getAllRiskFactors);
     })
 
     return true;
@@ -378,8 +374,6 @@ function setUpCalculator() {
             .then(updateAllRisks)
             .then(updateAllRiskFactors);
     })
-
-    console.log(config);
     
     for (const [id, display] of Object.entries(config.global)) {
         if (!display) document.querySelector(`#${id}-container`).classList.add('invisible');

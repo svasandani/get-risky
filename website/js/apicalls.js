@@ -410,6 +410,23 @@ const datastore = {
     ]
 }
 
+function deleteIfNotUndo(msg, callback, timeout=3000, resolve) {
+    let notifId = pushNotification({ 
+        msg,
+        onClick: (id) => {
+            popNotification(id);
+            resolve();
+        }
+    }, timeout);
+
+    setTimeout(() => {
+        if (popNotification(notifId)) {
+            callback();
+            resolve();
+        }
+    }, timeout)
+}
+
 function getServices() {
     // stub
     return new Promise((resolve, reject) => {
@@ -452,10 +469,10 @@ function deleteService(serviceId) {
 
         if (foundServiceIndex === -1) reject('Could not find service');
         
-        services.splice(foundServiceIndex, 1);
-        console.log(`Deleted service with id: ${serviceId}`);
-
-        resolve();
+        deleteIfNotUndo(`Deleted service ${services[foundServiceIndex].serviceName}. <a>Click to undo.</a>`, () => {
+            services.splice(foundServiceIndex, 1);
+            console.log(`Deleted service with id: ${serviceId}`);
+        }, 3000, resolve)
     })
 }
 
@@ -567,10 +584,10 @@ function deleteRiskFactor(serviceId, riskFactorId) {
 
         if (foundRiskFactorIndex === -1) reject('Could not find risk');
         
-        riskFactors.splice(foundRiskFactorIndex, 1);
-        console.log(`Deleted risk factor with id ${riskFactorId} from ${foundService.serviceName}`);
-
-        resolve();
+        deleteIfNotUndo(`Deleted risk factor ${riskFactors[foundRiskFactorIndex].riskFactorDesc}. <a>Click to undo.</a>`, () => {
+            riskFactors.splice(foundRiskFactorIndex, 1);
+            console.log(`Deleted risk factor with id ${riskFactorId} from ${foundService.serviceName}`);
+        }, 3000, resolve)
     })
 }
 
@@ -637,9 +654,9 @@ function deleteRisk(serviceId, riskId) {
 
         if (foundRiskIndex === -1) reject('Could not find risk');
         
-        risks.splice(foundRiskIndex, 1);
-        console.log(`Deleted risk with id ${riskId} from ${foundService.serviceName}`);
-
-        resolve();
+        deleteIfNotUndo(`Deleted risk ${risks[foundRiskIndex].riskDesc}. <a>Click to undo.</a>`, () => {
+            risks.splice(foundRiskIndex, 1);
+            console.log(`Deleted risk with id ${riskId} from ${foundService.serviceName}`);
+        }, 3000, resolve)
     })
 }

@@ -30,10 +30,10 @@ function appendService(toPopulate, service) {
     toPopulate.querySelector(`details[data-service="${service.serviceId}"] .delete-btn`).addEventListener('click', (e) => {
         e.preventDefault();
 
-        if (confirm(`Are you sure you want to delete ${service.serviceName}?`)) {
-            deleteService(service.serviceId)
-                .then(getAllServices);
-        }
+        document.querySelector(`details[data-service="${service.serviceId}"]`).parentElement.removeChild(document.querySelector(`details[data-service="${service.serviceId}"]`));
+
+        deleteService(service.serviceId)
+            .then(getAllServices);
     })
 
     let editThisService = toPopulate.querySelector(`form.service-details[data-service="${service.serviceId}"]`);
@@ -43,11 +43,9 @@ function appendService(toPopulate, service) {
         let editFd = new FormData(editThisService);
         let data = {};
         editFd.forEach((value, key) => data[key] = isNaN(value) ? value : parseFloat(value));
-        
-        if (confirm(`Are you sure you want to update ${service.serviceName}?`)) {
-            updateService(service.serviceId, data)
-                .then(getAllServices);
-        }
+    
+        updateService(service.serviceId, data)
+            .then(getAllServices);
     })
 
     toPopulate.querySelector(`details[data-service="${service.serviceId}"] summary`).addEventListener('click', (e) => {
