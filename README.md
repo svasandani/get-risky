@@ -28,7 +28,7 @@ First, install [MySQL](https://www.mysql.com/). Create a database for the app as
 
 Then, download and install [Go](https://golang.org/). Once everything is set up in the usual way, run the following command:
 
-    $ go run src/get-risky/main.go
+    $ go run src/main.go
 
 There are a few optional command-line arguments:
 - `dbuser` := MySQL user (default: `get-risky`)
@@ -39,7 +39,7 @@ There are a few optional command-line arguments:
 ### Deployment
 You can build the app using the following command:
 
-    $ go build src/get-risky/main.go
+    $ go build src/main.go
 
 Then, copy the executable to the deploy server.
 

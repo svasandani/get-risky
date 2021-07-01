@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"get-risky/internal/api"
-	"get-risky/internal/db"
+	"get-risky/src/api"
+	"get-risky/src/db"
 )
 
 func main() {
