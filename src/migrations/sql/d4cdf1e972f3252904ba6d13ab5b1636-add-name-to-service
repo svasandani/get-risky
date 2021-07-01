@@ -1,0 +1,9 @@
+meta:
+	name: Add name to service
+	previous: 025240883556d5fd249c2b8346ab1906
+
+forwards:
+alter table services add name varchar(255) not null;
+
+backwards:
+alter table services drop column name;

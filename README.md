@@ -26,7 +26,11 @@ We use Github's issue tracker. Any issues should be reported there, tagged with 
 ### Running it locally
 First, install [MySQL](https://www.mysql.com/). Create a database for the app as well as a user for the database. You can infer the database types from the Go models (or I could add it here, but that's TODO).
 
-Then, download and install [Go](https://golang.org/). Once everything is set up in the usual way, run the following command:
+Then, download and install [Go](https://golang.org/). Once everything is set up in the usual way, migrate your database:
+
+    $ go run src/migrations/migrate.go
+
+Finally, run the following command:
 
     $ go run src/main.go
 

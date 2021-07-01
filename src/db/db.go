@@ -2,8 +2,10 @@ package db
 
 import (
 	// "errors"
+	"context"
 	"fmt"
 	"regexp"
+	"time"
 
 	// "time"
 
@@ -43,4 +45,17 @@ func ConnectDB(dbConn Connection) *sql.DB {
 	return dbLocal
 
 	// @QOL create table if not exists, maybe?
+}
+
+func ExecSQL(query string) error {
+	if query == "" {
+		return nil
+	}
+
+	ctx, cancelfunc := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancelfunc()
+
+	_, err := db.ExecContext(ctx, query)
+
+	return err
 }
