@@ -2,6 +2,33 @@
 
 A risk assessment tool to help determine which risks to tolerate and which to mitigate. Currently in development.
 
+## Table of contents
+
+- [Get Risky](#get-risky)
+  * [Frontend](#frontend)
+    + [Running it locally](#running-it-locally)
+    + [Deployment](#deployment)
+    + [Testing](#testing)
+    + [Contributing](#contributing)
+    + [Issues](#issues)
+  * [Backend](#backend)
+    + [Running it locally](#running-it-locally-1)
+    + [Deployment](#deployment-1)
+    + [Testing](#testing-1)
+    + [Contributing](#contributing-1)
+    + [Issues](#issues-1)
+    + [Endpoints](#endpoints)
+      - [Services](#services)
+      - [Risks](#risks)
+      - [Risk Factors](#risk-factors)
+      - [Configs](#configs)
+  * [Migration](#migration)
+    + [Creating a new migration](#creating-a-new-migration)
+    + [Running migrations](#running-migrations)
+      - [Migrating forwards](#migrating-forwards)
+      - [Migrating backwards](#migrating-backwards)
+    + [Future features](#future-features)
+
 ## Frontend
 
 ### Running it locally
@@ -106,7 +133,7 @@ Endpoints aren't currently set up yet. We're thinking about the following (with 
     - **DELETE** the risk factor with `id=id` in service with `id=serviceId`
     - returns `RiskFactor.ID`
 
-#### configs
+#### Configs
 - `/configs?service=:serviceId`  
     - **GET** all configs in service with `id=serviceId`
     - returns `[]Config`
