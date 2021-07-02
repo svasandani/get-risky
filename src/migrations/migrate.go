@@ -29,19 +29,20 @@ var path *string
 var from *string
 
 func main() {
-	dbuser := flag.String("dbUser", "get_risky", "Username for MySQL")
-	dbpass := flag.String("dbPass", "get_risky", "Password for MySQL")
-	dbname := flag.String("dbName", "get_risky", "Name of MySQL database")
-
 	new := flag.Bool("new", false, "Create a new migration?")
 	name := flag.String("name", "", "New migration name")
 	target := flag.String("target", "", "Migration target")
 	from = flag.String("from", "", "Migration start")
 	path = flag.String("path", filepath.Join("src", "migrations", "sql"), "Path to migration folder")
 
+	env := *flag.String("env", "dev", "Environment to run migrations")
+	path := *flag.String("dbPath", filepath.Join("config", "database"), "Path to database config")
+
+	u, p, n := util.GetDBConfig(env, path)
+
 	flag.Parse()
 
-	database := db.ConnectDB(db.Connection{User: *dbuser, Password: *dbpass, Database: *dbname})
+	database := db.ConnectDB(db.Connection{User: u, Password: p, Database: n})
 	defer database.Close()
 
 	if *new {

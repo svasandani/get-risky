@@ -12,3 +12,5 @@
 *.out
 
 HEAD
+config/*
+!config/*.example

@@ -5,21 +5,23 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"path/filepath"
 	"regexp"
 
 	"get-risky/src/db"
+	"get-risky/src/util"
 )
 
 func main() {
-	dbuser := flag.String("dbUser", "get_risky", "Username for MySQL")
-	dbpass := flag.String("dbPass", "get_risky", "Password for MySQL")
-	dbname := flag.String("dbName", "get_risky", "Name of MySQL database")
+	env := *flag.String("env", "dev", "Environment to run get-risky")
+	path := *flag.String("dbPath", filepath.Join("config", "database"), "Path to database config")
+	port := *flag.String("port", "3000", "Port to serve get-risky")
 
-	port := flag.String("port", "3000", "Port to serve get-risky")
+	u, p, n := util.GetDBConfig(env, path)
 
 	flag.Parse()
 
-	database := db.ConnectDB(db.Connection{User: *dbuser, Password: *dbpass, Database: *dbname})
+	database := db.ConnectDB(db.Connection{User: u, Password: p, Database: n})
 	defer database.Close()
 
 	// This kinda works but also doesn't. Feel free to adapt as necessary!
@@ -94,5 +96,5 @@ func main() {
 	fs := http.FileServer(http.Dir("./website"))
 	http.Handle("/", fs)
 
-	log.Fatal(http.ListenAndServe("localhost:"+*port, nil))
+	log.Fatal(http.ListenAndServe("localhost:"+port, nil))
 }
