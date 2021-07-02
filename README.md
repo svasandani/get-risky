@@ -80,17 +80,25 @@ The front-end has a lot of good functionality already, and these features are ge
 ## Backend
 
 ### Running it locally
-First, install [MySQL](https://www.mysql.com/). Create a database for the app as well as a user for the database. You can infer the database types from the Go models (or I could add it here, but that's TODO).
+First, install [MySQL](https://www.mysql.com/). Create a database for the app as well as a user for the database; by default, the app expects a database called `get_risky` accessibly by a user named `get_risky` with a password of `get_risky`. Original, I know.
 
-Then, download and install [Go](https://golang.org/). Once everything is set up in the usual way, migrate your database:
+Then, download and install [Go](https://golang.org/) (anything with Go module support should be fine; i.e. `>1.11`). Once everything is set up in the usual way, migrate your database:
 
     $ go run src/migrations/migrate.go
+
+There are a few optional command-line arguments:
+
+| Flag | Required | Default | Description |
+|-----|-----|-----|-----|
+| `dbuser` | No | `get_risky` | MySQL user |
+| `dbpass` | No | `get_risky` | Password for MySQL user |
+| `dbname` | No | `get_risky` | Name of MySQL database |
 
 Finally, run the following command:
 
     $ go run src/main.go
 
-There are a few optional command-line arguments:
+Again, a few optional command-line arguments:
 
 | Flag | Required | Default | Description |
 |-----|-----|-----|-----|
