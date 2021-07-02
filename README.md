@@ -28,6 +28,9 @@ A risk assessment tool to help determine which risks to tolerate and which to mi
       - [Migrating forwards](#migrating-forwards)
       - [Migrating backwards](#migrating-backwards)
     + [Future features](#future-features)
+    + [Testing](#testing-2)
+    + [Contributing](#contributing-2)
+    + [Issues](#issues-2)
 
 ## Frontend
 
@@ -199,7 +202,7 @@ When migrating forwards to a named migration (i.e. not `HEAD`) from the current 
 
     current migration (not executed) -> next migration (executed) -> ... (executed) -> next migration (executed) -> target migration (not executed)
 
-This is done so that the `HEAD` file represents the most recently completed migration. Note that `TAIL` is technically before the first migration, so when migrating from an empty database, the first migration **will** be executed. To execute all migrations (including the last), set `target` to `HEAD` or omit it entirely, e.g.
+This is done so that the `HEAD` file represents the most recently completed migration. Note that `TAIL` is technically before the first migration, so when migrating from an empty database, the first migration **will** be executed. To execute all migrations (including the last) starting from the current state, set `target` to `HEAD` or omit it entirely, e.g.
 
     $ go run src/migrations/migrate.go
 
@@ -218,3 +221,14 @@ Again, done this way, the `HEAD` file represents the most recently completed mig
 While this migration handler is designed to be bare bones, there are some future features that I'd like to add:
 - Cherry picking migrations (obvious enough)
 - Supporting branching
+
+### Testing
+Tests aren't written yet, but I plan to write them alongside the backend tests. When they're finished, run them with this command:
+
+    $ go test ./...
+
+### Contributing
+Find an issue and submit a PR! Or make an issue and then submit a PR. Either works.
+
+### Issues
+Report issues in Github's issue tracker with the tag #migration.
