@@ -25,7 +25,8 @@ type Node struct {
 	backwards []string
 }
 
-var path string
+var path *string
+var from *string
 
 func main() {
 	dbuser := flag.String("dbUser", "get_risky", "Username for MySQL")
@@ -34,8 +35,9 @@ func main() {
 
 	new := flag.Bool("new", false, "Create a new migration?")
 	name := flag.String("name", "", "New migration name")
-	target := flag.String("target", "", "Migration target") // add support later, do HEAD for now :)
-	path = *flag.String("path", filepath.Join("src", "migrations", "sql"), "Path to migration folder")
+	target := flag.String("target", "", "Migration target")
+	from = flag.String("from", "", "Migration start")
+	path = flag.String("path", filepath.Join("src", "migrations", "sql"), "Path to migration folder")
 
 	flag.Parse()
 
@@ -59,7 +61,7 @@ func createNewMigration(name string) {
 
 	id := generateUUID()
 
-	filename := filepath.Join(path, fmt.Sprintf("%s-%s", id, slugify(name)))
+	filename := filepath.Join(*path, fmt.Sprintf("%s-%s", id, slugify(name)))
 
 	tmplt := []byte(fmt.Sprintf("meta:\n\tname: %s\n\tprevious: %s\n\nforwards:\n\n\nbackwards:\n", name, head))
 	err := ioutil.WriteFile(filename, tmplt, 0644)
@@ -80,7 +82,11 @@ func getNewHead() string {
 
 // getHead - gets the current HEAD
 func getHead() string {
-	filename := filepath.Join(path, "HEAD")
+	if *from != "" {
+		return *from
+	}
+
+	filename := filepath.Join(*path, "HEAD")
 
 	if _, err := os.Stat(filename); err == nil {
 		c, err := ioutil.ReadFile(filename)
@@ -104,7 +110,7 @@ func writeHead(head string) {
 		head = getNewHead()
 	}
 
-	filename := filepath.Join(path, "HEAD")
+	filename := filepath.Join(*path, "HEAD")
 
 	bhead := []byte(head)
 	err := ioutil.WriteFile(filename, bhead, 0644)
@@ -192,7 +198,7 @@ func parseFiles() map[string]*Node {
 
 	var t *Node
 
-	fs, err := ioutil.ReadDir(path)
+	fs, err := ioutil.ReadDir(*path)
 	check(err)
 
 	for _, f := range fs {
@@ -204,7 +210,7 @@ func parseFiles() map[string]*Node {
 
 		id := strings.Split(filename, "-")[0]
 
-		m[id] = parseNodeFromFile(filepath.Join(path, filename), id)
+		m[id] = parseNodeFromFile(filepath.Join(*path, filename), id)
 		if m[id].prevId == "" {
 			t = m[id]
 		}
