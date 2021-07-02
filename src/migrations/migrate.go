@@ -36,9 +36,9 @@ func main() {
 	path = flag.String("path", filepath.Join("src", "migrations", "sql"), "Path to migration folder")
 
 	env := *flag.String("env", "dev", "Environment to run migrations")
-	path := *flag.String("dbPath", filepath.Join("config", "database"), "Path to database config")
+	dbPath := *flag.String("dbPath", filepath.Join("config", "database"), "Path to database config")
 
-	u, p, n := util.GetDBConfig(env, path)
+	u, p, n := util.GetDBConfig(env, dbPath)
 
 	flag.Parse()
 
