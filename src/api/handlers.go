@@ -83,83 +83,110 @@ API HANDLERS
 
 // SERVICES
 
-// GetAllServicesHandler - get all services
-func GetAllServicesHandler(w http.ResponseWriter, r *http.Request) {
-	// TODO
-}
-
-// GetServiceHandler - get service by id - path: "/service?id=:id"
+// GetServiceHandler - get all services
+// GETS path: "/api/services"
+// returns 200 (Ok) with body: JSON
+// allows filtering by id or slug (but not both), e.g. "/api/services?id=:id" OR "/api/services?slug=:slug"
 func GetServiceHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
 
-// CreateServiceHandler - create service - body: JSON
+// CreateServiceHandler - create service
+// POSTS path: "/api/services/" with body: JSON
+// returns 201 (Created) with body: empty and header Location: /api/services/:id
 func CreateServiceHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
 
-// UpdateServiceHandler - update service by id - body: JSON
+// UpdateServiceHandler - update service by id
+// PUTS path: "/api/services/:id" with body: JSON
+// returns 200 (Ok) with body: empty
 func UpdateServiceHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
 
-// DeleteServiceHandler - delete service by id - path: "/service?id=:id"
+// DeleteServiceHandler - delete service by id
+// DELETES path: "/api/services/:id"
+// returns 204 (No Content) with body: empty
 func DeleteServiceHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
 
 // RISKS
 
-// GetAllRisksFromServiceHandler - get all risks in service - path: "/risks?service=:serviceId"
-func GetAllRisksFromServiceHandler(w http.ResponseWriter, r *http.Request) {
+// GetRiskHandler - get all risks in service
+// GETS path: "/api/services/:serviceId/risks"
+// returns 200 (Ok) with body: JSON
+// allows filtering by id or slug (but not both), e.g. "/api/services/:serviceId/risks?id=:id" OR "/api/services/:serviceId/risks?slug=:slug"
+func GetRiskHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
 
-// CreateRiskHandler - create risk in service - body: JSON
+// CreateRiskHandler - create risk in service
+// POSTS path: "/api/services/:serviceId/risks" with body: JSON
+// returns 201 (Created) with body: empty and header Location: /api/services/:serviceId/risks/:id
 func CreateRiskHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
 
-// UpdateRiskHandler - update risk in service - body: JSON
+// UpdateRiskHandler - update risk in service
+// PUTS path: "/api/services/:esrviceId/risks/:id" with body: JSON
+// returns 200 (Ok) with body: empty
 func UpdateRiskHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
 
-// DeleteRiskHandler - delete risk in service - path: "/risk?service=:serviceId&id=:id"
+// DeleteRiskHandler - delete risk in service
+// DELETES path: "/api/services/:serviceId/risks/:id"
+// returns 204 (No Content) with body: empty
 func DeleteRiskHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
 
 // RISK FACTORS
 
-// GetAllRiskFactorsFromServiceHandler - get all risks in service - path: "/riskFactors?service=:serviceId"
-func GetAllRiskFactorsFromServiceHandler(w http.ResponseWriter, r *http.Request) {
+// GetRiskFactorHandler - get all risk factors in service
+// GETS path: "/api/services/:serviceId/riskFactors"
+// returns 200 (Ok) with body: JSON
+// allows filtering by id or slug (but not both), e.g. "/api/services/:serviceId/riskFactors?id=:id" OR "/api/services/:serviceId/riskFactors?slug=:slug"
+func GetRiskFactorHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
 
-// CreateRiskFactorHandler - create risk in service - body: JSON
+// CreateRiskFactorHandler - create risk factor in service
+// POSTS path: "/api/services/:serviceId/riskFactors" with body: JSON
+// returns 201 (Created) with body: empty and header Location: /api/services/:serviceId/riskFactors/:id
 func CreateRiskFactorHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
 
-// UpdateRiskFactorHandler - update risk in service - body: JSON
+// UpdateRiskFactorHandler - update risk factor in service
+// PUTS path: "/api/services/:esrviceId/riskFactors/:id" with body: JSON
+// returns 200 (Ok) with body: empty
 func UpdateRiskFactorHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
 
-// DeleteRiskFactorHandler - delete risk in service - path: "/riskFactor?service=:serviceId&id=:id"
+// DeleteRiskFactorHandler - delete risk factor in service
+// DELETES path: "/api/services/:serviceId/riskFactors/:id"
+// returns 204 (No Content) with body: empty
 func DeleteRiskFactorHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
 
 // CONFIGS
 
-// GetAllConfigsFromServiceHandler - get all configs in service - path: "/configs?service=:serviceId"
-func GetAllConfigsFromServiceHandler(w http.ResponseWriter, r *http.Request) {
+// GetConfigHandler - get all configs in service
+// GETS path: "/api/services/:serviceId/configs"
+// returns 200 (Ok) with body: JSON
+// allows filtering by id or slug (but not both), e.g. "/api/services/:serviceId/configs?id=:id" OR "/api/services/:serviceId/configs?slug=:slug"
+func GetConfigHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }
 
-// UpdateConfigHandler - update config in service - body: JSON
+// UpdateConfigHandler - update config in service
+// PUTS path: "/api/services/:esrviceId/configs/:id" with body: JSON
+// returns 200 (Ok) with body: empty
 func UpdateConfigHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 }

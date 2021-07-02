@@ -118,55 +118,60 @@ Endpoints aren't currently set up yet. We're thinking about the following (with 
 #### Services
 - `/services` 
     - **GET** all services
-    - returns `[]Service`
-- `/service?id=:id` 
-    - **GET** the service with `id=id`
-    - returns `Service`
-- `/service` 
+    - returns `[]Service` as JSON
+    - allows filtering by `id` or `slug`:
+        - `/services?id=<id>` OR `/services?slug=<slug>`
+- `/services` 
     - **POST** (create) a service via JSON body
-    - returns `Service.ID`
-- `/service?id=:id` 
+    - returns `201 (Created)` with header `Location: /api/service/:id`
+- `/services/:id` 
     - **PUT** (update) the service with `id=id` via JSON body
-    - returns `Service`
-- `/service?id=:id` 
+    - returns `200 (Ok)`
+- `/services/:id` 
     - **DELETE** the service with `id=id`
-    - returns `Service.ID`
+    - returns `204 (No Content)`
 
 #### Risks
-- `/risks?service=:serviceId` 
+- `/services/:serviceId/risks` 
     - **GET** all risks in service with `id=serviceId`
-    - returns `[]Risk`
-- `/risk?service=:serviceId`  
+    - returns `[]Risk` as JSON
+    - allows filtering by `id` or `slug`:
+        - `/services/:serviceId/risks?id=<id>` OR `/services/:serviceId/risks?slug=<slug>`
+- `/services/:serviceId/risks` 
     - **POST** (create) a risk in service with `id=serviceId` via JSON body
-    - returns `Risk.ID`
-- `/risk?service=:serviceId&id=:id`  
+    - returns `201 (Created)` with header `Location: /api/service/:id`
+- `/services/:serviceId/risks/:id` 
     - **PUT** (update) the risk with `id=id` in service with `id=serviceId` via JSON body
-    - returns `Risk`
-- `/risk?service=:serviceId&id=:id` 
+    - returns `200 (Ok)`
+- `/services/:serviceId/risks/:id` 
     - **DELETE** the risk with `id=id` in service with `id=serviceId`
-    - returns `Risk.ID`
+    - returns `204 (No Content)`
 
 #### Risk Factors
-- `/riskFactors?service=:serviceId`  
+- `/services/:serviceId/riskFactors` 
     - **GET** all risk factors in service with `id=serviceId`
-    - returns `[]RiskFactor`
-- `/riskFactor?service=:serviceId&id=:id`  
+    - returns `[]RiskFactor` as JSON
+    - allows filtering by `id` or `slug`:
+        - `/services/:serviceId/riskFactors?id=<id>` OR `/services/:serviceId/riskFactors?slug=<slug>`
+- `/services/:serviceId/riskFactors` 
     - **POST** (create) a risk factor in service with `id=serviceId` via JSON body
-    - returns `RiskFactor.ID`
-- `/riskFactor?service=:serviceId&id=:id`  
+    - returns `201 (Created)` with header `Location: /api/service/:id`
+- `/services/:serviceId/riskFactors/:id` 
     - **PUT** (update) the risk factor with `id=id` in service with `id=serviceId` via JSON body
-    - returns `RiskFactor`
-- `/riskFactor?service=:serviceId&id=:id`  
+    - returns `200 (Ok)`
+- `/services/:serviceId/riskFactors/:id` 
     - **DELETE** the risk factor with `id=id` in service with `id=serviceId`
-    - returns `RiskFactor.ID`
+    - returns `204 (No Content)`
 
 #### Configs
-- `/configs?service=:serviceId`  
+- `/services/:serviceId/configs` 
     - **GET** all configs in service with `id=serviceId`
-    - returns `[]Config`
-- `/config?service=:serviceId&id=:id`  
+    - returns `[]Config` as JSON
+    - allows filtering by `id` or `slug`:
+        - `/services/:serviceId/configs?id=<id>` OR `/services/:serviceId/configs?slug=<slug>`
+- `/services/:serviceId/configs/:id` 
     - **PUT** (update) the config with `id=id` in service with `id=serviceId` via JSON body
-    - returns `Config`
+    - returns `200 (Ok)`
 
 ### Future features
 
