@@ -2,8 +2,10 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
+	"regexp"
 
 	"get-risky/src/db"
 )
@@ -21,6 +23,23 @@ func main() {
 	defer database.Close()
 
 	// This kinda works but also doesn't. Feel free to adapt as necessary!
+
+	http.HandleFunc("/api/", func(w http.ResponseWriter, r *http.Request) {
+		path := r.URL.Path
+
+		re := regexp.MustCompile(`/api/services/(?P<serviceId>\d+)/(?P<model>\w+)/(?P<id>\d*)`)
+
+		match := re.FindStringSubmatch(path)
+		w.Write([]byte(fmt.Sprintf("%#v\n", re.FindStringSubmatch(path))))
+		if len(match) == 0 {
+			// must be services
+			params := r.URL.Query()
+
+			w.Write([]byte(fmt.Sprintf("%#v\n", params)))
+		}
+		w.Write([]byte(fmt.Sprintf("%#v\n", re.FindStringSubmatch(path))))
+		w.Write([]byte(fmt.Sprintf("%#v\n", re.SubexpNames())))
+	})
 
 	// http.HandleFunc("/api/services", func(w http.ResponseWriter, r *http.Request) {
 	// 	switch r.Method {
