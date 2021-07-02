@@ -42,17 +42,25 @@ Table of Contents
 
 ### Running it locally
 The front-end is entirely static, no build step required. You have two options to run it:
-- Serve the `website/` folder using your favorite server (I like `serve`) 
-- Run the entire service via the backend (see `Backend` below)
+
+- #### Serve it yourself
+
+  Serve the `website/` folder using your favorite server (I like `serve`) 
+
+- #### Use backend
+
+  Run the entire service via the backend (see [Backend](#backend) below)
 
 ### Deployment
 To deploy the front-end by itself, just copy the directory somewhere. `scp` it, `ftp` it, `Ctrl+C, Ctrl+V` it.
+
+To deploy it with the backend, follow [these deployment instructions](#deployment-1).
 
 ### Testing
 We don't currently have any front-end testing. If you know of a good framework/way to test static sites without a build step, please reach out to me.
 
 ### Contributing
-It might be hard to add new features given the static nature of the site. It might be helpful to rewrite it in some sort of framework (React, Angular) to make it easier for contributors down the line. If you'd like to do that, submit a PR or an issue and we'll get you started.
+It might be hard to add new features given the static nature of the site. It might be helpful to rewrite it in some sort of framework (React, Angular) to make it easier for contributors down the line. If you'd like to do that, check out [our Contributing doc](CONTRIBUTING.md) get you started.
 
 ### Issues
 We use Github's issue tracker. Any issues should be reported there, tagged with #front-end.
@@ -99,7 +107,7 @@ You can build the app using the following command:
 Then, copy the executable to the deploy server.
 
 ### Contributing
-Find an issue and submit a PR! Or make an issue and then submit a PR. Either works.
+Find an issue and submit a PR! Or make an issue and then submit a PR. Either works, just check [our Contributing doc](CONTRIBUTING.md) for more guidelines.
 
 ### Issues
 Report issues in Github's issue tracker with the tag #backend.
@@ -259,7 +267,7 @@ Again, done this way, the `HEAD` file represents the most recently completed mig
     $ go run src/migrations/migrate.go --target=TAIL
 
 ### Contributing
-Find an issue and submit a PR! Or make an issue and then submit a PR. Either works.
+This handler is a low priority service, but if you want to contribute, make sure to read [our Contributing doc](CONTRIBUTING.md).
 
 ### Issues
 Report issues in Github's issue tracker with the tag #migration.
