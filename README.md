@@ -7,36 +7,36 @@ Table of Contents
 ========
 
 - [Get Risky](#get-risky)
-  * [Frontend](#front-end)
-    + [Running it locally](#running-it-locally)
-    + [Deployment](#deployment)
-    + [Testing](#testing)
-    + [Contributing](#contributing)
-    + [Issues](#issues)
-    + [Future features](#future-features)
-  * [Backend](#backend)
-    + [Running it locally](#running-it-locally-1)
-    + [Deployment](#deployment-1)
-    + [Contributing](#contributing-1)
-    + [Issues](#issues-1)
-    + [Endpoints](#endpoints)
+  - [Frontend](#front-end)
+    - [Running it locally](#running-it-locally)
+    - [Deployment](#deployment)
+    - [Testing](#testing)
+    - [Contributing](#contributing)
+    - [Issues](#issues)
+    - [Future features](#future-features)
+  - [Backend](#backend)
+    - [Running it locally](#running-it-locally-1)
+    - [Deployment](#deployment-1)
+    - [Contributing](#contributing-1)
+    - [Issues](#issues-1)
+    - [Endpoints](#endpoints)
       - [Services](#services)
       - [Risks](#risks)
       - [Risk Factors](#risk-factors)
       - [Configs](#configs)
-    + [Future features](#future-features-1)
-  * [Migration](#migration)
-    + [Creating a new migration](#creating-a-new-migration)
-    + [Running migrations](#running-migrations)
+    - [Future features](#future-features-1)
+  - [Migration](#migration)
+    - [Creating a new migration](#creating-a-new-migration)
+    - [Running migrations](#running-migrations)
       - [Migrating forwards](#migrating-forwards)
       - [Migrating backwards](#migrating-backwards)
-    + [Contributing](#contributing-2)
-    + [Issues](#issues-2)
-    + [Future features](#future-features-2)
-  * [Testing](#testing-1)
-    + [Testing packages](#testing-packages)
-    + [More involved tests](#more-involved-tests)
-    + [Running all tests](#running-all-tests)
+    - [Contributing](#contributing-2)
+    - [Issues](#issues-2)
+    - [Future features](#future-features-2)
+  - [Testing](#testing-1)
+    - [Testing packages](#testing-packages)
+    - [More involved tests](#more-involved-tests)
+    - [Running all tests](#running-all-tests)
 
 ## Frontend
 
@@ -61,13 +61,13 @@ We use Github's issue tracker. Any issues should be reported there, tagged with 
 
 The front-end has a lot of good functionality already, and these features are geared more towards scalability/maintainability.
 
-#### (Option 1) Switch to a framework
+- #### (Option 1) Switch to a framework
 
-Most developers know (and prefer to use) frameworks. For a small static site, it doesn't make sense to use one. If the scope of the app gets larger though, it might be a good idea to consider.
+  Most developers know (and prefer to use) frameworks. For a small static site, it doesn't make sense to use one. If the scope of the app gets larger though, it might be a good idea to consider.
 
-#### (Option 2) Refactor + pipeline?
+- #### (Option 2) Refactor + pipeline?
 
-I'd like to refactor the JavaScript to avoid too much technical debt down the line. It would also make sense to introduce some tooling like Babel to increase browser compatibility. If we don't switch to a framework, this would be the route to go. 
+  I'd like to refactor the JavaScript to avoid too much technical debt down the line. It would also make sense to introduce some tooling like Babel to increase browser compatibility. If we don't switch to a framework, this would be the route to go. 
 
 ## Backend
 
@@ -164,17 +164,17 @@ Endpoints aren't currently set up yet. We're thinking about the following (with 
 
 There are some plans for the future of get-risky. Here are a few possible features.
 
-#### Backend transformations
+- #### Backend transformations
 
-The backend currently only functions as a CRUD API. All the transformation is done on the front-end. Ideally, we'd like to serve some transformed data from the backend to be consumed by an external application. This shouldn't be too difficult, since much of the logic can be translated from JavaScript to Go.
+  The backend currently only functions as a CRUD API. All the transformation is done on the front-end. Ideally, we'd like to serve some transformed data from the backend to be consumed by an external application. This shouldn't be too difficult, since much of the logic can be translated from JavaScript to Go.
 
-#### Dockerization
+- #### Dockerization
 
-To make it easier to deploy, we'd like to create a Docker container for the entire app. This shouldn't be too difficult, since almost everything is self-contained.
+  To make it easier to deploy, we'd like to create a Docker container for the entire app. This shouldn't be too difficult, since almost everything is self-contained.
 
-#### More granular controls
+- #### More granular controls
 
-Currently, calculations are done very haphazardly. While this makes sense for actually assessing risks (you can never be too optimistic), it doesn't give an accurate picture of factors contributing to downtime. We'd like to add a way to finetune how/which risk factors affect which risks, and to what degree. It may also be worth rolling risk factors into risks and allowing risks to affect each other, but this is a significantly complex problem.
+  Currently, calculations are done very haphazardly. While this makes sense for actually assessing risks (you can never be too optimistic), it doesn't give an accurate picture of factors contributing to downtime. We'd like to add a way to finetune how/which risk factors affect which risks, and to what degree. It may also be worth rolling risk factors into risks and allowing risks to affect each other, but this is a significantly complex problem.
 
 ## Migration
 
@@ -268,13 +268,13 @@ Report issues in Github's issue tracker with the tag #migration.
 
 While this migration handler is designed to be bare-bones, there are some future features that I'd like to add.
 
-#### Cherry picking migrations
+- #### Cherry picking migrations
 
-Sometimes, you just need to run one specific migration. While this can currently be done by using the `from` and `target` flags, you need to find the previous and the next migrations of the one you want to run. Ideally we'd add a `forwards` flag or something similar, but implementation is left open.
+  Sometimes, you just need to run one specific migration. While this can currently be done by using the `from` and `target` flags, you need to find the previous and the next migrations of the one you want to run. Ideally we'd add a `forwards` flag or something similar, but implementation is left open.
 
-#### Supporting branching
+- #### Supporting branching
 
-This is a lot more difficult, and it would make sense to extract this to a separate library once this feature is added.
+  This is a lot more difficult, and it would make sense to extract this to a separate library once this feature is added.
 
 ## Testing
 
