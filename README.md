@@ -223,9 +223,13 @@ While this migration handler is designed to be bare bones, there are some future
 - Supporting branching
 
 ### Testing
-Tests aren't written yet, but I plan to write them alongside the backend tests. When they're finished, run them with this command:
+There are some basic unit tests written for the migration handler. Run them (along with all the other tests) with this command:
 
     $ go test ./...
+
+Alternatively, to run only the migration tests, use this command:
+
+    $ go test get-risky/src/migrations
 
 ### Contributing
 Find an issue and submit a PR! Or make an issue and then submit a PR. Either works.
