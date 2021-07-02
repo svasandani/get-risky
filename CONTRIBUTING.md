@@ -38,7 +38,7 @@ While we are not currently actively deploying the project, we plan to eventually
 
 Go is pretty good at complaining. You should be able to debug syntax errors by looking at the trace.
 
-If there are any database errors, make sure you've [followed these steps](README.md#running-it-locally), including [migrating your database](README.md#migration).
+If there are any database errors, make sure you've [followed these steps](README.md#running-it-locally-1), including [migrating your database](README.md#migration).
 
 If tests are failing, consider using the `-v` flag and printing `t.Log` everywhere; that usually seems to help.
 
