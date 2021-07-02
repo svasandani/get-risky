@@ -191,7 +191,8 @@ To run a migration, run the following command:
 
     $ go run src/migrations/migrate.go [--target="<Migration ID target>"]
 
-There is one optional command line argument:
+There are two optional command line arguments:
+- `from` := Migration start (*note: see quirks below to make sure you're not off-by-one*) (default: read from `HEAD` file)
 - `target` := Migration target (default: `HEAD`)
 
 The handler will automatically detect if the target is ahead or before the current state, and proceed accordingly. There are some quirks though:
