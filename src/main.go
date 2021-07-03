@@ -7,15 +7,20 @@ import (
 	"net/http"
 	"path/filepath"
 	"regexp"
+	"sync"
 
 	"get-risky/src/db"
 	"get-risky/src/util"
 )
 
+var apiPort *string
+var sitePort *string
+
 func main() {
 	env := flag.String("env", "dev", "Environment to run get-risky")
 	path := flag.String("dbPath", filepath.Join("config", "database"), "Path to database config")
-	port := flag.String("port", "3000", "Port to serve get-risky")
+	apiPort = flag.String("api-port", "3000", "Port to serve get-risky api")
+	sitePort = flag.String("site-port", "", "Port to serve get-risky frontend")
 
 	flag.Parse()
 
@@ -24,12 +29,52 @@ func main() {
 	database := db.ConnectDB(db.Connection{User: u, Password: p, Database: n})
 	defer database.Close()
 
+	wg := new(sync.WaitGroup)
+
+	wg.Add(2)
+
+	go func() {
+		if *sitePort == "" {
+			wg.Done()
+		} else {
+			s := createFrontendServer()
+			log.Fatal(s.ListenAndServe())
+			wg.Done()
+		}
+	}()
+
+	go func() {
+		s := createBackendServer()
+		log.Fatal(s.ListenAndServe())
+		wg.Done()
+	}()
+
+	wg.Wait()
+}
+
+func createFrontendServer() *http.Server {
+	mux := http.NewServeMux()
+
+	fs := http.FileServer(http.Dir("./website"))
+	mux.Handle("/", fs)
+
+	server := http.Server{
+		Addr:    fmt.Sprintf("localhost:%s", *sitePort),
+		Handler: mux,
+	}
+
+	return &server
+}
+
+func createBackendServer() *http.Server {
+	mux := http.NewServeMux()
+
 	// This kinda works but also doesn't. Feel free to adapt as necessary!
 
-	http.HandleFunc("/api/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		path := r.URL.Path
 
-		re := regexp.MustCompile(`/api/services/(?P<serviceId>\d+)/(?P<model>\w+)/(?P<id>\d*)`)
+		re := regexp.MustCompile(`/services/(?P<serviceId>\d+)/(?P<model>\w+)/(?P<id>\d*)`)
 
 		match := re.FindStringSubmatch(path)
 		w.Write([]byte(fmt.Sprintf("%#v\n", re.FindStringSubmatch(path))))
@@ -43,7 +88,7 @@ func main() {
 		w.Write([]byte(fmt.Sprintf("%#v\n", re.SubexpNames())))
 	})
 
-	// http.HandleFunc("/api/services", func(w http.ResponseWriter, r *http.Request) {
+	// mux.HandleFunc("/api/services", func(w http.ResponseWriter, r *http.Request) {
 	// 	switch r.Method {
 	// 	case http.MethodGet:
 	// 		api.GetMiddleware(api.GetServiceHandler)(w, r)
@@ -58,7 +103,7 @@ func main() {
 	// 	}
 	// })
 
-	// http.HandleFunc("/api/services/:serviceId/risks", func(w http.ResponseWriter, r *http.Request) {
+	// mux.HandleFunc("/api/services/:serviceId/risks", func(w http.ResponseWriter, r *http.Request) {
 	// 	switch r.Method {
 	// 	case http.MethodPost:
 	// 		api.PutMiddleware(api.CreateRiskHandler)(w, r)
@@ -71,7 +116,7 @@ func main() {
 	// 	}
 	// })
 
-	// http.HandleFunc("/api/services/:serviceId/riskFactors", func(w http.ResponseWriter, r *http.Request) {
+	// mux.HandleFunc("/api/services/:serviceId/riskFactors", func(w http.ResponseWriter, r *http.Request) {
 	// 	switch r.Method {
 	// 	case http.MethodPost:
 	// 		api.PutMiddleware(api.CreateRiskFactorHandler)(w, r)
@@ -84,7 +129,7 @@ func main() {
 	// 	}
 	// })
 
-	// http.HandleFunc("/api/services/:serviceId/configs", func(w http.ResponseWriter, r *http.Request) {
+	// mux.HandleFunc("/api/services/:serviceId/configs", func(w http.ResponseWriter, r *http.Request) {
 	// 	switch r.Method {
 	// 	case http.MethodPut:
 	// 		api.PutMiddleware(api.UpdateConfigHandler)(w, r)
@@ -93,8 +138,10 @@ func main() {
 	// 	}
 	// })
 
-	fs := http.FileServer(http.Dir("./website"))
-	http.Handle("/", fs)
+	server := http.Server{
+		Addr:    fmt.Sprintf("localhost:%s", *apiPort),
+		Handler: mux,
+	}
 
-	log.Fatal(http.ListenAndServe("localhost:"+*port, nil))
+	return &server
 }
