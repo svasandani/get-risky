@@ -49,7 +49,7 @@ The front-end is entirely static, no build step required. You have two options t
 
 - #### Use backend
 
-  Run the entire service via the backend (see [Backend](#backend) below)
+  Run the entire service via the backend (see [Backend](#backend) below), but make sure to specify the `site-port` flag! 
 
 ### Deployment
 To deploy the front-end by itself, just copy the directory somewhere. `scp` it, `ftp` it, `Ctrl+C, Ctrl+V` it.
@@ -105,7 +105,8 @@ Again, a few optional command-line arguments:
 |-----|-----|-----|-----|
 | `env` | No | `dev` | Environment to run get-risky |
 | `dbPath` | No | `config/database` | Path to database configuration file |
-| `port` | No | `3000` | Port to serve get-risky |
+| `api-port` | No | `3000` | Port to serve get-risky backend |
+| `site-port` | No | ` ` | Port to serve get-risky frontend (not served if empty) |
 
 ### Deployment
 You can build the app using the following command:
@@ -121,7 +122,7 @@ Find an issue and submit a PR! Or make an issue and then submit a PR. Either wor
 Report issues in Github's issue tracker with the tag #backend.
 
 ### Endpoints
-Endpoints aren't currently set up yet. We're thinking about the following (with a base URI of `/api`):
+Endpoints aren't currently set up yet. We're thinking about the following:
 
 #### Services
 - `/services` 
