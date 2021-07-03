@@ -35,12 +35,12 @@ func main() {
 	from = flag.String("from", "", "Migration start")
 	path = flag.String("path", filepath.Join("src", "migrations", "sql"), "Path to migration folder")
 
-	env := *flag.String("env", "dev", "Environment to run migrations")
-	dbPath := *flag.String("dbPath", filepath.Join("config", "database"), "Path to database config")
-
-	u, p, n := util.GetDBConfig(env, dbPath)
+	env = flag.String("env", "dev", "Environment to run migrations")
+	dbPath := flag.String("dbPath", filepath.Join("config", "database"), "Path to database config")
 
 	flag.Parse()
+
+	u, p, n := util.GetDBConfig(*env, *dbPath)
 
 	database := db.ConnectDB(db.Connection{User: u, Password: p, Database: n})
 	defer database.Close()

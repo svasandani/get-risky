@@ -13,13 +13,13 @@ import (
 )
 
 func main() {
-	env := *flag.String("env", "dev", "Environment to run get-risky")
-	path := *flag.String("dbPath", filepath.Join("config", "database"), "Path to database config")
-	port := *flag.String("port", "3000", "Port to serve get-risky")
-
-	u, p, n := util.GetDBConfig(env, path)
+	env := flag.String("env", "dev", "Environment to run get-risky")
+	path := flag.String("dbPath", filepath.Join("config", "database"), "Path to database config")
+	port := flag.String("port", "3000", "Port to serve get-risky")
 
 	flag.Parse()
+
+	u, p, n := util.GetDBConfig(*env, *path)
 
 	database := db.ConnectDB(db.Connection{User: u, Password: p, Database: n})
 	defer database.Close()
@@ -96,5 +96,5 @@ func main() {
 	fs := http.FileServer(http.Dir("./website"))
 	http.Handle("/", fs)
 
-	log.Fatal(http.ListenAndServe("localhost:"+port, nil))
+	log.Fatal(http.ListenAndServe("localhost:"+*port, nil))
 }

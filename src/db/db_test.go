@@ -21,12 +21,12 @@ func init() {
 		return true
 	}()
 
-	env := *flag.String("env", "test", "Environment to run migrations")
-	path := *flag.String("dbPath", filepath.Join("..", "..", "config", "database"), "Path to database config")
+	env := flag.String("env", "test", "Environment to run migrations")
+	path := flag.String("dbPath", filepath.Join("..", "..", "config", "database"), "Path to database config")
 
 	flag.Parse()
 
-	u, p, n = util.GetDBConfig(env, path)
+	u, p, n = util.GetDBConfig(*env, *path)
 }
 
 func seed(t *testing.T) {
