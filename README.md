@@ -82,17 +82,18 @@ The front-end has a lot of good functionality already, and these features are ge
 ### Running it locally
 First, install [MySQL](https://www.mysql.com/). Create a database for the app as well as a user for the database; by default, the app expects a database called `get_risky` accessibly by a user named `get_risky` with a password of `get_risky`. Original, I know.
 
+Set up your `config/database` file: rename `database.example` to `database` and change values accordingly to match the user, password, and database name that you created.
+
 Then, download and install [Go](https://golang.org/) (anything with Go module support should be fine; i.e. `>1.11`). Once everything is set up in the usual way, migrate your database:
 
     $ go run src/migrations/migrate.go
 
-There are a few optional command-line arguments:
+There are a few optional command-line arguments that are important here, but the command should work out of the box. Here's what you can tweak:
 
 | Flag | Required | Default | Description |
 |-----|-----|-----|-----|
-| `dbuser` | No | `get_risky` | MySQL user |
-| `dbpass` | No | `get_risky` | Password for MySQL user |
-| `dbname` | No | `get_risky` | Name of MySQL database |
+| `env` | No | `dev` | Migration environment |
+| `dbPath` | No | `config/database` | Path to database configuration file |
 
 Finally, run the following command:
 
@@ -102,9 +103,8 @@ Again, a few optional command-line arguments:
 
 | Flag | Required | Default | Description |
 |-----|-----|-----|-----|
-| `dbuser` | No | `get_risky` | MySQL user |
-| `dbpass` | No | `get_risky` | Password for MySQL user |
-| `dbname` | No | `get_risky` | Name of MySQL database |
+| `env` | No | `dev` | Environment to run get-risky |
+| `dbPath` | No | `config/database` | Path to database configuration file |
 | `port` | No | `3000` | Port to serve get-risky |
 
 ### Deployment
@@ -199,13 +199,12 @@ There are some plans for the future of get-risky. Here are a few possible featur
 
 ## Migration
 
-A quick follow-up - the built-in migration handler is very bare-bones, and only has two major operations. It also does not support branching, as you'll see below. It has some optional global parameters that apply to all operations:
+A quick follow-up - the built-in migration handler is very bare-bones, and only has two major operations. It also does not support branching, as you'll see below. It has some optional global parameters that apply to all operations (and more that are unique to specific operations):
 
 | Flag | Required | Default | Description |
 |-----|-----|-----|-----|
-| `dbuser` | No | `get_risky` | MySQL user |
-| `dbpass` | No | `get_risky` | Password for MySQL user |
-| `dbname` | No | `get_risky` | Name of MySQL database |
+| `env` | No | `dev` | Migration environment |
+| `dbPath` | No | `config/database` | Path to database configuration file |
 | `path` | No | `src/migrations/sql` | Path to migrations folder |
 
 Some terminology specific to this handler:
@@ -213,7 +212,7 @@ Some terminology specific to this handler:
 - the `HEAD` migration is the latest migration
 - the `TAIL` migration is the earliest migration (commonly creating the basic tables)
 
-### Creating a new migration
+### Operation 1: Creating a new migration
 
 When creating a new migration, the migration handler creates a new file using a proprietary format:
 
@@ -242,7 +241,7 @@ The metadata will be populated automatically, and since the handler does not sup
 
 When the file is created, populate the SQL code for both `forwards` and `backwards` keys. It's your responsibility to make sure this works with the state of the database directly before/after the migration. Once you're ready, run the migration.
 
-### Running migrations
+### Operation 2: Running migrations
 
 When running migrations, the migration handler looks for a `HEAD` file in the migration path. This file represents the current state of the database. If there is none, it assumes that the migration is before the `TAIL`; i.e. the database is empty. 
 
@@ -313,13 +312,12 @@ For example, to test the `migrations` folder, you would run:
 
 ### More involved tests
 
-Some packages (`db`, `api`) require a testing database. The default is to use `get_risky_test`, but this can be specified by command-line arguments:
+Some packages (`db`, `api`) require a testing database. This is specified in the `config/database` file under the `test:` key. If you're unsure how to structure this file, take a look at `config/database.example`; it should give you the right idea. To help with reading this file, we have the following command-line arguments:
 
 | Flag | Required | Default | Description |
 |-----|-----|-----|-----|
-| `dbuser` | No | `get_risky` | MySQL user |
-| `dbpass` | No | `get_risky` | Password for MySQL user |
-| `dbname` | No | `get_risky_test` | Name of MySQL test database |
+| `env` | No | `test` | Testing environment |
+| `dbPath` | No | `config/database` | Path to database configuration file |
 
 Make sure to run migrations on the test database! They won't be run automatically. As a refresher, you can do that with this command:
 

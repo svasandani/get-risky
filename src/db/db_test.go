@@ -3,15 +3,17 @@ package db
 import (
 	"database/sql"
 	"flag"
+	"get-risky/src/util"
+	"path/filepath"
 	"testing"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 var database *sql.DB
-var dbuser *string
-var dbpass *string
-var dbname *string
+var u string
+var p string
+var n string
 
 func init() {
 	var _ = func() bool {
@@ -19,15 +21,16 @@ func init() {
 		return true
 	}()
 
-	dbuser = flag.String("dbUser", "get_risky", "Username for MySQL")
-	dbpass = flag.String("dbPass", "get_risky", "Password for MySQL")
-	dbname = flag.String("dbName", "get_risky_test", "Name of test MySQL database")
+	env := flag.String("env", "test", "Environment to run migrations")
+	path := flag.String("dbPath", filepath.Join("..", "..", "config", "database"), "Path to database config")
 
 	flag.Parse()
+
+	u, p, n = util.GetDBConfig(*env, *path)
 }
 
 func seed(t *testing.T) {
-	database = ConnectDB(Connection{User: *dbuser, Password: *dbpass, Database: *dbname})
+	database = ConnectDB(Connection{User: u, Password: p, Database: n})
 
 	ExecSQL("insert into services (slug, name) values ('auth', 'Authentication');")
 	ExecSQL("insert into services (slug, name) values ('backend', 'Backend');")
