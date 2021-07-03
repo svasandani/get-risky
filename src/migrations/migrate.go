@@ -27,6 +27,7 @@ type Node struct {
 
 var path *string
 var from *string
+var env *string
 
 func main() {
 	new := flag.Bool("new", false, "Create a new migration?")
@@ -87,7 +88,7 @@ func getHead() string {
 		return *from
 	}
 
-	filename := filepath.Join(*path, "HEAD")
+	filename := filepath.Join(*path, "HEAD_"+*env)
 
 	if _, err := os.Stat(filename); err == nil {
 		c, err := ioutil.ReadFile(filename)
@@ -95,7 +96,7 @@ func getHead() string {
 
 		return string(c)
 	} else if os.IsNotExist(err) {
-		log.Println("HEAD doesn't exist!")
+		log.Println("HEAD doesn't exist for", *env)
 
 		f, err := os.Create(filename)
 		check(err)
@@ -111,7 +112,7 @@ func writeHead(head string) {
 		head = getNewHead()
 	}
 
-	filename := filepath.Join(*path, "HEAD")
+	filename := filepath.Join(*path, "HEAD_"+*env)
 
 	bhead := []byte(head)
 	err := ioutil.WriteFile(filename, bhead, 0644)
@@ -205,7 +206,7 @@ func parseFiles() map[string]*Node {
 	for _, f := range fs {
 		filename := f.Name()
 
-		if filename == "HEAD" {
+		if strings.HasPrefix(filename, "HEAD") {
 			continue
 		}
 
