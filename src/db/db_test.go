@@ -21,7 +21,7 @@ func init() {
 		return true
 	}()
 
-	env := flag.String("env", "test", "Environment to run migrations")
+	env := flag.String("env", "test", "Environment to run tests")
 	path := flag.String("dbPath", filepath.Join("..", "..", "config", "database"), "Path to database config")
 
 	flag.Parse()
