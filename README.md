@@ -80,7 +80,7 @@ The front-end has a lot of good functionality already, and these features are ge
 ## Backend
 
 ### Running it locally
-First, install [MySQL](https://www.mysql.com/). Create a database for the app as well as a user for the database; by default, the app expects a database called `get_risky` accessibly by a user named `get_risky` with a password of `get_risky`. Original, I know.
+First, install [MySQL](https://www.mysql.com/). Create a database for the app as well as a user for the database; by default, the app expects a database called `get_risky` accessible by a user named `get_risky` with a password of `get_risky`. Original, I know.
 
 Set up your `config/database` file: rename `database.example` to `database` and change values accordingly to match the user, password, and database name that you created.
 
@@ -239,7 +239,7 @@ There are two command-line arguments specific to this mode:
 
 The metadata will be populated automatically, and since the handler does not support branching, it will set the previous migration to be the current `HEAD` (not the file, but the latest migration). *Please don't change this field :)*
 
-When the file is created, populate the SQL code for both `forwards` and `backwards` keys. It's your responsibility to make sure this works with the state of the database directly before/after the migration. Once you're ready, run the migration.
+When the file is created, populate the SQL code for both `forwards` and `backwards` keys. It's your responsibility to make sure this works with the state of the database directly before/after the migration. Ideally, they should be idempotent. Once you're ready, run the migration.
 
 ### Operation 2: Running migrations
 
@@ -321,7 +321,7 @@ Some packages (`db`, `api`) require a testing database. This is specified in the
 
 Make sure to run migrations on the test database! They won't be run automatically. As a refresher, you can do that with this command:
 
-    $ go run src/migrations/migrate.go --dbname=<name of test database>
+    $ go run src/migrations/migrate.go --env=test
 
 When you're ready, run tests on these packages using the same command as above, e.g.:
 
