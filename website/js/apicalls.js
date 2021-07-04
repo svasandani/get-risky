@@ -1,4 +1,4 @@
-const url = `https://localhost:3000`
+const url = `http://localhost:3000`
 
 const datastore = {
     "services": [
@@ -501,6 +501,10 @@ function getServices() {
         const services = datastore.services;
 
         resolve(services);
+
+        // fetch(`${url}/services/`)
+        //     .then(r => r.json())
+        //     .then(resolve)
     })
 }
 
@@ -553,6 +557,10 @@ function getServiceFromSlug(serviceId) {
 
         if (typeof foundService === 'undefined') reject('Could not find service');
         else resolve(foundService);
+
+        // fetch(`${url}/services?slug=${serviceId}`)
+        //     .then(r => r.json()[0])
+        //     .then(resolve)
     })
 }
 
@@ -565,6 +573,10 @@ function getConfig(id) {
 
         if (typeof foundService === 'undefined') reject('Could not find service');
         else resolve(foundService.config);
+
+        // fetch(`${url}/services/${id}/configs/`)
+        //     .then(r => r.json())
+        //     .then(resolve)
     })
 }
 
@@ -598,6 +610,10 @@ function getRiskFactors(id) {
 
         if (typeof foundService === 'undefined') reject('Could not find service');
         else resolve(foundService.riskFactors);
+
+        // fetch(`${url}/services/${id}/riskFactors/`)
+        //     .then(r => r.json())
+        //     .then(resolve)
     })
 }
 
@@ -662,12 +678,16 @@ function deleteRiskFactor(id, riskFactorId) {
 function getRisks(id) {
     // stub
     return new Promise((resolve, reject) => {
-        const services = datastore.services;
+        // const services = datastore.services;
 
-        let foundService = services.find(s => s.id === id);
+        // let foundService = services.find(s => s.id === id);
 
-        if (typeof foundService === 'undefined') reject('Could not find service');
-        else resolve(foundService.risks);
+        // if (typeof foundService === 'undefined') reject('Could not find service');
+        // else resolve(foundService.risks);
+
+        // fetch(`${url}/services/${id}/risks/`)
+        //     .then(r => r.json())
+        //     .then(resolve)
     })
 }
 

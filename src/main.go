@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"sync"
 
+	"get-risky/src/api"
 	"get-risky/src/db"
 	"get-risky/src/util"
 )
@@ -71,7 +72,7 @@ func createBackendServer() *http.Server {
 
 	// This kinda works but also doesn't. Feel free to adapt as necessary!
 
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/", api.CorsHandler(api.PreflightRequestHandler(func(w http.ResponseWriter, r *http.Request) {
 		path := r.URL.Path
 
 		re := regexp.MustCompile(`/services/(?P<serviceId>\d+)/(?P<model>\w+)/(?P<id>\d*)`)
@@ -86,7 +87,7 @@ func createBackendServer() *http.Server {
 		}
 		w.Write([]byte(fmt.Sprintf("%#v\n", re.FindStringSubmatch(path))))
 		w.Write([]byte(fmt.Sprintf("%#v\n", re.SubexpNames())))
-	})
+	})))
 
 	// mux.HandleFunc("/api/services", func(w http.ResponseWriter, r *http.Request) {
 	// 	switch r.Method {
