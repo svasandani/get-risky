@@ -3,8 +3,8 @@ function appendService(toPopulate, service) {
     `
     <details class="table-hidden-row" data-service="${service.serviceId}">
         <summary class="services-table-row table-row">
-            <span class="hover-reveal" data-reveal="&nbsp;&nbsp;>">${service.serviceName}</span>
-            <span class="table-center-data show-details">· · ·</span>
+            <a class="hover-reveal table-data" data-reveal="&nbsp;&nbsp;>" href="../calculator?service=${service.serviceId}">${service.serviceName}</a>
+            <span class="table-center-data table-data show-details">· · ·</span>
         </summary>
         <h4>Edit this service</h4>
         <form class="service-details" data-service="${service.serviceId}">
@@ -46,14 +46,6 @@ function appendService(toPopulate, service) {
     
         updateService(service.id, data)
             .then(getAllServices);
-    })
-
-    toPopulate.querySelector(`details[data-service="${service.serviceId}"] summary`).addEventListener('click', (e) => {
-        if (e.target.nodeName === 'SPAN' && !e.target.classList.contains('show-details')) {
-            e.preventDefault();
-
-            window.location.href = `../calculator/?service=${service.serviceId}`;
-        }
     })
 }
 

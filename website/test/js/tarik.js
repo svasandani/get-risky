@@ -153,6 +153,12 @@ export class TElement {
   }
 }
 
+const getAbsoluteUrl = (url) => {
+  let a = document.createElement("A");
+  a.href = url;
+  return a.href;
+} 
+
 export async function test(name, callback) {
   const id = `chai-iframe-${ctr + 1}`;
 
@@ -198,7 +204,8 @@ export async function test(name, callback) {
             })
           },
           toContainExactly: (text) => {
-            // what if text var is not string but is inner child? TODO
+            // TODO: what if text var is not string but is inner child?
+            
             T.checks.push({
               evaluate: () => thing.getIn(T.document) !== null && thing.getIn(T.document).textContent === text,
               reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : `Found element with selector '${thing.selector}' but it had text '${thing.getIn(T.document).textContent}'; wanted '${text}'`
@@ -210,7 +217,7 @@ export async function test(name, callback) {
       return {
         toNavigateTo(url) {
           T.checks.push({
-            evaluate: () => T.navigates.includes(url),
+            evaluate: () => T.navigates.includes(getAbsoluteUrl(url)),
             reason: () => `Nothing tried to navigate to '${url}', expected some event`
           })
         }
@@ -223,7 +230,11 @@ export async function test(name, callback) {
       if (thing instanceof TElement) {
         return {
           click: () => {
-            thing.getIn(T.document).dispatchEvent(new Event('click'));
+            // TODO: this sucks!
+
+            let el = thing.getIn(T.document);
+            
+            T.navigates.push(el.href);
           }
         }
       }
@@ -239,7 +250,7 @@ export async function test(name, callback) {
     //   })
     // })
 
-    console.log(`Running test: ${name}`);
+    console.info(`Running test: ${name}`);
     callback(T);
     document.body.removeChild(iframe);
 
@@ -256,9 +267,9 @@ export async function test(name, callback) {
     })
 
     if (fail) {
-      console.error(`Test: '${name}' FAILED ${numFails} test${numFails > 1 ? 's' : ''} (${numFails}/${numFails+numPasses})`)
+      console.error(`Test: '${name}' FAILED ${numFails}/${numFails+numPasses} test${numFails > 1 ? 's' : ''}`)
       console.warn(failingAssertions)
-    } else console.log(`Test: '${name}' PASSED`)
+    } else console.log(`%cTest: '${name}' PASSED`, 'color: green')
   })
 
   document.body.appendChild(iframe);

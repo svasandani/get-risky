@@ -8,8 +8,8 @@ export const run = () => {
   });
 
   test('clicking on auth should navigate to calculator' ,(T) => {
-    T.get(TElement.ofTag("summary").withText("Authentication")).click()
+    T.get(TElement.ofTag("a").withText("Authentication")).click()
 
-    T.expect().toNavigateTo('calculator?service=auth');
+    T.expect().toNavigateTo('/calculator?service=auth');
   });
 }

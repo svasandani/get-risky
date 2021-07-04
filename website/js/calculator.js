@@ -6,8 +6,8 @@ function appendRisk(toPopulate, risk) {
     `
     <details class="table-hidden-row ${ risk.accepted ? 'tolerated' : (risk.tolerable ? 'tolerable' : 'not-tolerable')}" data-risk="${risk.riskId}" ${risk.open ? 'open' : ''}>
         <summary class="risks-table-row table-row">
-            <span>${risk.riskDesc}</span>
-            <span class="table-center-data show-details">· · ·</span>
+            <span class="table-data">${risk.riskDesc}</span>
+            <span class="table-center-data table-data show-details">· · ·</span>
         </summary>
         <div class="expanded-details">
             <label${config.risk.incidents ? '' : ' class="invisible"'}>
@@ -155,8 +155,8 @@ function appendRiskFactor(toPopulate, riskFactor) {
     `
     <details class="table-hidden-row ${riskFactor.enabled ? '' : 'disabled'}" data-risk-factor="${riskFactor.riskFactorId}" ${riskFactor.open ? 'open' : ''}>
         <summary class="risk-factors-table-row table-row">
-            <span>${riskFactor.riskFactorDesc}</span>
-            <span class="table-center-data show-details">· · ·</span>
+            <span class="table-data">${riskFactor.riskFactorDesc}</span>
+            <span class="table-center-data table-data show-details">· · ·</span>
         </summary>
         <div class="expanded-details">
             <label${config.riskFactor.contribution ? '' : ' class="invisible"'}>

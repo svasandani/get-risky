@@ -70,11 +70,11 @@ a {
     border-bottom: 1px solid var(--lightgrey);
 }
 
-.table-row span:not(.custom-toggle) {
+.table-row .table-data:not(.custom-toggle) {
     padding: 1.5rem 0;
 }
 
-.services-table-row span:not(.custom-toggle) {
+.services-table-row .table-data:not(.custom-toggle) {
     padding: 1.5rem;
 }
 
@@ -83,7 +83,7 @@ a {
     grid-template-columns: 1fr 8ch;
 }
 
-.table-row span:nth-child(1) {
+.table-row .table-data:nth-child(1) {
     text-overflow: ellipsis;
     overflow: hidden;
 }
