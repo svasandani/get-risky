@@ -678,12 +678,12 @@ function deleteRiskFactor(id, riskFactorId) {
 function getRisks(id) {
     // stub
     return new Promise((resolve, reject) => {
-        // const services = datastore.services;
+        const services = datastore.services;
 
-        // let foundService = services.find(s => s.id === id);
+        let foundService = services.find(s => s.id === id);
 
-        // if (typeof foundService === 'undefined') reject('Could not find service');
-        // else resolve(foundService.risks);
+        if (typeof foundService === 'undefined') reject('Could not find service');
+        else resolve(foundService.risks);
 
         // fetch(`${url}/services/${id}/risks/`)
         //     .then(r => r.json())
