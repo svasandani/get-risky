@@ -128,7 +128,7 @@ You can build the app using the following command:
 
 Then, copy the executable to the deploy server. 
 
-Alternatively, run the `build.sh` script in the root of the repo, and use the tarball generated in the `releases/` folder. Pass in the `GOOS` and `GOARCH` targets as arguments to the `build.sh` script, e.g.:
+Alternatively, run the `build.sh` script in the root of the repo, and use the tarball generated in the `releases/` folder. Pass in the `GOOS` and `GOARCH` targets as arguments to the `build.sh` script, e.g.
 
     $ sh build.sh linux amd64
 
@@ -343,7 +343,7 @@ Make sure to run migrations on the test database! They won't be run automaticall
 
     $ go run src/migrations/migrate.go --env=test
 
-When you're ready, run tests on these packages using the same command as above, e.g.:
+When you're ready, run tests on these packages using the same command as above, e.g.
 
     $ go test get-risky/src/db
     $ go test get-risky/src/api
