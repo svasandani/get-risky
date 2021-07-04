@@ -37,6 +37,19 @@ Table of Contents
     - [Testing packages](#testing-packages)
     - [More involved tests](#more-involved-tests)
     - [Running all tests](#running-all-tests)
+  - [Roadmap](#roadmap)
+    - [v0](#v0)
+      - [Estimated release](#estimated-release)
+      - [Features](#features)
+    - [v1](#v1)
+      - [Estimated release](#estimated-release-1)
+      - [Features](#features-1)
+    - [v2](#v2)
+      - [Estimated release](#estimated-release-2)
+      - [Features](#features-2)
+    - [v3](#v3)
+      - [Estimated release](#estimated-release-3)
+      - [Features](#features-3)
 
 ## Frontend
 
@@ -336,3 +349,52 @@ Since running all tests will also include running `db` and `api` tests, make sur
 Run all tests with this command:
 
     $ go test ./...
+
+## Roadmap
+
+While the documentation for each part of the service has some associated feature planning, I find that it's helpful to provide a more structured overview of where the project is headed.
+
+### v0
+
+#### Estimated release
+Current
+
+#### Features
+- Mocked endpoints
+- Working frontend with mock data
+- No official release
+
+### v1
+
+#### Estimated release
+July 9
+
+#### Features
+- Functional endpoints
+- Frontend using real data
+
+### v2
+
+#### Estimated release
+July 23
+
+#### Features
+- Basic authentication
+- Teams that own services
+- Dependencies on other services on the platform
+- Updated display for dependencies
+  - New table
+  - Warnings for circular/poor dependencies
+- State management moved to backend
+
+### v3
+
+#### Estimated release
+August 6
+
+#### Features
+- Dependency groups
+  - Minimize dependency risks by using backups
+  - Warnings for groups with no/few backupds
+  - Support for external dependencies
+- TBD
