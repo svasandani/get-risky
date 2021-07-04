@@ -21,10 +21,10 @@ function f(number, precision=5) {
     return parseFloat(number.toPrecision(precision))
 }
 
-function addComputedRiskFactor(riskFactor) {
+function addComputedRiskFactor(id) {
     const riskFactors = state.riskFactors;
 
-    let foundRiskFactor = riskFactors.find(r => r.riskFactorId === riskFactor.riskFactorId);
+    let foundRiskFactor = riskFactors.find(r => r.id === riskFactor.id);
 
     if (typeof foundRiskFactor === 'undefined'){
         riskFactors.push({
@@ -63,7 +63,7 @@ function addComputedRiskFactor(riskFactor) {
 function addComputedRisk(risk) {
     const risks = state.risks;
 
-    let foundRisk = risks.find(r => r.riskId === risk.riskId);
+    let foundRisk = risks.find(r => r.id === risk.id);
 
     if (typeof foundRisk === 'undefined') {
         risks.push({
@@ -146,10 +146,10 @@ function addComputedRisk(risk) {
     recalculate();
 }
 
-function enable(riskFactorId) {
+function enable(id) {
     const riskFactors = state.riskFactors;
 
-    let foundRiskFactor = riskFactors.find(r => r.riskFactorId === riskFactorId);
+    let foundRiskFactor = riskFactors.find(r => r.id === id);
 
     if (typeof foundRiskFactor === 'undefined') return;
     else {
@@ -159,10 +159,10 @@ function enable(riskFactorId) {
     recalculate();
 }
 
-function unenable(riskFactorId) {
+function unenable(id) {
     const riskFactors = state.riskFactors;
 
-    let foundRiskFactor = riskFactors.find(r => r.riskFactorId === riskFactorId);
+    let foundRiskFactor = riskFactors.find(r => r.id === id);
 
     if (typeof foundRiskFactor === 'undefined') return;
     else {
@@ -172,10 +172,10 @@ function unenable(riskFactorId) {
     recalculate();
 }
 
-function accept(riskId) {
+function accept(id) {
     const risks = state.risks;
 
-    let foundRisk = risks.find(r => r.riskId === riskId);
+    let foundRisk = risks.find(r => r.id === id);
 
     if (typeof foundRisk === 'undefined') return;
     else {
@@ -185,10 +185,10 @@ function accept(riskId) {
     recalculate();
 }
 
-function unaccept(riskId) {
+function unaccept(id) {
     const risks = state.risks;
 
-    let foundRisk = risks.find(r => r.riskId === riskId);
+    let foundRisk = risks.find(r => r.id === id);
 
     if (typeof foundRisk === 'undefined') return;
     else {
@@ -198,18 +198,18 @@ function unaccept(riskId) {
     recalculate();
 }
 
-function getComputedRiskFactor(riskFactorId) {
+function getComputedRiskFactor(id) {
     const riskFactors = state.riskFactors;
 
-    let foundRiskFactor = riskFactors.find(r => r.riskFactorId === riskFactorId);
+    let foundRiskFactor = riskFactors.find(r => r.id === id);
 
     return foundRiskFactor;
 }
 
-function getComputedRisk(riskId) {
+function getComputedRisk(id) {
     const risks = state.risks;
 
-    let foundRisk = risks.find(r => r.riskId === riskId);
+    let foundRisk = risks.find(r => r.id === id);
 
     return foundRisk;
 }
@@ -222,33 +222,33 @@ function getAllComputedRiskFactors() {
     return state.riskFactors;
 }
 
-function updateComputedRiskFactor(riskFactorId, data) {
+function updateComputedRiskFactor(id, data) {
     return new Promise((resolve, reject) => {
         const riskFactors = state.riskFactors;
 
-        let foundRiskFactor = riskFactors.find(r => r.riskFactorId === riskFactorId);
+        let foundRiskFactor = riskFactors.find(r => r.id === id);
 
         if (typeof foundRiskFactor === 'undefined') reject('Could not find risk factor');
         else resolve(Object.assign(foundRiskFactor, data));
     })  
 }
 
-function updateComputedRisk(riskId, data) {
+function updateComputedRisk(id, data) {
     return new Promise((resolve, reject) => {
         const risks = state.risks;
 
-        let foundRisk = risks.find(r => r.riskId === riskId);
+        let foundRisk = risks.find(r => r.id === id);
 
         if (typeof foundRisk === 'undefined') reject('Could not find risk');
         else resolve(Object.assign(foundRisk, data));
     })  
 }
 
-function deleteComputedRiskFactor(riskFactorId) {
+function deleteComputedRiskFactor(id) {
     return new Promise((resolve, reject) => {
         const riskFactors = state.riskFactors;
 
-        let foundRiskFactorIndex = riskFactors.findIndex(r => r.riskFactorId === riskFactorId);
+        let foundRiskFactorIndex = riskFactors.findIndex(r => r.id === id);
 
         if (foundRiskFactorIndex === -1) reject('Could not find risk');
         
@@ -259,11 +259,11 @@ function deleteComputedRiskFactor(riskFactorId) {
     })
 }
 
-function deleteComputedRisk(riskId) {
+function deleteComputedRisk(id) {
     return new Promise((resolve, reject) => {
         const risks = state.risks;
 
-        let foundRiskIndex = risks.findIndex(r => r.riskId === riskId);
+        let foundRiskIndex = risks.findIndex(r => r.id === id);
 
         if (foundRiskIndex === -1) reject('Could not find risk');
         
@@ -274,10 +274,10 @@ function deleteComputedRisk(riskId) {
     })
 }
 
-function setIsRiskFactorOpen(riskFactorId, isOpen) {
+function setIsRiskFactorOpen(id, isOpen) {
     const riskFactors = state.riskFactors;
 
-    let foundRiskFactor = riskFactors.find(r => r.riskFactorId === riskFactorId);
+    let foundRiskFactor = riskFactors.find(r => r.id === id);
 
     if (typeof foundRiskFactor === 'undefined') return;
     else {
@@ -285,10 +285,10 @@ function setIsRiskFactorOpen(riskFactorId, isOpen) {
     }
 }
 
-function setIsRiskOpen(riskId, isOpen) {
+function setIsRiskOpen(id, isOpen) {
     const risks = state.risks;
 
-    let foundRisk = risks.find(r => r.riskId === riskId);
+    let foundRisk = risks.find(r => r.id === id);
 
     if (typeof foundRisk === 'undefined') return;
     else {

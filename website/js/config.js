@@ -1,5 +1,5 @@
 let currentServiceId = '';
-let currentServiceName = '';
+let currentService;
 const config = {};
 
 function appendConfigGroup(toPopulate, configGroup) {
@@ -41,8 +41,8 @@ function appendConfig(toPopulate, config) {
     )
     
     toPopulate.querySelector(`#${config.configId}-enable`).addEventListener('click', () => {
-        if (toPopulate.querySelector(`#${config.configId}-enable`).checked) updateConfig(currentServiceId, config.configId, true)
-        else updateConfig(currentServiceId, config.configId, false)
+        if (toPopulate.querySelector(`#${config.configId}-enable`).checked) updateConfig(currentService.id, config.configId, true)
+        else updateConfig(currentService.id, config.configId, false)
     })
 }
 
@@ -66,14 +66,14 @@ function parseConfig(cfg) {
 }
 
 window.addEventListener('load', () => {
-    currentServiceId = (new URLSearchParams(window.location.search)).get('service');
+    currentServiceSlug = (new URLSearchParams(window.location.search)).get('service');
 
-    getServiceNameFromId(currentServiceId)
-        .then(name => currentServiceName = name)
-        .then(() => document.title = `${currentServiceName} — View Configuration`)
-        .then(() => document.querySelector('h1').textContent = `Configuring ${currentServiceName}`)
-        .then(() => getConfig(currentServiceId))
+    getServiceFromSlug(currentServiceSlug)
+        .then(service => currentService = service)
+        .then(() => document.title = `${currentService.serviceName} — View Configuration`)
+        .then(() => document.querySelector('h1').textContent = `Configuring ${currentService.serviceName}`)
+        .then(() => getConfig(currentService.id))
         .then(parseConfig)
         .then(updateAllConfig)
-        .catch(err => console.log(err));
+        .catch(err => console.error(err));
 })

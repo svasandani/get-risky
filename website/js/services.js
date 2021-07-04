@@ -10,7 +10,7 @@ function appendService(toPopulate, service) {
         <form class="service-details" data-service="${service.serviceId}">
             <div class="inputs">
                 <label>
-                    Service ID
+                    Service Slug
                     <input id="${service.serviceId}-serviceId" class="labelled-input" name="serviceId" value="${service.serviceId}" placeholder="" required/>
                 </label>
                 <label>
@@ -32,7 +32,7 @@ function appendService(toPopulate, service) {
 
         document.querySelector(`details[data-service="${service.serviceId}"]`).parentElement.removeChild(document.querySelector(`details[data-service="${service.serviceId}"]`));
 
-        deleteService(service.serviceId)
+        deleteService(service.id)
             .then(getAllServices);
     })
 
@@ -44,7 +44,7 @@ function appendService(toPopulate, service) {
         let data = {};
         editFd.forEach((value, key) => data[key] = isNaN(value) ? value : parseFloat(value));
     
-        updateService(service.serviceId, data)
+        updateService(service.id, data)
             .then(getAllServices);
     })
 

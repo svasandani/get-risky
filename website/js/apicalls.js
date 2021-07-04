@@ -1,10 +1,14 @@
+const url = `https://localhost:3000`
+
 const datastore = {
     "services": [
         {
+            "id": 1,
             "serviceId": "auth",
             "serviceName": "Authentication",
             "risks": [
                 {
+                    "id": 1,
                     "riskId": "pods-down",
                     "riskDesc": "Service pods down",
                     "riskEttd": 1440,
@@ -16,60 +20,70 @@ const datastore = {
             "riskFactors": [],
             "config": [
                 {
+                    "id": 1,
                     "configId": "budget",
                     "configDesc": "Shows the total number of minutes that a service can be down each year to meet the specified availability.",
                     "configCategory": "global",
                     "configValue": true
                 },
                 {
+                    "id": 2,
                     "configId": "accepted",
                     "configDesc": "Shows the amount of downtime that has been marked as tolerated.",
                     "configCategory": "global",
                     "configValue": true
                 },
                 {
+                    "id": 3,
                     "configId": "unallocated",
                     "configDesc": "Shows the total number of remaining minutes in the budget after subtracting tolerated minutes.",
                     "configCategory": "global",
                     "configValue": false
                 },
                 {
+                    "id": 4,
                     "configId": "individualThreshold",
                     "configDesc": "Shows the number of minutes that represents the individual threshold for any one risk.",
                     "configCategory": "global",
                     "configValue": true
                 },
                 {
+                    "id": 5,
                     "configId": "incidents",
                     "configDesc": "Shows the number of incidents each year that are expected to happen regarding this risk.",
                     "configCategory": "risk",
                     "configValue": true
                 },
                 {
+                    "id": 6,
                     "configId": "affectedTime",
                     "configDesc": "Shows the calculated downtime that this risk will generate each year.",
                     "configCategory": "risk",
                     "configValue": true
                 },
                 {
+                    "id": 7,
                     "configId": "shareBudget",
                     "configDesc": "Shows the percentage of the total budget that this risk represents.",
                     "configCategory": "risk",
                     "configValue": true
                 },
                 {
+                    "id": 8,
                     "configId": "shareTolerated",
                     "configDesc": "Shows the percentage of the total number of tolerated minutes that this risk represents.",
                     "configCategory": "risk",
                     "configValue": false
                 },
                 {
+                    "id": 9,
                     "configId": "contribution",
                     "configDesc": "Shows the number of minutes that this risk factor contributed to the total.",
                     "configCategory": "riskFactor",
                     "configValue": true
                 },
                 {
+                    "id": 10,
                     "configId": "enable",
                     "configDesc": "Shows a toggle to enable or disable a risk factor temporarily.",
                     "configCategory": "riskFactor",
@@ -78,10 +92,12 @@ const datastore = {
             ]
         },
         {
+            "id": 2,
             "serviceId": "backend",
             "serviceName": "Backend",
             "risks": [
                 {
+                    "id": 1,
                     "riskId": "pods-down",
                     "riskDesc": "Service pods down",
                     "riskEttd": 1440,
@@ -90,6 +106,7 @@ const datastore = {
                     "riskEttf": 365
                 },
                 {
+                    "id": 2,
                     "riskId": "prometheus-misconfigured",
                     "riskDesc": "Prometheus retention misconfigured",
                     "riskEttd": 1440,
@@ -98,6 +115,7 @@ const datastore = {
                     "riskEttf": 365
                 },
                 {
+                    "id": 3,
                     "riskId": "k8s-dns",
                     "riskDesc": "Kubernetes DNS issue",
                     "riskEttd": 20,
@@ -108,6 +126,7 @@ const datastore = {
             ],
             "riskFactors": [
                 {
+                    "id": 1,
                     "riskFactorId": "no-phone",
                     "riskFactorDesc": "Engineers don't have cellphones",
                     "riskFactorEttd": 0,
@@ -116,6 +135,7 @@ const datastore = {
                     "riskFactorEttf": 0
                 },
                 {
+                    "id": 2,
                     "riskFactorId": "services",
                     "riskFactorDesc": "Engineers don't understand relevant service",
                     "riskFactorEttd": 0,
@@ -126,60 +146,70 @@ const datastore = {
             ],
             "config": [
                 {
+                    "id": 1,
                     "configId": "budget",
                     "configDesc": "Shows the total number of minutes that a service can be down each year to meet the specified availability.",
                     "configCategory": "global",
                     "configValue": true
                 },
                 {
+                    "id": 2,
                     "configId": "accepted",
                     "configDesc": "Shows the amount of downtime that has been marked as tolerated.",
                     "configCategory": "global",
                     "configValue": true
                 },
                 {
+                    "id": 3,
                     "configId": "unallocated",
                     "configDesc": "Shows the total number of remaining minutes in the budget after subtracting tolerated minutes.",
                     "configCategory": "global",
                     "configValue": true
                 },
                 {
+                    "id": 4,
                     "configId": "individualThreshold",
                     "configDesc": "Shows the number of minutes that represents the individual threshold for any one risk.",
                     "configCategory": "global",
                     "configValue": true
                 },
                 {
+                    "id": 5,
                     "configId": "incidents",
                     "configDesc": "Shows the number of incidents each year that are expected to happen regarding this risk.",
                     "configCategory": "risk",
                     "configValue": true
                 },
                 {
+                    "id": 6,
                     "configId": "affectedTime",
                     "configDesc": "Shows the calculated downtime that this risk will generate each year.",
                     "configCategory": "risk",
                     "configValue": true
                 },
                 {
+                    "id": 7,
                     "configId": "shareBudget",
                     "configDesc": "Shows the percentage of the total budget that this risk represents.",
                     "configCategory": "risk",
                     "configValue": true
                 },
                 {
+                    "id": 8,
                     "configId": "shareTolerated",
                     "configDesc": "Shows the percentage of the total number of tolerated minutes that this risk represents.",
                     "configCategory": "risk",
                     "configValue": false
                 },
                 {
+                    "id": 9,
                     "configId": "contribution",
                     "configDesc": "Shows the number of minutes that this risk factor contributed to the total.",
                     "configCategory": "riskFactor",
                     "configValue": false
                 },
                 {
+                    "id": 10,
                     "configId": "enable",
                     "configDesc": "Shows a toggle to enable or disable a risk factor temporarily.",
                     "configCategory": "riskFactor",
@@ -188,10 +218,12 @@ const datastore = {
             ]
         },
         {
+            "id": 3,
             "serviceId": "event",
             "serviceName": "EventBus",
             "risks": [
                 {
+                    "id": 1,
                     "riskId": "pods-down",
                     "riskDesc": "Service pods down",
                     "riskEttd": 1440,
@@ -200,6 +232,7 @@ const datastore = {
                     "riskEttf": 365
                 },
                 {
+                    "id": 2,
                     "riskId": "prometheus-misconfigured",
                     "riskDesc": "Prometheus retention misconfigured",
                     "riskEttd": 1440,
@@ -208,6 +241,7 @@ const datastore = {
                     "riskEttf": 365
                 },
                 {
+                    "id": 3,
                     "riskId": "k8s-dns",
                     "riskDesc": "Kubernetes DNS issue",
                     "riskEttd": 20,
@@ -218,6 +252,7 @@ const datastore = {
             ],
             "riskFactors": [
                 {
+                    "id": 1,
                     "riskFactorId": "no-phone",
                     "riskFactorDesc": "Engineers don't have cellphones",
                     "riskFactorEttd": 60,
@@ -226,6 +261,7 @@ const datastore = {
                     "riskFactorEttf": 1
                 },
                 {
+                    "id": 2,
                     "riskFactorId": "services",
                     "riskFactorDesc": "Engineers don't understand relevant service",
                     "riskFactorEttd": 0,
@@ -236,60 +272,70 @@ const datastore = {
             ],
             "config": [
                 {
+                    "id": 1,
                     "configId": "budget",
                     "configDesc": "Shows the total number of minutes that a service can be down each year to meet the specified availability.",
                     "configCategory": "global",
                     "configValue": true
                 },
                 {
+                    "id": 2,
                     "configId": "accepted",
                     "configDesc": "Shows the amount of downtime that has been marked as tolerated.",
                     "configCategory": "global",
                     "configValue": true
                 },
                 {
+                    "id": 3,
                     "configId": "unallocated",
                     "configDesc": "Shows the total number of remaining minutes in the budget after subtracting tolerated minutes.",
                     "configCategory": "global",
                     "configValue": true
                 },
                 {
+                    "id": 4,
                     "configId": "individualThreshold",
                     "configDesc": "Shows the number of minutes that represents the individual threshold for any one risk.",
                     "configCategory": "global",
                     "configValue": true
                 },
                 {
+                    "id": 5,
                     "configId": "incidents",
                     "configDesc": "Shows the number of incidents each year that are expected to happen regarding this risk.",
                     "configCategory": "risk",
                     "configValue": true
                 },
                 {
+                    "id": 6,
                     "configId": "affectedTime",
                     "configDesc": "Shows the calculated downtime that this risk will generate each year.",
                     "configCategory": "risk",
                     "configValue": true
                 },
                 {
+                    "id": 7,
                     "configId": "shareBudget",
                     "configDesc": "Shows the percentage of the total budget that this risk represents.",
                     "configCategory": "risk",
                     "configValue": true
                 },
                 {
+                    "id": 8,
                     "configId": "shareTolerated",
                     "configDesc": "Shows the percentage of the total number of tolerated minutes that this risk represents.",
                     "configCategory": "risk",
                     "configValue": true
                 },
                 {
+                    "id": 9,
                     "configId": "contribution",
                     "configDesc": "Shows the number of minutes that this risk factor contributed to the total.",
                     "configCategory": "riskFactor",
                     "configValue": true
                 },
                 {
+                    "id": 10,
                     "configId": "enable",
                     "configDesc": "Shows a toggle to enable or disable a risk factor temporarily.",
                     "configCategory": "riskFactor",
@@ -298,10 +344,12 @@ const datastore = {
             ]
         },
         {
+            "id": 4,
             "serviceId": "geo",
             "serviceName": "Geolocation",
             "risks": [
                 {
+                    "id": 1,
                     "riskId": "pods-down",
                     "riskDesc": "Service pods down",
                     "riskEttd": 1440,
@@ -310,6 +358,7 @@ const datastore = {
                     "riskEttf": 365
                 },
                 {
+                    "id": 2,
                     "riskId": "prometheus-misconfigured",
                     "riskDesc": "Prometheus retention misconfigured",
                     "riskEttd": 1440,
@@ -318,6 +367,7 @@ const datastore = {
                     "riskEttf": 365
                 },
                 {
+                    "id": 3,
                     "riskId": "k8s-dns",
                     "riskDesc": "Kubernetes DNS issue",
                     "riskEttd": 20,
@@ -328,6 +378,7 @@ const datastore = {
             ],
             "riskFactors": [
                 {
+                    "id": 1,
                     "riskFactorId": "no-phone",
                     "riskFactorDesc": "Engineers don't have cellphones",
                     "riskFactorEttd": 60,
@@ -336,6 +387,7 @@ const datastore = {
                     "riskFactorEttf": 1
                 },
                 {
+                    "id": 2,
                     "riskFactorId": "services",
                     "riskFactorDesc": "Engineers don't understand relevant service",
                     "riskFactorEttd": 0,
@@ -346,60 +398,70 @@ const datastore = {
             ],
             "config": [
                 {
+                    "id": 1,
                     "configId": "budget",
                     "configDesc": "Shows the total number of minutes that a service can be down each year to meet the specified availability.",
                     "configCategory": "global",
                     "configValue": true
                 },
                 {
+                    "id": 2,
                     "configId": "accepted",
                     "configDesc": "Shows the amount of downtime that has been marked as tolerated.",
                     "configCategory": "global",
                     "configValue": true
                 },
                 {
+                    "id": 3,
                     "configId": "unallocated",
                     "configDesc": "Shows the total number of remaining minutes in the budget after subtracting tolerated minutes.",
                     "configCategory": "global",
                     "configValue": true
                 },
                 {
+                    "id": 4,
                     "configId": "individualThreshold",
                     "configDesc": "Shows the number of minutes that represents the individual threshold for any one risk.",
                     "configCategory": "global",
                     "configValue": true
                 },
                 {
+                    "id": 5,
                     "configId": "incidents",
                     "configDesc": "Shows the number of incidents each year that are expected to happen regarding this risk.",
                     "configCategory": "risk",
                     "configValue": true
                 },
                 {
+                    "id": 6,
                     "configId": "affectedTime",
                     "configDesc": "Shows the calculated downtime that this risk will generate each year.",
                     "configCategory": "risk",
                     "configValue": true
                 },
                 {
+                    "id": 7,
                     "configId": "shareBudget",
                     "configDesc": "Shows the percentage of the total budget that this risk represents.",
                     "configCategory": "risk",
                     "configValue": true
                 },
                 {
+                    "id": 8,
                     "configId": "shareTolerated",
                     "configDesc": "Shows the percentage of the total number of tolerated minutes that this risk represents.",
                     "configCategory": "risk",
                     "configValue": true
                 },
                 {
+                    "id": 9,
                     "configId": "contribution",
                     "configDesc": "Shows the number of minutes that this risk factor contributed to the total.",
                     "configCategory": "riskFactor",
                     "configValue": true
                 },
                 {
+                    "id": 10,
                     "configId": "enable",
                     "configDesc": "Shows a toggle to enable or disable a risk factor temporarily.",
                     "configCategory": "riskFactor",
@@ -454,35 +516,35 @@ function createService(data) {
     })
 }
 
-function updateService(serviceId, data) {
+function updateService(id, data) {
     // stub
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
-        let foundService = services.find(s => s.serviceId === serviceId);
+        let foundService = services.find(s => s.id === id);
 
         if (typeof foundService === 'undefined') reject('Could not find service');
         else resolve(Object.assign(foundService, data));
     })    
 }
 
-function deleteService(serviceId) {
+function deleteService(id) {
     // stub
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
-        let foundServiceIndex = services.findIndex(s => s.serviceId === serviceId);
+        let foundServiceIndex = services.findIndex(s => s.id === id);
 
         if (foundServiceIndex === -1) reject('Could not find service');
         
         deleteIfNotUndo(`Deleted service <em>${services[foundServiceIndex].serviceName}</em>. <a>Click to undo.</a>`, () => {
             services.splice(foundServiceIndex, 1);
-            console.log(`Deleted service with id: ${serviceId}`);
+            console.log(`Deleted service with id: ${id}`);
         }, resolve)
     })
 }
 
-function getServiceNameFromId(serviceId) {
+function getServiceFromSlug(serviceId) {
     // stub
     return new Promise((resolve, reject) => {
         const services = datastore.services;
@@ -490,28 +552,28 @@ function getServiceNameFromId(serviceId) {
         let foundService = services.find(s => s.serviceId === serviceId);
 
         if (typeof foundService === 'undefined') reject('Could not find service');
-        else resolve(foundService.serviceName);
+        else resolve(foundService);
     })
 }
 
-function getConfig(serviceId) {
+function getConfig(id) {
     // stub
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
-        let foundService = services.find(s => s.serviceId === serviceId);
+        let foundService = services.find(s => s.id === id);
 
         if (typeof foundService === 'undefined') reject('Could not find service');
         else resolve(foundService.config);
     })
 }
 
-function updateConfig(serviceId, configId, configValue) {
+function updateConfig(id, configId, configValue) {
     // stub
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
-        let foundService = services.find(s => s.serviceId === serviceId);
+        let foundService = services.find(s => s.id === id);
 
         if (typeof foundService === 'undefined') reject('Could not find service');
         
@@ -527,24 +589,24 @@ function updateConfig(serviceId, configId, configValue) {
     })
 }
 
-function getRiskFactors(serviceId) {
+function getRiskFactors(id) {
     // stub
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
-        let foundService = services.find(s => s.serviceId === serviceId);
+        let foundService = services.find(s => s.id === id);
 
         if (typeof foundService === 'undefined') reject('Could not find service');
         else resolve(foundService.riskFactors);
     })
 }
 
-function createRiskFactor(serviceId, data) {
+function createRiskFactor(id, data) {
     // stub
     return new Promise((resolve, reject) => {
         const services = datastore.services;
         
-        let foundService = services.find(s => s.serviceId === serviceId);
+        let foundService = services.find(s => s.id === id);
 
         if (typeof foundService === 'undefined') reject('Could not find service');
 
@@ -557,12 +619,12 @@ function createRiskFactor(serviceId, data) {
     })
 }
 
-function updateRiskFactor(serviceId, riskFactorId, data) {
+function updateRiskFactor(id, riskFactorId, data) {
     // stub
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
-        let foundService = services.find(s => s.serviceId === serviceId);
+        let foundService = services.find(s => s.id === id);
 
         if (typeof foundService === 'undefined') reject('Could not find service');
 
@@ -575,12 +637,12 @@ function updateRiskFactor(serviceId, riskFactorId, data) {
     })    
 }
 
-function deleteRiskFactor(serviceId, riskFactorId) {
+function deleteRiskFactor(id, riskFactorId) {
     // stub
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
-        let foundService = services.find(s => s.serviceId === serviceId);
+        let foundService = services.find(s => s.id === id);
 
         if (typeof foundService === 'undefined') reject('Could not find service');
 
@@ -597,24 +659,24 @@ function deleteRiskFactor(serviceId, riskFactorId) {
     })
 }
 
-function getRisks(serviceId) {
+function getRisks(id) {
     // stub
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
-        let foundService = services.find(s => s.serviceId === serviceId);
+        let foundService = services.find(s => s.id === id);
 
         if (typeof foundService === 'undefined') reject('Could not find service');
         else resolve(foundService.risks);
     })
 }
 
-function createRisk(serviceId, data) {
+function createRisk(id, data) {
     // stub
     return new Promise((resolve, reject) => {
         const services = datastore.services;
         
-        let foundService = services.find(s => s.serviceId === serviceId);
+        let foundService = services.find(s => s.id === id);
 
         if (typeof foundService === 'undefined') reject('Could not find service');
 
@@ -627,12 +689,12 @@ function createRisk(serviceId, data) {
     })
 }
 
-function updateRisk(serviceId, riskId, data) {
+function updateRisk(id, riskId, data) {
     // stub
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
-        let foundService = services.find(s => s.serviceId === serviceId);
+        let foundService = services.find(s => s.id === id);
 
         if (typeof foundService === 'undefined') reject('Could not find service');
 
@@ -645,12 +707,12 @@ function updateRisk(serviceId, riskId, data) {
     })    
 }
 
-function deleteRisk(serviceId, riskId) {
+function deleteRisk(id, riskId) {
     // stub
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
-        let foundService = services.find(s => s.serviceId === serviceId);
+        let foundService = services.find(s => s.id === id);
 
         if (typeof foundService === 'undefined') reject('Could not find service');
 
