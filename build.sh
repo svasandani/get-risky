@@ -16,6 +16,7 @@ mkdir -p dist/src/migrations/sql
 find src/migrations/sql -type f -not -iwholename 'src/migrations/sql/HEAD*' -exec cp '{}' 'dist/{}' ';'
 
 cp -a website/ dist/
+rm -rf dist/website/test/
 
 cp -a config/ dist/
 
