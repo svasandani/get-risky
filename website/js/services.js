@@ -110,3 +110,10 @@ window.addEventListener('load', () => {
     getAllServices()
         .then(setUpModals)
 })
+
+function test() {
+    import('../test/js/services_test.js')
+        .then(m => {
+            m.run()
+        })
+}
