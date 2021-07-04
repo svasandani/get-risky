@@ -56,7 +56,7 @@ func main() {
 func createFrontendServer() *http.Server {
 	mux := http.NewServeMux()
 
-	fs := http.FileServer(http.Dir("./website"))
+	fs := http.FileServer(http.Dir("website"))
 	mux.Handle("/", fs)
 
 	server := http.Server{

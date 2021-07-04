@@ -14,3 +14,5 @@
 HEAD*
 config/*
 !config/*.example
+dist/
+o.tar.gz
