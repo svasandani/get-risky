@@ -1,16 +1,16 @@
 set -e
 
-alias find="\"C:\\Program Files\\Git\\usr\\bin\\find.exe\"" $*
+alias find="\"C:\\Program Files\\Git\\usr\\bin\\find.exe\""
 
 go test ./...
 rm -rf dist/
 
 mkdir -p dist/
-go build src/main.go
-mv main.exe dist/
+GOOS=$1 GOARCH=$2 go build src/main.go
+mv main* dist/
 
-go build src/migrations/migrate.go
-mv migrate.exe dist/
+GOOS=$1 GOARCH=$2 go build src/migrations/migrate.go
+mv migrate* dist/
 
 mkdir -p dist/src/migrations/sql
 find src/migrations/sql -type f -not -iwholename 'src/migrations/sql/HEAD*' -exec cp '{}' 'dist/{}' ';'

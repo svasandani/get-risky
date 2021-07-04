@@ -126,7 +126,13 @@ You can build the app using the following command:
 
     $ go build src/main.go
 
-Then, copy the executable to the deploy server.
+Then, copy the executable to the deploy server. 
+
+Alternatively, run the `build.sh` script in the root of the repo, and use the tarball generated in the `releases/` folder. Pass in the `GOOS` and `GOARCH` targets as arguments to the `build.sh` script, e.g.:
+
+    $ sh build.sh linux amd64
+
+Note: the `build.sh` script runs tests, and will not build the project if they fail.
 
 ### Contributing
 Find an issue and submit a PR! Or make an issue and then submit a PR. Either works, just check [our Contributing doc](CONTRIBUTING.md) for more guidelines.
