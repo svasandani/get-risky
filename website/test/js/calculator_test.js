@@ -1,0 +1,29 @@
+import { config, test, TElement } from './tarik.js';
+
+export const run = (cfg) => {
+  config(cfg)
+
+  if (new URLSearchParams(window.location.search).get('service') !== 'geo') {
+    console.error(`Please run this test suite on test data! Expecting the geo service, got ${new URLSearchParams(window.location.search).get('service')} instead!`);
+    return;
+  }
+
+  test('should have h1 with service name', (T) => {
+    T.expect(TElement.ofTag('h1')).toExist();
+    if (new URLSearchParams(window.location.search).get('service') === 'auth') T.expect(TElement.ofTag('h1')).toContainExactly("Authentication") 
+  });
+
+  test('clicking on "back to service" should navigate to services', (T) => {
+    T.get(TElement.ofTag('a').withText('Choose another service')).click();
+
+    T.expect().toNavigateTo('/services/');
+  });
+
+  test('clicking on more button should open details', (T) => {
+    T.expect(TElement.ofTag('details').withAttributeEquals('data-risk', 'pods-down')).toNotHaveAttribute('open');
+
+    T.get(TElement.ofTag('span').withClass('show-details')).click()
+
+    T.expect(TElement.ofTag('details').withAttributeEquals('data-risk', 'pods-down')).toHaveAttribute('open');
+  })
+}

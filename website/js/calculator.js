@@ -456,3 +456,10 @@ window.addEventListener('load', () => {
         .then(setUpSynchronous)
         .catch(err => console.error(err));
 })
+
+function test(cfg) {
+    import('../test/js/calculator_test.js')
+        .then(m => {
+            m.run(cfg)
+        })
+}

@@ -1,12 +1,13 @@
 import { config, test, TElement } from './tarik.js';
 
-config({
-  visible: true,
-  interactable: true,
-  freezeAfterTest: true,
-  containing: 'auth',
-  timeout: 1000
-})
+// config({
+//   visible: true,
+//   interactable: true,
+//   freezeAfterTest: true,
+//   containing: 'auth',
+//   timeout: 1000,
+//   loadTime: 2000
+// })
 
 export const run = (cfg) => {
   config(cfg)

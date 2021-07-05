@@ -176,7 +176,7 @@ export async function test(name, callback) {
 
   let iframe = document.createElement("IFRAME");
   iframe.id = id;
-  iframe.src = '.';
+  iframe.src = window.location.href;
   iframe.setAttribute('style', `position: fixed; top: 0; left: 0; opacity: ${cfg.visible ? '1' : '0'}; pointer-events: ${cfg.interactable ? 'unset' : 'none'}; height: 100vh; width: 100vw; border: none; padding: 0; margin: 0`);
   
   let T = {
@@ -258,7 +258,7 @@ export async function test(name, callback) {
       return {
         toNavigateTo(url) {
           // TODO: good god
-          
+
           let absUrl = getAbsoluteUrl(url);
 
           T.checks.push({
@@ -297,43 +297,47 @@ export async function test(name, callback) {
   }
 
   iframe.addEventListener('load', () => {
-    T.document =  iframe.contentDocument || iframe.contentWindow?.document;
-    T.window = iframe.contentWindow;
+    setTimeout(() => {
+      T.document =  iframe.contentDocument || iframe.contentWindow?.document;
+      T.window = iframe.contentWindow;
 
-    // T.document.querySelectorAll("*, *:before, *:after").forEach(el => {
-    //   el.addEventListener('tarikClick', () => {
-    //     el.dispatchEvent(new Event('click'))
-    //   })
-    // })
+      // T.document.querySelectorAll("*, *:before, *:after").forEach(el => {
+      //   el.addEventListener('tarikClick', () => {
+      //     el.dispatchEvent(new Event('click'))
+      //   })
+      // })
 
-    console.info(`Running test: ${name}`);
-    callback(T);
-    if (!cfg.freezeAfterTest) document.body.removeChild(iframe);
+      callback(T);
 
-    let fail = false;
-    let failingAssertions = "";
-    let numFails = 0;
-    let numPasses = 0;
-    let promises = []
-    T.checks.forEach(check => {
-      promises.push(
-        check.evaluate()
-          .then(pass => {
-            if (!pass) {
-              failingAssertions += "\t" + `FAIL: ${check.reason()}` + "\n"
-              fail = true;
-              numFails++;
-            } else numPasses++;
-          })
-      )
-    })
+      let fail = false;
+      let failingAssertions = "";
+      let numFails = 0;
+      let numPasses = 0;
+      let promises = []
+      T.checks.forEach(check => {
+        promises.push(
+          check.evaluate()
+            .then(pass => {
+              if (!pass) {
+                failingAssertions += "\t" + `FAIL: ${check.reason()}` + "\n"
+                fail = true;
+                numFails++;
+              } else numPasses++;
+            })
+        )
+      })
 
-    Promise.all(promises).then(() => {
-      if (fail) {
-        console.error(`Test: '${name}' FAILED ${numFails}/${numFails+numPasses} test${numFails > 1 ? 's' : ''}`)
-        console.warn(failingAssertions)
-      } else console.log(`%cTest: '${name}' PASSED`, 'color: green')
-    })
+      Promise.all(promises)
+        .then(() => {
+          console.info(`Running test: ${name}`);
+          if (fail) {
+            console.error(`Test: '${name}' FAILED ${numFails}/${numFails+numPasses} test${numFails > 1 ? 's' : ''}`)
+            console.warn(failingAssertions)
+          } else console.log(`%cTest: '${name}' PASSED`, 'color: green')
+        }).then(() => {
+          if (!cfg.freezeAfterTest) document.body.removeChild(iframe);
+        })
+    }, 'loadTime' in cfg ? cfg.loadTime : 2000);
   }, { once: true })
 
   document.body.appendChild(iframe);
