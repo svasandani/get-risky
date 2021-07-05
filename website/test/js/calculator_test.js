@@ -34,9 +34,8 @@ export const run = (cfg) => {
   })
 
   test('clicking on delete button in risk should call deleteRisk', (T) => {
-    T.get(TElement.ofTag('span').withClass('show-details')).click()
     T.get(TElement.ofTag('button').withClass('delete-btn')).click()
 
-    T.expect().toCallFunction('deleteRisk', '1');
+    T.wait(200).then(() => T.expect().toCallFunction('deleteRisk'));
   });
 }

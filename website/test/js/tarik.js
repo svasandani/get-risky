@@ -206,11 +206,11 @@ export async function test(name, callback) {
       doc = doc.replaceAll('</head>', `
       <script>
         const mock = (fn, ...params) => {
-          window.parent.postMessage({
+          window.parent.postMessage(JSON.parse(JSON.stringify({
             id: window.frameElement.id,
             fn: fn.name,
             ...params
-          }, "*");
+          })), "*");
         }
       </script>
       `)
@@ -230,6 +230,10 @@ export async function test(name, callback) {
         id,
         checks: [],
         navigates: []
+      }
+
+      T.wait = (timeout) => {
+        return new Promise((resolve, reject) => setTimeout(() => resolve(T), timeout))
       }
       
       T.expect = (thing) => {
@@ -319,6 +323,15 @@ export async function test(name, callback) {
               })
             },
             toCallFunction(fn, ...params) {
+              // passing in fn.name, technically
+              let t = mockFns.findIndex(el => el.id === T.id && el.fn === fn) >= 0;
+
+              T.checks.push({
+                evaluate: () => p(t),
+                reason: () => `Function ${fn} wasn't called, expect it to be called`
+              })
+            },
+            toCallFunctionWithParams(fn, ...params) {
               // passing in fn.name, technically
               let t = mockFns.findIndex(el => el === {
                 id: T.id,
