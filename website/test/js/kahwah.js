@@ -268,12 +268,14 @@ export async function test(name, callback) {
           return {
             toEqual: (mustEqual) => {
               T.checks.push({
+                name: `expect '${thing}' to equal '${mustEqual}'`,
                 evaluate: () => p(thing === mustEqual),
                 reason: () => `Wanted '${thing}' to equal '${mustEqual}'`
               })
             },
             toNotEqual: (mustNotEqual) => {
               T.checks.push({
+                name: `expect '${thing}' to not equal '${mustEqual}'`,
                 evaluate: () => p(thing !== mustNotEqual),
                 reason: () => `Wanted '${thing}' not to equal '${mustNotEqual}'`
               })
@@ -286,6 +288,7 @@ export async function test(name, callback) {
                 let t = thing.getIn(T.document) !== null;
 
                 T.checks.push({
+                  name: `expect element with selector '${thing.selector}' to exist`,
                   evaluate: () => p(t),
                   reason: () => `Could not find element with selector '${thing.selector}'`
                 })
@@ -294,6 +297,7 @@ export async function test(name, callback) {
                 let t = thing.getIn(T.document) === null;
 
                 T.checks.push({
+                  name: `expect element with selector '${thing.selector}' to not exist`,
                   evaluate: () => p(t),
                   reason: () => `Found element with selector '${thing.selector}', expected null`
                 })
@@ -302,6 +306,7 @@ export async function test(name, callback) {
                 let t = thing.getIn(T.document) !== null && thing.getIn(T.document).getAttribute(attr) !== null;
 
                 T.checks.push({
+                  name: `expect element with selector '${thing.selector}' to have attribute '${attr}'`,
                   evaluate: () => p(t),
                   reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : `Found element with selector '${thing.selector}' but it did not have attribute '${attr}'`
                 })
@@ -310,6 +315,7 @@ export async function test(name, callback) {
                 let t = thing.getIn(T.document) !== null && thing.getIn(T.document).getAttribute(attr) === equals
 
                 T.checks.push({
+                  name: `expect element with selector '${thing.selector}' to have attribute '${attr}' with value '${equals}'`,
                   evaluate: () => p(t),
                   reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : thing.getIn(T.document).getAttribute(attr) === null ? `Found element with selector '${thing.selector}' but it did not have attribute '${attr}'` : `Found element with selector '${thing.selector}', it had attribute '${attr}' but it did not have value '${equals}'`
                 })
@@ -318,6 +324,7 @@ export async function test(name, callback) {
                 let t = thing.getIn(T.document) !== null && thing.getIn(T.document).getAttribute(attr) === null;
 
                 T.checks.push({
+                  name: `expect element with selector '${thing.selector}' to not have attribute '${attr}'`,
                   evaluate: () => p(t),
                   reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : `Found element with selector '${thing.selector}' but it had attribute '${attr}', expected null`
                 })
@@ -327,6 +334,7 @@ export async function test(name, callback) {
                 let t = thing.getIn(T.document) !== null && thing.getIn(T.document).textContent === text;
 
                 T.checks.push({
+                  name: `expect element with selector '${thing.selector}' to contain exactly '${text}'`,
                   evaluate: () => p(t),
                   reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : `Found element with selector '${thing.selector}' but it had text '${thing.getIn(T.document).textContent}'; wanted '${text}'`
                 })
@@ -337,18 +345,21 @@ export async function test(name, callback) {
           return {
             toBeTrue: () => {
               T.checks.push({
+                name: `expect '${thing}' to be true`,
                 evaluate: () => p(thing),
                 reason: () => `Expected ${thing} to be true, got ${thing}`
               })              
             },
             toNotBeTrue: () => {
               T.checks.push({
+                name: `expect '${thing}' to not be true`,
                 evaluate: () => p(!thing),
                 reason: () => `Expected ${thing} to not be true, got ${thing}`
               })              
             },
             toBeFalse: () => {
               T.checks.push({
+                name: `expect '${thing}' to be false`,
                 evaluate: () => p(thing === false),
                 reason: () => `Expected ${thing} to be false, got ${thing}`
               })              
@@ -363,6 +374,7 @@ export async function test(name, callback) {
               let absUrl = getAbsoluteUrl(url);
 
               T.checks.push({
+                name: `expect to navigate to '${absUrl}'`,
                 evaluate: () => {
                   return new Promise((resolve, reject) => {
                     setTimeout(() => resolve(T.navigates.findIndex(el => el.potential === absUrl && el.potential === T.window.location.href) >= 0), 'timeout' in T.cfg ? T.cfg.urlTimeout : 2000);
@@ -376,6 +388,7 @@ export async function test(name, callback) {
               let t = mockFns.findIndex(el => el.id === T.id && el.fn === fn) >= 0;
 
               T.checks.push({
+                name: `expect to call function '${fn}'`,
                 evaluate: () => p(t),
                 reason: () => `Function ${fn} wasn't called, expected it to be called`
               })
@@ -387,6 +400,7 @@ export async function test(name, callback) {
               let u = mockFns.find(el => el.id === T.id && el.fn === fn);
 
               T.checks.push({
+                name: `expect to call function '${fn}' with params '${JSON.stringify(params)}'`,
                 evaluate: () => p(typeof t !== 'undefined'),
                 reason: () => (u && typeof t === 'undefined') ? `Function ${fn} was called but with incorrect params, got ${JSON.stringify(u.data)} but wanted ${JSON.stringify(params)}` : `Function ${fn} wasn't called, expected it to be called`
               })
@@ -424,13 +438,14 @@ export async function test(name, callback) {
 
       iframe.addEventListener('load', () => {
         setTimeout(async () => {
-          T.document =  iframe.contentDocument || iframe.contentWindow?.document;
+          T.document =  iframe.contentDocument || iframe.contentWindow.document;
           T.window = iframe.contentWindow;
 
           await callback(T);
 
           let fail = false;
-          let failingAssertions = "";
+          let failingAssertions = [];
+          let passingAssertions = [];
           let numFails = 0;
           let numPasses = 0;
           let promises = []
@@ -439,21 +454,27 @@ export async function test(name, callback) {
               check.evaluate()
                 .then(pass => {
                   if (!pass) {
-                    failingAssertions += "\t" + `FAIL: ${check.reason()}` + "\n"
+                    failingAssertions.push(check.reason());
                     fail = true;
                     numFails++;
-                  } else numPasses++;
+                  } else {
+                    passingAssertions.push(check.name);
+                    numPasses++;
+                  }
                 })
             )
           })
 
           Promise.all(promises)
             .then(() => {
-              console.info(`Running test: ${name}`);
+              console.info('%cRUNNING:', 'font-weight: bold;', `${name}`);
               if (fail) {
-                console.error(`Test: '${name}' FAILED ${numFails}/${numFails+numPasses} assertion${(numFails+numPasses) > 1 ? 's' : ''}`)
-                console.warn(failingAssertions)
-              } else console.log(`%cTest: '${name}' PASSED`, 'color: green')
+                console.error('%cFAILED:', 'font-weight: bold; color: white; background: red;', `'${name}' failed ${numFails}/${numFails+numPasses} assertion${(numFails+numPasses) > 1 ? 's' : ''}`)
+
+                failingAssertions.forEach(fa => console.log('%c\tFAIL:', 'font-weight: bold; color: red;', fa))
+              } else console.log('%cPASSED:' + `%c '${name}' passed`, 'font-weight: bold; color: white; background: darkgreen;', 'color: lightgreen;')
+
+              if (T.cfg.showPassingAssertions) passingAssertions.forEach(pa => console.log('%c\tPASS:' + `%c\n\t${pa}`, 'font-weight: bold; color: lightgreen;', 'color: white;'))
             }).then(() => {
               if (!T.cfg.freezeAfterTest) document.body.removeChild(iframe);
             })

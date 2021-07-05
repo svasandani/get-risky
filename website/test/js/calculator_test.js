@@ -1,5 +1,7 @@
 import { config, replaceScript, TElement, test } from './kahwah.js';
 
+// config({ showPassingAssertions: true })
+
 export const run = (cfg) => {
   config(cfg)
 
@@ -29,6 +31,7 @@ export const run = (cfg) => {
     T.get(TElement.ofTag('span').withClass('show-details')).click()
 
     T.expect(TElement.ofTag('details').withAttributeEquals('data-risk', 'pods-down')).toHaveAttribute('open');
+    T.expect(false).toBeTrue()
   })
 
   test('clicking on delete button in risk should call deleteRisk', async (T) => {
