@@ -2,6 +2,7 @@ let ctr = 0;
 const cfg = {};
 const lifecycle = {};
 const mockFns = [];
+const waits = [];
 
 export class TElement {
   constructor() {
@@ -215,20 +216,22 @@ export async function test(name, callback) {
       </script>
       </head>
       `)
-      doc = doc.replaceAll('</body>', `
+      doc = doc.replaceAll('</script>', `
+      </script>
       <script>
         window.addEventListener('load', () => {
-          for (const [k, v] in Object.entries(window)) {
-            if (typeof v === 'function') {
-              window[k] = (...params) => {
-                mock(v, ...params);
-                v(...params);
+          Object.keys(window).forEach(fn => {
+            if (typeof window[fn] === 'function') {
+              const oldFn = window[fn];
+
+              window[fn] = function() {
+                mock(oldFn, ...arguments);
+                return oldFn.apply(this, arguments);
               }
             }
-          }
+          })
         });
       </script>
-      </body>
       `)
       if ('removeScript' in lifecycle) { 
         // TODO: stub 
@@ -338,13 +341,13 @@ export async function test(name, callback) {
                 reason: () => T.window.location.href === url ? `Timed out after ${'timeout' in cfg ? cfg.timeout : 2000}ms` : `Nothing tried to navigate to '${url}', expected some event`
               })
             },
-            toCallFunction(fn, ...params) {
+            toCallFunction(fn) {
               // passing in fn.name, technically
               let t = mockFns.findIndex(el => el.id === T.id && el.fn === fn) >= 0;
 
               T.checks.push({
                 evaluate: () => p(t),
-                reason: () => `Function ${fn} wasn't called, expect it to be called`
+                reason: () => `Function ${fn} wasn't called, expected it to be called`
               })
             },
             toCallFunctionWithParams(fn, ...params) {
@@ -359,7 +362,7 @@ export async function test(name, callback) {
 
               T.checks.push({
                 evaluate: () => p(t),
-                reason: () => t && !u ? `Function ${fn} was called but with incorrect params, got ${JSON.stringify(mockFns[u])} but wanted ${JSON.stringify(params)}` : `Function ${fn} wasn't called, expect it to be called`
+                reason: () => t && !u ? `Function ${fn} was called but with incorrect params, got ${JSON.stringify(mockFns[u])} but wanted ${JSON.stringify(params)}` : `Function ${fn} wasn't called, expected it to be called`
               })
             }
           }
@@ -394,11 +397,11 @@ export async function test(name, callback) {
       }
 
       iframe.addEventListener('load', () => {
-        setTimeout(() => {
+        setTimeout(async () => {
           T.document =  iframe.contentDocument || iframe.contentWindow?.document;
           T.window = iframe.contentWindow;
 
-          callback(T);
+          await callback(T);
 
           let fail = false;
           let failingAssertions = "";
