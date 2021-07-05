@@ -2,7 +2,6 @@ let ctr = 0;
 const cfg = {};
 const lifecycle = {};
 const mockFns = [];
-const waits = [];
 
 export class TElement {
   constructor() {
@@ -236,6 +235,9 @@ export async function test(name, callback) {
       if ('removeScript' in lifecycle) { 
         // TODO: stub 
       }
+      if ('useScript' in lifecycle) { 
+        // TODO: stub 
+      }
       if ('replaceScript' in lifecycle) {
         doc = doc.replaceAll(lifecycle.replaceScript.oldScript, lifecycle.replaceScript.newScript);
       }
@@ -438,14 +440,5 @@ export async function test(name, callback) {
       iframe.contentDocument.open();
       iframe.contentDocument.write(doc);
       iframe.contentDocument.close();
-
-      // TODO: figure out how to do this later
-      // if ('useScript' in lifecycle) {
-      //   console.log("hi")
-      //   let s = document.createElement('SCRIPT');
-      //   s.src = lifecycle.useScript;
-
-      //   T.document.body.appendChild(s);
-      // }
     })
 }
