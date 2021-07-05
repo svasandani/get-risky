@@ -7,7 +7,7 @@ Table of Contents
 ========
 
 - [Get Risky](#get-risky)
-  - [Frontend](#front-end)
+  - [Frontend](#frontend)
     - [Running it locally](#running-it-locally)
     - [Deployment](#deployment)
     - [Testing](#testing)
@@ -54,7 +54,7 @@ Table of Contents
 ## Frontend
 
 ### Running it locally
-The front-end is entirely static, no build step required. You have two options to run it:
+The frontend is entirely static, no build step required. You have two options to run it:
 
 - #### Serve it yourself
 
@@ -65,22 +65,26 @@ The front-end is entirely static, no build step required. You have two options t
   Run the entire service via the backend (see [Backend](#backend) below), but make sure to specify the `site-port` flag! 
 
 ### Deployment
-To deploy the front-end by itself, just copy the directory somewhere. `scp` it, `ftp` it, `Ctrl+C, Ctrl+V` it.
+To deploy the frontend by itself, just copy the directory somewhere. `scp` it, `ftp` it, `Ctrl+C, Ctrl+V` it.
 
 To deploy it with the backend, follow [these deployment instructions](#deployment-1).
 
 ### Testing
-We don't currently have any front-end testing. If you know of a good framework/way to test static sites without a build step, please reach out to me.
+Since it's entirely static, we use an in-house testing system named `kahwah` to test the frontend. To run tests, you need to serve the frontend along with the backend, and you need to use `--env=test`. Then, open the page you want to test in your browser, open developer tools, and run the following:
+
+    test()
+
+For more information on kahwah, [read its documentation](kahwah.md).
 
 ### Contributing
 It might be hard to add new features given the static nature of the site. It might be helpful to rewrite it in some sort of framework (React, Angular) to make it easier for contributors down the line. If you'd like to do that, check out [our Contributing doc](CONTRIBUTING.md) get you started.
 
 ### Issues
-We use Github's issue tracker. Any issues should be reported there, tagged with #front-end.
+We use Github's issue tracker. Any issues should be reported there, tagged with #frontend.
 
 ### Future features
 
-The front-end has a lot of good functionality already, and these features are geared more towards scalability/maintainability.
+The frontend has a lot of good functionality already, and these features are geared more towards scalability/maintainability.
 
 - #### (Option 1) Switch to a framework
 
@@ -207,7 +211,7 @@ There are some plans for the future of get-risky. Here are a few possible featur
 
 - #### Backend transformations
 
-  The backend currently only functions as a CRUD API. All the transformation is done on the front-end. Ideally, we'd like to serve some transformed data from the backend to be consumed by an external application. This shouldn't be too difficult, since much of the logic can be translated from JavaScript to Go.
+  The backend currently only functions as a CRUD API. All the transformation is done on the frontend. Ideally, we'd like to serve some transformed data from the backend to be consumed by an external application. This shouldn't be too difficult, since much of the logic can be translated from JavaScript to Go.
 
 - #### Dockerization
 
