@@ -327,9 +327,30 @@ export async function test(name, callback) {
               }
             }
           }
+        } else if (typeof thing === 'boolean') {
+          return {
+            toBeTrue: () => {
+              T.checks.push({
+                evaluate: () => p(thing),
+                reason: () => `Expected ${thing} to be true, got ${thing}`
+              })              
+            },
+            toNotBeTrue: () => {
+              T.checks.push({
+                evaluate: () => p(!thing),
+                reason: () => `Expected ${thing} to not be true, got ${thing}`
+              })              
+            },
+            toBeFalse: () => {
+              T.checks.push({
+                evaluate: () => p(thing === false),
+                reason: () => `Expected ${thing} to be false, got ${thing}`
+              })              
+            },
+          }
         } else if (typeof thing === 'undefined') {
           return {
-            toNavigateTo(url) {
+            toNavigateTo: (url) => {
               // TODO: good god
 
               let absUrl = getAbsoluteUrl(url);
@@ -343,7 +364,7 @@ export async function test(name, callback) {
                 reason: () => T.window.location.href === url ? `Timed out after ${'timeout' in cfg ? cfg.timeout : 2000}ms` : `Nothing tried to navigate to '${url}', expected some event`
               })
             },
-            toCallFunction(fn) {
+            toCallFunction: (fn) => {
               // passing in fn.name, technically
               let t = mockFns.findIndex(el => el.id === T.id && el.fn === fn) >= 0;
 
@@ -352,7 +373,7 @@ export async function test(name, callback) {
                 reason: () => `Function ${fn} wasn't called, expected it to be called`
               })
             },
-            toCallFunctionWithParams(fn, ...params) {
+            toCallFunctionWithParams: (fn, ...params) => {
               // passing in fn.name, technically
               let t = mockFns.findIndex(el => el === {
                 id: T.id,
