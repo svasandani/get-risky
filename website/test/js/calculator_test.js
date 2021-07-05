@@ -3,8 +3,6 @@ import { config, replaceScript, TElement, test } from './tarik.js';
 export const run = (cfg) => {
   config(cfg)
 
-  replaceScript('../js/apicalls.js', '/test/js/mock_apicalls.js');
-
   if (new URLSearchParams(window.location.search).get('service') !== 'geo') {
     console.error(`Please run this test suite on test data! Expecting the geo service, got ${new URLSearchParams(window.location.search).get('service')} instead!`);
     return;

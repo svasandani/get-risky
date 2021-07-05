@@ -213,6 +213,22 @@ export async function test(name, callback) {
           })), "*");
         }
       </script>
+      </head>
+      `)
+      doc = doc.replaceAll('</body>', `
+      <script>
+        window.addEventListener('load', () => {
+          for (const [k, v] in Object.entries(window)) {
+            if (typeof v === 'function') {
+              window[k] = (...params) => {
+                mock(v, ...params);
+                v(...params);
+              }
+            }
+          }
+        });
+      </script>
+      </body>
       `)
       if ('removeScript' in lifecycle) { 
         // TODO: stub 
