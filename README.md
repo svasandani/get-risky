@@ -3,7 +3,9 @@ Get Risky
 
 A risk assessment tool to help determine which risks to tolerate and which to mitigate. Builtin migration handler. Currently in development.
 
-![screenshot of get-risky](https://user-images.githubusercontent.com/24604927/124519698-0d317c80-ddb8-11eb-82b3-ead3b8c01f82.png)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/24604927/124519698-0d317c80-ddb8-11eb-82b3-ead3b8c01f82.png" alt="screenshot of get-risky" width="640"/>
+</p>
 
 Table of Contents
 ========
