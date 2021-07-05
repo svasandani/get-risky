@@ -4,7 +4,9 @@ A static frontend testing framework that lives in the browser.
 
 ## Running tests
 
-To run tests with the boilerplate setup described below, open developer tools in your browser and run `test()` in the console.
+To run tests with the boilerplate setup described below, open developer tools in your browser and run `test()` in the console. Here's what it should look like (with two tests, one of which is failing):
+
+![image](https://user-images.githubusercontent.com/24604927/124519504-8086be80-ddb7-11eb-8fdb-dfaa2e1bb2d9.png)
 
 ## How it works
 
