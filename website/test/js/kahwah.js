@@ -36,6 +36,7 @@ export class TElement {
     }
   }
 
+  // TODO: throw error on multiple tags
   ofTag(tag) {
     this.selector = tag + this.selector
 
@@ -358,10 +359,10 @@ export async function test(name, callback) {
               T.checks.push({
                 evaluate: () => {
                   return new Promise((resolve, reject) => {
-                    setTimeout(() => resolve(T.navigates.findIndex(el => el.potential === absUrl && el.potential === T.window.location.href) >= 0), 'timeout' in cfg ? cfg.timeout : 2000);
+                    setTimeout(() => resolve(T.navigates.findIndex(el => el.potential === absUrl && el.potential === T.window.location.href) >= 0), 'timeout' in cfg ? cfg.urlTimeout : 2000);
                   })              
                 },
-                reason: () => T.window.location.href === url ? `Timed out after ${'timeout' in cfg ? cfg.timeout : 2000}ms` : `Nothing tried to navigate to '${url}', expected some event`
+                reason: () => T.window.location.href === url ? `Timed out after ${'timeout' in cfg ? cfg.urlTimeout : 2000}ms` : `Nothing tried to navigate to '${url}', expected some event`
               })
             },
             toCallFunction: (fn) => {

@@ -1,4 +1,4 @@
-import { config, replaceScript, TElement, test } from './tarik.js';
+import { config, replaceScript, TElement, test } from './kahwah.js';
 
 export const run = (cfg) => {
   config(cfg)

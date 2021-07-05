@@ -1,13 +1,13 @@
-import { config, test, TElement } from './tarik.js';
+import { config, test, TElement } from './kahwah.js';
 
 // config({
 //   visible: true,
 //   interactable: true,
 //   freezeAfterTest: true,
 //   containing: 'auth',
-//   timeout: 1000,
-//   loadTime: 2000,
+//   urlTimeout: 1000,
 //   fnTimeout: 500
+//   loadTime: 2000,
 // })
 
 export const run = (cfg) => {
