@@ -206,11 +206,11 @@ export async function test(name, callback) {
     .then(doc => {
       doc = doc.replaceAll('</head>', `
       <script>
-        const mock = (fn, ...params) => {
+        const mock = (fn, data) => {
           window.parent.postMessage(JSON.parse(JSON.stringify({
             id: window.frameElement.id,
             fn: fn.name,
-            ...params
+            data
           })), "*");
         }
       </script>
@@ -225,7 +225,7 @@ export async function test(name, callback) {
               const oldFn = window[fn];
 
               window[fn] = function() {
-                mock(oldFn, ...arguments);
+                mock(oldFn, Object.values(arguments));
                 return oldFn.apply(this, arguments);
               }
             }
@@ -243,16 +243,21 @@ export async function test(name, callback) {
         doc = doc.replaceAll(lifecycle.replaceScript.oldScript, lifecycle.replaceScript.newScript);
       }
 
-      let iframe = document.createElement("IFRAME");
-      iframe.id = id;
-      iframe.src = window.location.href;
-      iframe.setAttribute('style', `position: fixed; top: 0; left: 0; opacity: ${cfg.visible ? '1' : '0'}; pointer-events: ${cfg.interactable ? 'unset' : 'none'}; height: 100vh; width: 100vw; border: none; padding: 0; margin: 0`);
-      
       let T = {
         id,
+        cfg: { ...cfg },
         checks: [],
         navigates: []
       }
+
+      T.config = (cfg) => {
+        return Object.assign(T.cfg, cfg);
+      }
+
+      let iframe = document.createElement("IFRAME");
+      iframe.id = id;
+      iframe.src = window.location.href;
+      iframe.setAttribute('style', `position: fixed; top: 0; left: 0; opacity: ${T.cfg.visible ? '1' : '0'}; pointer-events: ${T.cfg.interactable ? 'unset' : 'none'}; height: 100vh; width: 100vw; border: none; padding: 0; margin: 0`);
 
       T.wait = (timeout) => {
         return new Promise((resolve, reject) => setTimeout(() => resolve(T), timeout))
@@ -352,17 +357,18 @@ export async function test(name, callback) {
         } else if (typeof thing === 'undefined') {
           return {
             toNavigateTo: (url) => {
-              // TODO: good god
+              // TODO: good god 
+              // TODO: doesn't work for things not pushed to navigates - e.g. changes to window.location.href
 
               let absUrl = getAbsoluteUrl(url);
 
               T.checks.push({
                 evaluate: () => {
                   return new Promise((resolve, reject) => {
-                    setTimeout(() => resolve(T.navigates.findIndex(el => el.potential === absUrl && el.potential === T.window.location.href) >= 0), 'timeout' in cfg ? cfg.urlTimeout : 2000);
+                    setTimeout(() => resolve(T.navigates.findIndex(el => el.potential === absUrl && el.potential === T.window.location.href) >= 0), 'timeout' in T.cfg ? T.cfg.urlTimeout : 2000);
                   })              
                 },
-                reason: () => T.window.location.href === url ? `Timed out after ${'timeout' in cfg ? cfg.urlTimeout : 2000}ms` : `Nothing tried to navigate to '${url}', expected some event`
+                reason: () => T.window.location.href === url ? `Timed out after ${'timeout' in T.cfg ? T.cfg.urlTimeout : 2000}ms` : `Did not navigate to '${url}', expected to`
               })
             },
             toCallFunction: (fn) => {
@@ -376,17 +382,13 @@ export async function test(name, callback) {
             },
             toCallFunctionWithParams: (fn, ...params) => {
               // passing in fn.name, technically
-              let t = mockFns.findIndex(el => el === {
-                id: T.id,
-                fn,
-                ...params
-              }) >= 0;
+              let t = mockFns.find(el => el.id === T.id && el.fn === fn && JSON.stringify(el.data.sort()) === JSON.stringify(params.sort()));
 
-              let u = mockFns.findIndex(el => el.fn === fn) >= 0;
+              let u = mockFns.find(el => el.id === T.id && el.fn === fn);
 
               T.checks.push({
-                evaluate: () => p(t),
-                reason: () => t && !u ? `Function ${fn} was called but with incorrect params, got ${JSON.stringify(mockFns[u])} but wanted ${JSON.stringify(params)}` : `Function ${fn} wasn't called, expected it to be called`
+                evaluate: () => p(typeof t !== 'undefined'),
+                reason: () => (u && typeof t === 'undefined') ? `Function ${fn} was called but with incorrect params, got ${JSON.stringify(u.data)} but wanted ${JSON.stringify(params)}` : `Function ${fn} wasn't called, expected it to be called`
               })
             }
           }
@@ -453,9 +455,9 @@ export async function test(name, callback) {
                 console.warn(failingAssertions)
               } else console.log(`%cTest: '${name}' PASSED`, 'color: green')
             }).then(() => {
-              if (!cfg.freezeAfterTest) document.body.removeChild(iframe);
+              if (!T.cfg.freezeAfterTest) document.body.removeChild(iframe);
             })
-        }, 'loadTime' in cfg ? cfg.loadTime : 2000);
+        }, 'loadTime' in T.cfg ? T.cfg.loadTime : 2000);
       }, { once: true })
 
       document.body.appendChild(iframe);

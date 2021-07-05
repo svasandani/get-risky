@@ -36,7 +36,7 @@ export const run = (cfg) => {
 
     await T.wait(200)
     
-    T.expect().toCallFunction('updateComputedRisk');
+    T.expect().toCallFunctionWithParams('updateComputedRisk', 1, { deleted: true });
     T.expect().toCallFunction('deleteRisk');
 
     T.expect(TElement.ofTag('details').withAttributeEquals('data-risk', 'pods-down')).toNotExist();
