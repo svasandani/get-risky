@@ -1,6 +1,7 @@
 let ctr = 0;
 const cfg = {};
 const lifecycle = {};
+const mockFns = [];
 
 export class TElement {
   constructor() {
@@ -180,6 +181,16 @@ export const removeScript = () => {
   // TODO: stub
 }
 
+window.addEventListener('message', (e) => {
+  mockFns.push(e.data)
+
+  setTimeout(() => {
+    let i = mockFns.findIndex(el => el === e.data)
+
+    mockFns.splice(i, 1);
+  }, 'fnTimeout' in cfg ? cfg.fnTimeout : 2000)
+}, false);
+
 export const config = (c) => {
   Object.assign(cfg, c);
 }
@@ -192,6 +203,17 @@ export async function test(name, callback) {
   fetch(window.location.href)
     .then(response => response.text())
     .then(doc => {
+      doc = doc.replaceAll('</head>', `
+      <script>
+        const mock = (fn, ...params) => {
+          window.parent.postMessage({
+            id: window.frameElement.id,
+            fn: fn.name,
+            ...params
+          }, "*");
+        }
+      </script>
+      `)
       if ('removeScript' in lifecycle) { 
         // TODO: stub 
       }
@@ -205,6 +227,7 @@ export async function test(name, callback) {
       iframe.setAttribute('style', `position: fixed; top: 0; left: 0; opacity: ${cfg.visible ? '1' : '0'}; pointer-events: ${cfg.interactable ? 'unset' : 'none'}; height: 100vh; width: 100vw; border: none; padding: 0; margin: 0`);
       
       let T = {
+        id,
         checks: [],
         navigates: []
       }
@@ -294,6 +317,21 @@ export async function test(name, callback) {
                 },
                 reason: () => T.window.location.href === url ? `Timed out after ${'timeout' in cfg ? cfg.timeout : 2000}ms` : `Nothing tried to navigate to '${url}', expected some event`
               })
+            },
+            toCallFunction(fn, ...params) {
+              // passing in fn.name, technically
+              let t = mockFns.findIndex(el => el === {
+                id: T.id,
+                fn,
+                ...params
+              }) >= 0;
+
+              let u = mockFns.findIndex(el => el.fn === fn) >= 0;
+
+              T.checks.push({
+                evaluate: () => p(t),
+                reason: () => t && !u ? `Function ${fn} was called but with incorrect params, got ${JSON.stringify(mockFns[u])} but wanted ${JSON.stringify(params)}` : `Function ${fn} wasn't called, expect it to be called`
+              })
             }
           }
         }
@@ -315,6 +353,11 @@ export async function test(name, callback) {
                   old,
                   potential: el.href // add some || in here?
                 })
+              },
+              getAttribute: (attr) => {
+                let el = thing.getIn(T.document);
+                
+                return el.getAttribute(attr);
               }
             }
           }

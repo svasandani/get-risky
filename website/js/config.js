@@ -27,7 +27,7 @@ function appendConfig(toPopulate, config) {
     `
     <details class="table-hidden-row">
         <summary class="config-table-row table-row">
-            <span>${config.configId}</span>
+            <span class="table-data">${config.configId}</span>
             <label class="custom-toggle">
                 <input id="${config.configId}-enable" name="${config.configId}-enable" class="custom-toggle" type="checkbox" ${config.configValue ? 'checked' : ''}/>
                 <span class="custom-toggle"></span>
@@ -41,8 +41,8 @@ function appendConfig(toPopulate, config) {
     )
     
     toPopulate.querySelector(`#${config.configId}-enable`).addEventListener('click', () => {
-        if (toPopulate.querySelector(`#${config.configId}-enable`).checked) updateConfig(currentService.id, config.configId, true)
-        else updateConfig(currentService.id, config.configId, false)
+        if (toPopulate.querySelector(`#${config.configId}-enable`).checked) updateConfig(currentService.id, config.id, true)
+        else updateConfig(currentService.id, config.id, false)
     })
 }
 

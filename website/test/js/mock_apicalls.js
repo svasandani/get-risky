@@ -473,6 +473,8 @@ const datastore = {
 }
 
 function deleteIfNotUndo(msg, callback, resolve, timeout=5000) {
+    mock(deleteIfNotUndo, msg, callback, resolve, timeout);
+
     let notifId = pushNotification({ 
         msg,
         onClick: (id) => {
@@ -496,21 +498,21 @@ function deleteIfNotUndo(msg, callback, resolve, timeout=5000) {
 }
 
 function getServices() {
-    // stub
+    mock(getServices);
+
     return new Promise((resolve, reject) => {
+
         const services = datastore.services;
 
         resolve(services);
-
-        // fetch(`${url}/services/`)
-        //     .then(r => r.json())
-        //     .then(resolve)
     })
 }
 
 function createService(data) {
-    // stub
+    mock(createService, data);
+
     return new Promise((resolve, reject) => {
+
         const services = datastore.services;
         services.push(data);
         
@@ -521,7 +523,8 @@ function createService(data) {
 }
 
 function updateService(id, data) {
-    // stub
+    mock(updateService, id, data);
+
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
@@ -533,7 +536,8 @@ function updateService(id, data) {
 }
 
 function deleteService(id) {
-    // stub
+    mock(deleteService, id);
+
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
@@ -549,23 +553,23 @@ function deleteService(id) {
 }
 
 function getServiceFromSlug(serviceId) {
-    // stub
+    mock(getServiceFromSlug, serviceId);
+    
     return new Promise((resolve, reject) => {
+        mock(getServiceFromSlug, serviceId);
+
         const services = datastore.services;
 
         let foundService = services.find(s => s.serviceId === serviceId);
 
         if (typeof foundService === 'undefined') reject('Could not find service');
         else resolve(foundService);
-
-        // fetch(`${url}/services?slug=${serviceId}`)
-        //     .then(r => r.json()[0])
-        //     .then(resolve)
     })
 }
 
 function getConfig(id) {
-    // stub
+    mock(getConfig, id);
+    
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
@@ -581,7 +585,8 @@ function getConfig(id) {
 }
 
 function updateConfig(id, configId, configValue) {
-    // stub
+    mock(updateConfig, id, configId, configValue);
+    
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
@@ -591,7 +596,7 @@ function updateConfig(id, configId, configValue) {
         
         const config = foundService.config;
         
-        let foundConfig = config.find(c => c.configId === configId);
+        let foundConfig = config.find(c => c.id === configId);
 
         if (typeof foundConfig === 'undefined') reject('Could not find config option');
         else {
@@ -602,7 +607,8 @@ function updateConfig(id, configId, configValue) {
 }
 
 function getRiskFactors(id) {
-    // stub
+    mock(getRiskFactors, id);
+    
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
@@ -618,7 +624,8 @@ function getRiskFactors(id) {
 }
 
 function createRiskFactor(id, data) {
-    // stub
+    mock(createRiskFactor, id, data);
+    
     return new Promise((resolve, reject) => {
         const services = datastore.services;
         
@@ -636,7 +643,8 @@ function createRiskFactor(id, data) {
 }
 
 function updateRiskFactor(id, riskFactorId, data) {
-    // stub
+    mock(updateRiskFactor, id, riskFactorId, data);
+    
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
@@ -646,7 +654,7 @@ function updateRiskFactor(id, riskFactorId, data) {
 
         const riskFactors = foundService.riskFactors;
 
-        let foundRiskFactor = riskFactors.find(r => r.riskFactorId === riskFactorId);
+        let foundRiskFactor = riskFactors.find(r => r.id === riskFactorId);
 
         if (typeof foundRiskFactor === 'undefined') reject('Could not find risk factor');
         else resolve(Object.assign(foundRiskFactor, data));
@@ -654,7 +662,8 @@ function updateRiskFactor(id, riskFactorId, data) {
 }
 
 function deleteRiskFactor(id, riskFactorId) {
-    // stub
+    mock(deleteRiskFactor, id, riskFactorId);
+    
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
@@ -664,7 +673,7 @@ function deleteRiskFactor(id, riskFactorId) {
 
         const riskFactors = foundService.riskFactors;
 
-        let foundRiskFactorIndex = riskFactors.findIndex(r => r.riskFactorId === riskFactorId);
+        let foundRiskFactorIndex = riskFactors.findIndex(r => r.id === riskFactorId);
 
         if (foundRiskFactorIndex === -1) reject('Could not find risk');
         
@@ -676,7 +685,8 @@ function deleteRiskFactor(id, riskFactorId) {
 }
 
 function getRisks(id) {
-    // stub
+    mock(getRisks, id);
+    
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
@@ -692,7 +702,8 @@ function getRisks(id) {
 }
 
 function createRisk(id, data) {
-    // stub
+    mock(createRisk, id, data);
+    
     return new Promise((resolve, reject) => {
         const services = datastore.services;
         
@@ -710,7 +721,8 @@ function createRisk(id, data) {
 }
 
 function updateRisk(id, riskId, data) {
-    // stub
+    mock(updateRisk, id, riskId, data);
+    
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
@@ -720,7 +732,7 @@ function updateRisk(id, riskId, data) {
 
         const risks = foundService.risks;
 
-        let foundRisk = risks.find(r => r.riskId === riskId);
+        let foundRisk = risks.find(r => r.id === riskId);
 
         if (typeof foundRisk === 'undefined') reject('Could not find risk');
         else resolve(Object.assign(foundRisk, data));
@@ -728,7 +740,8 @@ function updateRisk(id, riskId, data) {
 }
 
 function deleteRisk(id, riskId) {
-    // stub
+    mock(deleteRisk, id, riskId);
+    
     return new Promise((resolve, reject) => {
         const services = datastore.services;
 
@@ -738,7 +751,7 @@ function deleteRisk(id, riskId) {
 
         const risks = foundService.risks;
 
-        let foundRiskIndex = risks.findIndex(r => r.riskId === riskId);
+        let foundRiskIndex = risks.findIndex(r => r.id === riskId);
 
         if (foundRiskIndex === -1) reject('Could not find risk');
         

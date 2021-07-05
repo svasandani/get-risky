@@ -6,7 +6,8 @@ import { config, test, TElement } from './tarik.js';
 //   freezeAfterTest: true,
 //   containing: 'auth',
 //   timeout: 1000,
-//   loadTime: 2000
+//   loadTime: 2000,
+//   fnTimeout: 500
 // })
 
 export const run = (cfg) => {

@@ -253,7 +253,7 @@ function deleteComputedRiskFactor(id) {
         if (foundRiskFactorIndex === -1) reject('Could not find risk');
         
         riskFactors.splice(foundRiskFactorIndex, 1);
-        console.log(`Deleted risk factor with id ${riskFactorId} from state`);
+        console.log(`Deleted risk factor with id ${id} from state`);
 
         resolve();
     })
@@ -268,7 +268,7 @@ function deleteComputedRisk(id) {
         if (foundRiskIndex === -1) reject('Could not find risk');
         
         risks.splice(foundRiskIndex, 1);
-        console.log(`Deleted risk with id ${riskId} from state`);
+        console.log(`Deleted risk with id ${id} from state`);
 
         resolve();
     })

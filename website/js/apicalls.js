@@ -591,7 +591,7 @@ function updateConfig(id, configId, configValue) {
         
         const config = foundService.config;
         
-        let foundConfig = config.find(c => c.configId === configId);
+        let foundConfig = config.find(c => c.id === configId);
 
         if (typeof foundConfig === 'undefined') reject('Could not find config option');
         else {
@@ -646,7 +646,7 @@ function updateRiskFactor(id, riskFactorId, data) {
 
         const riskFactors = foundService.riskFactors;
 
-        let foundRiskFactor = riskFactors.find(r => r.riskFactorId === riskFactorId);
+        let foundRiskFactor = riskFactors.find(r => r.id === riskFactorId);
 
         if (typeof foundRiskFactor === 'undefined') reject('Could not find risk factor');
         else resolve(Object.assign(foundRiskFactor, data));
@@ -664,7 +664,7 @@ function deleteRiskFactor(id, riskFactorId) {
 
         const riskFactors = foundService.riskFactors;
 
-        let foundRiskFactorIndex = riskFactors.findIndex(r => r.riskFactorId === riskFactorId);
+        let foundRiskFactorIndex = riskFactors.findIndex(r => r.id === riskFactorId);
 
         if (foundRiskFactorIndex === -1) reject('Could not find risk');
         
@@ -720,7 +720,7 @@ function updateRisk(id, riskId, data) {
 
         const risks = foundService.risks;
 
-        let foundRisk = risks.find(r => r.riskId === riskId);
+        let foundRisk = risks.find(r => r.id === riskId);
 
         if (typeof foundRisk === 'undefined') reject('Could not find risk');
         else resolve(Object.assign(foundRisk, data));
@@ -738,7 +738,7 @@ function deleteRisk(id, riskId) {
 
         const risks = foundService.risks;
 
-        let foundRiskIndex = risks.findIndex(r => r.riskId === riskId);
+        let foundRiskIndex = risks.findIndex(r => r.id === riskId);
 
         if (foundRiskIndex === -1) reject('Could not find risk');
         

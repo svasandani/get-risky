@@ -10,6 +10,10 @@ export const run = (cfg) => {
     return;
   }
 
+  test('page should call getServiceFromSlug', (T) => {
+    T.expect().toCallFunction('getServiceFromSlug');
+  });
+
   test('should have h1 with service name', (T) => {
     T.expect(TElement.ofTag('h1')).toExist();
     T.expect(TElement.ofTag('h1')).toContainExactly("Geolocation") 
@@ -28,4 +32,11 @@ export const run = (cfg) => {
 
     T.expect(TElement.ofTag('details').withAttributeEquals('data-risk', 'pods-down')).toHaveAttribute('open');
   })
+
+  test('clicking on delete button in risk should call deleteRisk', (T) => {
+    T.get(TElement.ofTag('span').withClass('show-details')).click()
+    T.get(TElement.ofTag('button').withClass('delete-btn')).click()
+
+    T.expect().toCallFunction('deleteRisk', '1');
+  });
 }
