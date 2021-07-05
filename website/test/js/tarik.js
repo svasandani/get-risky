@@ -1,4 +1,6 @@
 let ctr = 0;
+const cfg = {}
+const dcfg = {}
 
 export class TElement {
   constructor() {
@@ -159,13 +161,23 @@ const getAbsoluteUrl = (url) => {
   return a.href;
 } 
 
+const p = (r) => {
+  return new Promise((re) => re(r));
+}
+
+export const config = (c) => {
+  Object.assign(cfg, c);
+}
+
 export async function test(name, callback) {
+  if ('containing' in cfg && !name.includes(cfg.containing)) return;
+  
   const id = `chai-iframe-${ctr + 1}`;
 
   let iframe = document.createElement("IFRAME");
   iframe.id = id;
   iframe.src = '.';
-  iframe.setAttribute('style', 'position: fixed; top: 0; left: 0; opacity: 0; pointer-events: none; height: 100vh; width: 100vw; border: none; padding: 0; margin: 0');
+  iframe.setAttribute('style', `position: fixed; top: 0; left: 0; opacity: ${cfg.visible ? '1' : '0'}; pointer-events: ${cfg.interactable ? 'unset' : 'none'}; height: 100vh; width: 100vw; border: none; padding: 0; margin: 0`);
   
   let T = {
     checks: [],
@@ -177,13 +189,13 @@ export async function test(name, callback) {
       return {
         toEqual: (mustEqual) => {
           T.checks.push({
-            evaluate: () => thing === mustEqual,
+            evaluate: () => p(thing === mustEqual),
             reason: () => `Wanted '${thing}' to equal '${mustEqual}'`
           })
         },
         toNotEqual: (mustNotEqual) => {
           T.checks.push({
-            evaluate: () => thing !== mustNotEqual,
+            evaluate: () => p(thing !== mustNotEqual),
             reason: () => `Wanted '${thing}' not to equal '${mustNotEqual}'`
           })
         }
@@ -192,22 +204,51 @@ export async function test(name, callback) {
       if (thing instanceof TElement) {
         return {
           toExist: () => {
+            let t = thing.getIn(T.document) !== null;
+
             T.checks.push({
-              evaluate: () => thing.getIn(T.document) !== null,
+              evaluate: () => p(t),
               reason: () => `Could not find element with selector '${thing.selector}'`
             })
           },
           toNotExist: () => {
+            let t = thing.getIn(T.document) === null;
+
             T.checks.push({
-              evaluate: () => thing.getIn(T.document) === null,
+              evaluate: () => p(t),
               reason: () => `Found element with selector '${thing.selector}', expected null`
+            })
+          },
+          toHaveAttribute: (attr) => {
+            let t = thing.getIn(T.document) !== null && thing.getIn(T.document).getAttribute(attr) !== null;
+
+            T.checks.push({
+              evaluate: () => p(t),
+              reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : `Found element with selector '${thing.selector}' but it did not have attribute '${attr}'`
+            })
+          },
+          toHaveAttributeWithValue: (attr, equals) => {
+            let t = thing.getIn(T.document) !== null && thing.getIn(T.document).getAttribute(attr) === equals
+
+            T.checks.push({
+              evaluate: () => p(t),
+              reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : thing.getIn(T.document).getAttribute(attr) === null ? `Found element with selector '${thing.selector}' but it did not have attribute '${attr}'` : `Found element with selector '${thing.selector}', it had attribute '${attr}' but it did not have value '${equals}'`
+            })
+          },
+          toNotHaveAttribute: (attr) => {
+            let t = thing.getIn(T.document) !== null && thing.getIn(T.document).getAttribute(attr) === null;
+
+            T.checks.push({
+              evaluate: () => p(t),
+              reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : `Found element with selector '${thing.selector}' but it had attribute '${attr}', expected null`
             })
           },
           toContainExactly: (text) => {
             // TODO: what if text var is not string but is inner child?
-            
+            let t = thing.getIn(T.document) !== null && thing.getIn(T.document).textContent === text;
+
             T.checks.push({
-              evaluate: () => thing.getIn(T.document) !== null && thing.getIn(T.document).textContent === text,
+              evaluate: () => p(t),
               reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : `Found element with selector '${thing.selector}' but it had text '${thing.getIn(T.document).textContent}'; wanted '${text}'`
             })
           }
@@ -216,9 +257,17 @@ export async function test(name, callback) {
     } else if (typeof thing === 'undefined') {
       return {
         toNavigateTo(url) {
+          // TODO: good god
+          
+          let absUrl = getAbsoluteUrl(url);
+
           T.checks.push({
-            evaluate: () => T.navigates.includes(getAbsoluteUrl(url)),
-            reason: () => `Nothing tried to navigate to '${url}', expected some event`
+            evaluate: () => {
+              return new Promise((resolve, reject) => {
+                setTimeout(() => resolve(T.navigates.findIndex(el => el.potential === absUrl && el.potential === T.window.location.href) >= 0), 'timeout' in cfg ? cfg.timeout : 2000);
+              })              
+            },
+            reason: () => T.window.location.href === url ? `Timed out after ${'timeout' in cfg ? cfg.timeout : 2000}ms` : `Nothing tried to navigate to '${url}', expected some event`
           })
         }
       }
@@ -234,7 +283,13 @@ export async function test(name, callback) {
 
             let el = thing.getIn(T.document);
             
-            T.navigates.push(el.href);
+            let old = T.window.location.href;
+            thing.getIn(T.document).click();
+
+            T.navigates.push({
+              old,
+              potential: el.href // add some || in here?
+            })
           }
         }
       }
@@ -243,6 +298,7 @@ export async function test(name, callback) {
 
   iframe.addEventListener('load', () => {
     T.document =  iframe.contentDocument || iframe.contentWindow?.document;
+    T.window = iframe.contentWindow;
 
     // T.document.querySelectorAll("*, *:before, *:after").forEach(el => {
     //   el.addEventListener('tarikClick', () => {
@@ -252,25 +308,33 @@ export async function test(name, callback) {
 
     console.info(`Running test: ${name}`);
     callback(T);
-    document.body.removeChild(iframe);
+    if (!cfg.freezeAfterTest) document.body.removeChild(iframe);
 
     let fail = false;
     let failingAssertions = "";
     let numFails = 0;
     let numPasses = 0;
+    let promises = []
     T.checks.forEach(check => {
-      if (!check.evaluate()) {
-        failingAssertions += "\t" + `FAIL: ${check.reason()}` + "\n"
-        fail = true;
-        numFails++;
-      } else numPasses++;
+      promises.push(
+        check.evaluate()
+          .then(pass => {
+            if (!pass) {
+              failingAssertions += "\t" + `FAIL: ${check.reason()}` + "\n"
+              fail = true;
+              numFails++;
+            } else numPasses++;
+          })
+      )
     })
 
-    if (fail) {
-      console.error(`Test: '${name}' FAILED ${numFails}/${numFails+numPasses} test${numFails > 1 ? 's' : ''}`)
-      console.warn(failingAssertions)
-    } else console.log(`%cTest: '${name}' PASSED`, 'color: green')
-  })
+    Promise.all(promises).then(() => {
+      if (fail) {
+        console.error(`Test: '${name}' FAILED ${numFails}/${numFails+numPasses} test${numFails > 1 ? 's' : ''}`)
+        console.warn(failingAssertions)
+      } else console.log(`%cTest: '${name}' PASSED`, 'color: green')
+    })
+  }, { once: true })
 
   document.body.appendChild(iframe);
 }

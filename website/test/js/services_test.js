@@ -1,15 +1,33 @@
-import { test, TElement } from './tarik.js';
+import { config, test, TElement } from './tarik.js';
 
-export const run = () => {
-  test('should have h1 with text Services', (T) => {    
-    T.expect(TElement.ofTag("h1")).toExist();
-    T.expect(TElement.ofTag("h1").withClass("madeup")).toNotExist();
-    T.expect(TElement.ofTag("h1")).toContainExactly("Services");
+config({
+  visible: true,
+  interactable: true,
+  freezeAfterTest: true,
+  containing: 'auth',
+  timeout: 1000
+})
+
+export const run = (cfg) => {
+  config(cfg)
+
+  test('should have h1 with text Services', (T) => {
+    T.expect(TElement.ofTag('h1')).toExist();
+    T.expect(TElement.ofTag('h1').withClass('madeup')).toNotExist();
+    T.expect(TElement.ofTag('h1')).toContainExactly('Services');
   });
 
-  test('clicking on auth should navigate to calculator' ,(T) => {
-    T.get(TElement.ofTag("a").withText("Authentication")).click()
+  test('clicking on auth should navigate to calculator', (T) => {
+    T.get(TElement.ofTag('a').withText('Authentication')).click();
 
-    T.expect().toNavigateTo('/calculator?service=auth');
+    T.expect().toNavigateTo('/calculator/?service=auth');
   });
+
+  test('clicking on more button should open details', (T) => {
+    T.expect(TElement.ofTag('details').withAttributeEquals('data-service', 'auth')).toNotHaveAttribute('open');
+
+    T.get(TElement.ofTag('span').withClass('show-details')).click()
+
+    T.expect(TElement.ofTag('details').withAttributeEquals('data-service', 'auth')).toHaveAttribute('open');
+  })
 }

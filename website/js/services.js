@@ -3,7 +3,7 @@ function appendService(toPopulate, service) {
     `
     <details class="table-hidden-row" data-service="${service.serviceId}">
         <summary class="services-table-row table-row">
-            <a class="hover-reveal table-data" data-reveal="&nbsp;&nbsp;>" href="../calculator?service=${service.serviceId}">${service.serviceName}</a>
+            <a class="hover-reveal table-data" data-reveal="&nbsp;&nbsp;>" href="../calculator/?service=${service.serviceId}">${service.serviceName}</a>
             <span class="table-center-data table-data show-details">· · ·</span>
         </summary>
         <h4>Edit this service</h4>
@@ -103,9 +103,9 @@ window.addEventListener('load', () => {
         .then(setUpModals)
 })
 
-function test() {
+function test(cfg) {
     import('../test/js/services_test.js')
         .then(m => {
-            m.run()
+            m.run(cfg)
         })
 }
