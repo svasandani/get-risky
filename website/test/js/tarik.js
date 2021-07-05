@@ -1,6 +1,6 @@
 let ctr = 0;
-const cfg = {}
-const dcfg = {}
+const cfg = {};
+const lifecycle = {};
 
 export class TElement {
   constructor() {
@@ -165,6 +165,21 @@ const p = (r) => {
   return new Promise((re) => re(r));
 }
 
+export const useScript = (path) => {
+  lifecycle.useScript = path;
+}
+
+export const replaceScript = (oldScript, newScript) => {
+  lifecycle.replaceScript = {
+    oldScript,
+    newScript
+  }
+}
+
+export const removeScript = () => {
+  // TODO: stub
+}
+
 export const config = (c) => {
   Object.assign(cfg, c);
 }
@@ -174,171 +189,188 @@ export async function test(name, callback) {
   
   const id = `chai-iframe-${ctr + 1}`;
 
-  let iframe = document.createElement("IFRAME");
-  iframe.id = id;
-  iframe.src = window.location.href;
-  iframe.setAttribute('style', `position: fixed; top: 0; left: 0; opacity: ${cfg.visible ? '1' : '0'}; pointer-events: ${cfg.interactable ? 'unset' : 'none'}; height: 100vh; width: 100vw; border: none; padding: 0; margin: 0`);
-  
-  let T = {
-    checks: [],
-    navigates: []
-  }
-   
-  T.expect = (thing) => {
-    if (typeof thing === 'string') {
-      return {
-        toEqual: (mustEqual) => {
-          T.checks.push({
-            evaluate: () => p(thing === mustEqual),
-            reason: () => `Wanted '${thing}' to equal '${mustEqual}'`
-          })
-        },
-        toNotEqual: (mustNotEqual) => {
-          T.checks.push({
-            evaluate: () => p(thing !== mustNotEqual),
-            reason: () => `Wanted '${thing}' not to equal '${mustNotEqual}'`
-          })
-        }
+  fetch(window.location.href)
+    .then(response => response.text())
+    .then(doc => {
+      if ('removeScript' in lifecycle) { 
+        // TODO: stub 
       }
-    } else if (typeof thing === 'object') {
-      if (thing instanceof TElement) {
-        return {
-          toExist: () => {
-            let t = thing.getIn(T.document) !== null;
-
-            T.checks.push({
-              evaluate: () => p(t),
-              reason: () => `Could not find element with selector '${thing.selector}'`
-            })
-          },
-          toNotExist: () => {
-            let t = thing.getIn(T.document) === null;
-
-            T.checks.push({
-              evaluate: () => p(t),
-              reason: () => `Found element with selector '${thing.selector}', expected null`
-            })
-          },
-          toHaveAttribute: (attr) => {
-            let t = thing.getIn(T.document) !== null && thing.getIn(T.document).getAttribute(attr) !== null;
-
-            T.checks.push({
-              evaluate: () => p(t),
-              reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : `Found element with selector '${thing.selector}' but it did not have attribute '${attr}'`
-            })
-          },
-          toHaveAttributeWithValue: (attr, equals) => {
-            let t = thing.getIn(T.document) !== null && thing.getIn(T.document).getAttribute(attr) === equals
-
-            T.checks.push({
-              evaluate: () => p(t),
-              reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : thing.getIn(T.document).getAttribute(attr) === null ? `Found element with selector '${thing.selector}' but it did not have attribute '${attr}'` : `Found element with selector '${thing.selector}', it had attribute '${attr}' but it did not have value '${equals}'`
-            })
-          },
-          toNotHaveAttribute: (attr) => {
-            let t = thing.getIn(T.document) !== null && thing.getIn(T.document).getAttribute(attr) === null;
-
-            T.checks.push({
-              evaluate: () => p(t),
-              reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : `Found element with selector '${thing.selector}' but it had attribute '${attr}', expected null`
-            })
-          },
-          toContainExactly: (text) => {
-            // TODO: what if text var is not string but is inner child?
-            let t = thing.getIn(T.document) !== null && thing.getIn(T.document).textContent === text;
-
-            T.checks.push({
-              evaluate: () => p(t),
-              reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : `Found element with selector '${thing.selector}' but it had text '${thing.getIn(T.document).textContent}'; wanted '${text}'`
-            })
-          }
-        }
+      if ('replaceScript' in lifecycle) {
+        doc = doc.replaceAll(lifecycle.replaceScript.oldScript, lifecycle.replaceScript.newScript);
       }
-    } else if (typeof thing === 'undefined') {
-      return {
-        toNavigateTo(url) {
-          // TODO: good god
 
-          let absUrl = getAbsoluteUrl(url);
-
-          T.checks.push({
-            evaluate: () => {
-              return new Promise((resolve, reject) => {
-                setTimeout(() => resolve(T.navigates.findIndex(el => el.potential === absUrl && el.potential === T.window.location.href) >= 0), 'timeout' in cfg ? cfg.timeout : 2000);
-              })              
+      let iframe = document.createElement("IFRAME");
+      iframe.id = id;
+      iframe.src = window.location.href;
+      iframe.setAttribute('style', `position: fixed; top: 0; left: 0; opacity: ${cfg.visible ? '1' : '0'}; pointer-events: ${cfg.interactable ? 'unset' : 'none'}; height: 100vh; width: 100vw; border: none; padding: 0; margin: 0`);
+      
+      let T = {
+        checks: [],
+        navigates: []
+      }
+      
+      T.expect = (thing) => {
+        if (typeof thing === 'string') {
+          return {
+            toEqual: (mustEqual) => {
+              T.checks.push({
+                evaluate: () => p(thing === mustEqual),
+                reason: () => `Wanted '${thing}' to equal '${mustEqual}'`
+              })
             },
-            reason: () => T.window.location.href === url ? `Timed out after ${'timeout' in cfg ? cfg.timeout : 2000}ms` : `Nothing tried to navigate to '${url}', expected some event`
-          })
-        }
-      }
-    }
-  }
+            toNotEqual: (mustNotEqual) => {
+              T.checks.push({
+                evaluate: () => p(thing !== mustNotEqual),
+                reason: () => `Wanted '${thing}' not to equal '${mustNotEqual}'`
+              })
+            }
+          }
+        } else if (typeof thing === 'object') {
+          if (thing instanceof TElement) {
+            return {
+              toExist: () => {
+                let t = thing.getIn(T.document) !== null;
 
-  T.get = (thing) => {
-    if (typeof thing === 'object') {
-      if (thing instanceof TElement) {
-        return {
-          click: () => {
-            // TODO: this sucks!
+                T.checks.push({
+                  evaluate: () => p(t),
+                  reason: () => `Could not find element with selector '${thing.selector}'`
+                })
+              },
+              toNotExist: () => {
+                let t = thing.getIn(T.document) === null;
 
-            let el = thing.getIn(T.document);
-            
-            let old = T.window.location.href;
-            thing.getIn(T.document).click();
+                T.checks.push({
+                  evaluate: () => p(t),
+                  reason: () => `Found element with selector '${thing.selector}', expected null`
+                })
+              },
+              toHaveAttribute: (attr) => {
+                let t = thing.getIn(T.document) !== null && thing.getIn(T.document).getAttribute(attr) !== null;
 
-            T.navigates.push({
-              old,
-              potential: el.href // add some || in here?
-            })
+                T.checks.push({
+                  evaluate: () => p(t),
+                  reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : `Found element with selector '${thing.selector}' but it did not have attribute '${attr}'`
+                })
+              },
+              toHaveAttributeWithValue: (attr, equals) => {
+                let t = thing.getIn(T.document) !== null && thing.getIn(T.document).getAttribute(attr) === equals
+
+                T.checks.push({
+                  evaluate: () => p(t),
+                  reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : thing.getIn(T.document).getAttribute(attr) === null ? `Found element with selector '${thing.selector}' but it did not have attribute '${attr}'` : `Found element with selector '${thing.selector}', it had attribute '${attr}' but it did not have value '${equals}'`
+                })
+              },
+              toNotHaveAttribute: (attr) => {
+                let t = thing.getIn(T.document) !== null && thing.getIn(T.document).getAttribute(attr) === null;
+
+                T.checks.push({
+                  evaluate: () => p(t),
+                  reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : `Found element with selector '${thing.selector}' but it had attribute '${attr}', expected null`
+                })
+              },
+              toContainExactly: (text) => {
+                // TODO: what if text var is not string but is inner child?
+                let t = thing.getIn(T.document) !== null && thing.getIn(T.document).textContent === text;
+
+                T.checks.push({
+                  evaluate: () => p(t),
+                  reason: () => thing.getIn(T.document) === null ? `Could not find element with selector '${thing.selector}'` : `Found element with selector '${thing.selector}' but it had text '${thing.getIn(T.document).textContent}'; wanted '${text}'`
+                })
+              }
+            }
+          }
+        } else if (typeof thing === 'undefined') {
+          return {
+            toNavigateTo(url) {
+              // TODO: good god
+
+              let absUrl = getAbsoluteUrl(url);
+
+              T.checks.push({
+                evaluate: () => {
+                  return new Promise((resolve, reject) => {
+                    setTimeout(() => resolve(T.navigates.findIndex(el => el.potential === absUrl && el.potential === T.window.location.href) >= 0), 'timeout' in cfg ? cfg.timeout : 2000);
+                  })              
+                },
+                reason: () => T.window.location.href === url ? `Timed out after ${'timeout' in cfg ? cfg.timeout : 2000}ms` : `Nothing tried to navigate to '${url}', expected some event`
+              })
+            }
           }
         }
       }
-    }
-  }
 
-  iframe.addEventListener('load', () => {
-    setTimeout(() => {
-      T.document =  iframe.contentDocument || iframe.contentWindow?.document;
-      T.window = iframe.contentWindow;
+      T.get = (thing) => {
+        if (typeof thing === 'object') {
+          if (thing instanceof TElement) {
+            return {
+              click: () => {
+                // TODO: this sucks!
 
-      // T.document.querySelectorAll("*, *:before, *:after").forEach(el => {
-      //   el.addEventListener('tarikClick', () => {
-      //     el.dispatchEvent(new Event('click'))
-      //   })
-      // })
+                let el = thing.getIn(T.document);
+                
+                let old = T.window.location.href;
+                thing.getIn(T.document).click();
 
-      callback(T);
+                T.navigates.push({
+                  old,
+                  potential: el.href // add some || in here?
+                })
+              }
+            }
+          }
+        }
+      }
 
-      let fail = false;
-      let failingAssertions = "";
-      let numFails = 0;
-      let numPasses = 0;
-      let promises = []
-      T.checks.forEach(check => {
-        promises.push(
-          check.evaluate()
-            .then(pass => {
-              if (!pass) {
-                failingAssertions += "\t" + `FAIL: ${check.reason()}` + "\n"
-                fail = true;
-                numFails++;
-              } else numPasses++;
+      iframe.addEventListener('load', () => {
+        setTimeout(() => {
+          T.document =  iframe.contentDocument || iframe.contentWindow?.document;
+          T.window = iframe.contentWindow;
+
+          callback(T);
+
+          let fail = false;
+          let failingAssertions = "";
+          let numFails = 0;
+          let numPasses = 0;
+          let promises = []
+          T.checks.forEach(check => {
+            promises.push(
+              check.evaluate()
+                .then(pass => {
+                  if (!pass) {
+                    failingAssertions += "\t" + `FAIL: ${check.reason()}` + "\n"
+                    fail = true;
+                    numFails++;
+                  } else numPasses++;
+                })
+            )
+          })
+
+          Promise.all(promises)
+            .then(() => {
+              console.info(`Running test: ${name}`);
+              if (fail) {
+                console.error(`Test: '${name}' FAILED ${numFails}/${numFails+numPasses} assertion${(numFails+numPasses) > 1 ? 's' : ''}`)
+                console.warn(failingAssertions)
+              } else console.log(`%cTest: '${name}' PASSED`, 'color: green')
+            }).then(() => {
+              if (!cfg.freezeAfterTest) document.body.removeChild(iframe);
             })
-        )
-      })
+        }, 'loadTime' in cfg ? cfg.loadTime : 2000);
+      }, { once: true })
 
-      Promise.all(promises)
-        .then(() => {
-          console.info(`Running test: ${name}`);
-          if (fail) {
-            console.error(`Test: '${name}' FAILED ${numFails}/${numFails+numPasses} test${numFails > 1 ? 's' : ''}`)
-            console.warn(failingAssertions)
-          } else console.log(`%cTest: '${name}' PASSED`, 'color: green')
-        }).then(() => {
-          if (!cfg.freezeAfterTest) document.body.removeChild(iframe);
-        })
-    }, 'loadTime' in cfg ? cfg.loadTime : 2000);
-  }, { once: true })
+      document.body.appendChild(iframe);
+      iframe.contentDocument.open();
+      iframe.contentDocument.write(doc);
+      iframe.contentDocument.close();
 
-  document.body.appendChild(iframe);
+      // TODO: figure out how to do this later
+      // if ('useScript' in lifecycle) {
+      //   console.log("hi")
+      //   let s = document.createElement('SCRIPT');
+      //   s.src = lifecycle.useScript;
+
+      //   T.document.body.appendChild(s);
+      // }
+    })
 }

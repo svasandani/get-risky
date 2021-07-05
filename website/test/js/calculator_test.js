@@ -1,7 +1,9 @@
-import { config, test, TElement } from './tarik.js';
+import { config, replaceScript, TElement, test } from './tarik.js';
 
 export const run = (cfg) => {
   config(cfg)
+
+  replaceScript('../js/apicalls.js', '/test/js/mock_apicalls.js');
 
   if (new URLSearchParams(window.location.search).get('service') !== 'geo') {
     console.error(`Please run this test suite on test data! Expecting the geo service, got ${new URLSearchParams(window.location.search).get('service')} instead!`);
@@ -10,7 +12,7 @@ export const run = (cfg) => {
 
   test('should have h1 with service name', (T) => {
     T.expect(TElement.ofTag('h1')).toExist();
-    if (new URLSearchParams(window.location.search).get('service') === 'auth') T.expect(TElement.ofTag('h1')).toContainExactly("Authentication") 
+    T.expect(TElement.ofTag('h1')).toContainExactly("Geolocation") 
   });
 
   test('clicking on "back to service" should navigate to services', (T) => {
