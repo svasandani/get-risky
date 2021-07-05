@@ -467,7 +467,7 @@ export async function test(name, callback) {
 
           Promise.all(promises)
             .then(() => {
-              console.info('%cRUNNING:', 'font-weight: bold;', `${name}`);
+              console.info('%c\n\nRUNNING:' + `%c${name}`, 'font-weight: bold; font-size: 1.15rem;', 'font-size: 1.15rem;');
               if (fail) {
                 console.error('%cFAILED:', 'font-weight: bold; color: white; background: red;', `'${name}' failed ${numFails}/${numFails+numPasses} assertion${(numFails+numPasses) > 1 ? 's' : ''}`)
 
