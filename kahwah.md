@@ -1,8 +1,15 @@
-# Kahwah
+<h1 align="center">
+  <img src="https://user-images.githubusercontent.com/24604927/124640772-df9e0f00-de5b-11eb-9a6d-62d75b8883f6.png" alt="Kahwah"/>
+</h1>
+<p align="center">
+    A static frontend testing framework that lives in the browser.
+</p>
 
-A static frontend testing framework that lives in the browser.
+<br>
+<hr>
+<br>
 
-## Running tests
+## Quickstart
 
 To run tests with the boilerplate setup described below, open developer tools in your browser and run `test()` in the console. Here's what it should look like (with two tests, one of which is failing):
 
