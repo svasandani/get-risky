@@ -76,6 +76,7 @@ It's possible to configure some aspects of how kahwah runs tests. Options have v
 | `visible` | `false` | `all` | If `true`, shows `iframe` element for each test while they are running. Usually, the `iframe` elements are hidden with `opacity: 0`. |
 | `interactable` | `false` | `all` | If `true`, allows the user to interact with the `iframe` elements. Usually this is disabled with `pointer-events: none`. |
 | `freezeAfterTest` | `false` | `all` | If `true`, does not remove the `iframe` element from the DOM when the test is complete. Useful for debugging. |
+| `showPassingAssertions` | `false` | `all` | If `true`, shows all assertions that pass as well as those that fail. Useful for checking if an assertion is being tested. |
 | `containing` | `""` | `global` | If not empty, only runs tests with names containing the given string. |
 | `urlTimeout` | `2000` | `all` | Default timeout to check if the `iframe` navigates to another URL. Needed since `iframe` elements suck. |
 | `fnTimeout` | `2000` | `global` | Default length of time to persist function calls in test state. Useful for `toCallFunction` assertions. |

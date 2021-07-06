@@ -347,21 +347,21 @@ export async function test(name, callback) {
               T.checks.push({
                 name: `expect '${thing}' to be true`,
                 evaluate: () => p(thing),
-                reason: () => `Expected ${thing} to be true, got ${thing}`
+                reason: () => `Expected '${thing}' to be true, got '${thing}'`
               })              
             },
             toNotBeTrue: () => {
               T.checks.push({
                 name: `expect '${thing}' to not be true`,
                 evaluate: () => p(!thing),
-                reason: () => `Expected ${thing} to not be true, got ${thing}`
+                reason: () => `Expected '${thing}' to not be true, got '${thing}'`
               })              
             },
             toBeFalse: () => {
               T.checks.push({
                 name: `expect '${thing}' to be false`,
                 evaluate: () => p(thing === false),
-                reason: () => `Expected ${thing} to be false, got ${thing}`
+                reason: () => `Expected '${thing}' to be false, got '${thing}'`
               })              
             },
           }
@@ -467,14 +467,14 @@ export async function test(name, callback) {
 
           Promise.all(promises)
             .then(() => {
-              console.info('%c\n\nRUNNING:' + `%c\n${name}`, 'font-weight: bold; font-size: 1.05rem;', 'font-size: unset;');
+              console.info('%c________________\n\nRUNNING:' + `%c\n${name}`, 'font-weight: bold; font-size: 1.05rem;', 'font-size: unset;');
               if (fail) {
                 console.error('%cFAILED:', 'font-weight: bold; color: white; background: red;', `'${name}' failed ${numFails}/${numFails+numPasses} assertion${(numFails+numPasses) > 1 ? 's' : ''}`)
 
-                failingAssertions.forEach(fa => console.log('%c\tFAIL:', 'font-weight: bold; color: red;', fa))
+                failingAssertions.forEach(fa => console.error('%c\tFAIL:', 'font-weight: bold; color: red;', `\n\t${fa}`))
               } else console.log('%cPASSED:' + `%c '${name}' passed`, 'font-weight: bold; color: white; background: darkgreen;', 'color: lightgreen;')
 
-              if (T.cfg.showPassingAssertions) passingAssertions.forEach(pa => console.log('%c\tPASS:' + `%c\n\t${pa}`, 'font-weight: bold; color: lightgreen;', 'color: white;'))
+              if (T.cfg.showPassingAssertions) passingAssertions.forEach(pa => console.log('%c\tPASS:', 'font-weight: bold; color: lightgreen;', `\n\t${pa}`))
             }).then(() => {
               if (!T.cfg.freezeAfterTest) document.body.removeChild(iframe);
             })
