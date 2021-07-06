@@ -1,59 +1,82 @@
-Get Risky
-========
+<h1 align="center">
+  <img src="https://user-images.githubusercontent.com/24604927/124636394-7d8edb00-de56-11eb-9df0-11ed4d3de6f1.png" alt="Get Risky"/>
+</h1>
+<p align="center">
+  A risk assessment tool to help determine which risks to tolerate and which to mitigate. <em>Currently in development.</em>
+</p>
 
-A risk assessment tool to help determine which risks to tolerate and which to mitigate. Builtin migration handler. Currently in development.
+## Quickstart
+
+    $ go run src/main.go --site-port=3001
+
+Serves api on port `3000`, site on port `3001`. Navigate to `http://localhost:3000/` to load the site.
+
+<!--   <img src="https://user-images.githubusercontent.com/24604927/124519698-0d317c80-ddb8-11eb-82b3-ead3b8c01f82.png" alt="screenshot of get-risky" width="640"/> -->
+
+<br>
+<hr>
+<br>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/24604927/124519698-0d317c80-ddb8-11eb-82b3-ead3b8c01f82.png" alt="screenshot of get-risky" width="640"/>
+  <img src="https://user-images.githubusercontent.com/24604927/124632296-37377d00-de52-11eb-9926-a0e02ef70c4f.png" alt="get-risky" width="320"/>
 </p>
 
 Table of Contents
 ========
 
-- [Get Risky](#get-risky)
-  - [Frontend](#frontend)
-    - [Running it locally](#running-it-locally)
-    - [Deployment](#deployment)
-    - [Testing](#testing)
-    - [Contributing](#contributing)
-    - [Issues](#issues)
-    - [Future features](#future-features)
-  - [Backend](#backend)
-    - [Running it locally](#running-it-locally-1)
-    - [Deployment](#deployment-1)
-    - [Contributing](#contributing-1)
-    - [Issues](#issues-1)
-    - [Endpoints](#endpoints)
-      - [Services](#services)
-      - [Risks](#risks)
-      - [Risk Factors](#risk-factors)
-      - [Configs](#configs)
-    - [Future features](#future-features-1)
-  - [Migration](#migration)
-    - [Creating a new migration](#creating-a-new-migration)
-    - [Running migrations](#running-migrations)
-      - [Migrating forwards](#migrating-forwards)
-      - [Migrating backwards](#migrating-backwards)
-    - [Contributing](#contributing-2)
-    - [Issues](#issues-2)
-    - [Future features](#future-features-2)
-  - [Testing](#testing-1)
-    - [Testing packages](#testing-packages)
-    - [More involved tests](#more-involved-tests)
-    - [Running all tests](#running-all-tests)
-  - [Roadmap](#roadmap)
-    - [v0](#v0)
-      - [Estimated release](#estimated-release)
-      - [Features](#features)
-    - [v1](#v1)
-      - [Estimated release](#estimated-release-1)
-      - [Features](#features-1)
-    - [v2](#v2)
-      - [Estimated release](#estimated-release-2)
-      - [Features](#features-2)
-    - [v3](#v3)
-      - [Estimated release](#estimated-release-3)
-      - [Features](#features-3)
+- [Quickstart](#quickstart)
+- [Frontend](#frontend)
+  * [Running it locally](#running-it-locally)
+    + [Serve it yourself](#serve-it-yourself)
+    + [Use backend](#use-backend)
+  * [Deployment](#deployment)
+  * [Testing](#testing)
+  * [Contributing](#contributing)
+  * [Issues](#issues)
+  * [Future features](#future-features)
+    + [(Option 1) Switch to a framework](#option-1-switch-to-a-framework)
+    + [(Option 2) Refactor + pipeline?](#option-2-refactor--pipeline)
+- [Backend](#backend)
+  * [Running it locally](#running-it-locally-1)
+  * [Deployment](#deployment-1)
+  * [Contributing](#contributing-1)
+  * [Issues](#issues-1)
+  * [Endpoints](#endpoints)
+    + [Services](#services)
+    + [Risks](#risks)
+    + [Risk Factors](#risk-factors)
+    + [Configs](#configs)
+  * [Future features](#future-features-1)
+    + [Backend transformations](#backend-transformations)
+    + [Dockerization](#dockerization)
+    + [More granular controls](#more-granular-controls)
+- [Migration](#migration)
+  * [Operation 1: Creating a new migration](#operation-1-creating-a-new-migration)
+  * [Operation 2: Running migrations](#operation-2-running-migrations)
+    + [Migrating forwards](#migrating-forwards)
+    + [Migrating backwards](#migrating-backwards)
+  * [Contributing](#contributing-2)
+  * [Issues](#issues-2)
+  * [Future features](#future-features-2)
+    + [Cherry picking migrations](#cherry-picking-migrations)
+    + [Supporting branching](#supporting-branching)
+- [Testing](#testing-1)
+  * [Testing packages](#testing-packages)
+  * [More involved tests](#more-involved-tests)
+  * [Running all tests](#running-all-tests)
+- [Roadmap](#roadmap)
+  * [v0](#v0)
+    + [Estimated release](#estimated-release)
+    + [Features](#features)
+  * [v1](#v1)
+    + [Estimated release](#estimated-release-1)
+    + [Features](#features-1)
+  * [v2](#v2)
+    + [Estimated release](#estimated-release-2)
+    + [Features](#features-2)
+  * [v3](#v3)
+    + [Estimated release](#estimated-release-3)
+    + [Features](#features-3)
 
 ## Frontend
 
