@@ -426,14 +426,14 @@ July 23
 ##### Frontend
 - Basic authentication page
 - Refactor computation logic to depend on backend
+- Updated display for dependencies
+  - New table
+  - Warnings for circular/poor dependencies
 
 ##### Backend
 - Basic authentication (administrators, permissions to view/edit service)
 - Migrate computation logic and service state management to backend
 - Dependencies on other services on the platform
-- Updated display for dependencies
-  - New table
-  - Warnings for circular/poor dependencies
 
 ### v3
 
@@ -451,3 +451,7 @@ August 6
 - Dependency groups
   - Support for external dependencies
 - Improved auth (teams that own services)
+- Add support for core/important services
+  - Allow users to set relative importance of services
+- Add support for forced iteration
+  - Deprecate risks after two months (?) to ensure forced iteration
