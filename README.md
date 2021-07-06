@@ -407,8 +407,14 @@ Current
 July 9
 
 #### Features
+
+##### Frontend
+- Frontend using real API endpoints + real data
+- Different configuration types (toggle, input, select)
+- Default config options for availability and unacceptable risk threshold
+
+##### Backend
 - Functional endpoints
-- Frontend using real data
 
 ### v2
 
@@ -416,13 +422,18 @@ July 9
 July 23
 
 #### Features
-- Basic authentication
-- Teams that own services
+
+##### Frontend
+- Basic authentication page
+- Refactor computation logic to depend on backend
+
+##### Backend
+- Basic authentication (administrators, permissions to view/edit service)
+- Migrate computation logic and service state management to backend
 - Dependencies on other services on the platform
 - Updated display for dependencies
   - New table
   - Warnings for circular/poor dependencies
-- State management moved to backend
 
 ### v3
 
@@ -430,8 +441,13 @@ July 23
 August 6
 
 #### Features
-- Dependency groups
-  - Minimize dependency risks by using backups
-  - Warnings for groups with no/few backupds
+
+##### Frontend
+- Display for depdency groups
+  - Warnings for sparse groups without backups
   - Support for external dependencies
-- TBD
+
+##### Backend
+- Dependency groups
+  - Support for external dependencies
+- Improved auth (teams that own services)
