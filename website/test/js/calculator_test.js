@@ -1,9 +1,18 @@
-import { config, replaceScript, TElement, test } from './kahwah.js';
+import { config, TElement, test } from './kahwah.js';
 
 // config({ showPassingAssertions: true })
 
-export const run = (cfg) => {
+export const run = async (cfg) => {
   config(cfg)
+
+  const r = await fetch(`${url}/test`)
+
+  if (r.status !== 200) {
+    console.error(`Please run this test suite on test data! Expecting a 200 response, got ${r.status} instead!`);
+    return;
+  }
+
+  const testData = await r.json()
 
   if (new URLSearchParams(window.location.search).get('service') !== 'geo') {
     console.error(`Please run this test suite on test data! Expecting the geo service, got ${new URLSearchParams(window.location.search).get('service')} instead!`);

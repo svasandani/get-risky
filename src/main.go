@@ -89,6 +89,9 @@ func createBackendServer() *http.Server {
 		w.Write([]byte(fmt.Sprintf("%#v\n", re.SubexpNames())))
 	})))
 
+	// TODO: if env=test add a handler to verify test endpoint
+	// TODO: maybe also to get schema for frontend testing?
+
 	// mux.HandleFunc("/api/services", func(w http.ResponseWriter, r *http.Request) {
 	// 	switch r.Method {
 	// 	case http.MethodGet:
