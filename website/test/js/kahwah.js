@@ -199,7 +199,7 @@ export const config = (c) => {
 export async function test(name, callback) {
   if ('containing' in cfg && !name.includes(cfg.containing)) return;
   
-  const id = `chai-iframe-${ctr + 1}`;
+  const id = `kahwah-iframe-${ctr + 1}`;
 
   fetch(window.location.href)
     .then(response => response.text())
