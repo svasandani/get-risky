@@ -107,8 +107,9 @@ As you can see, `T` provides us with some helpful methods. Let's go over some of
 ### Getting elements
 
 `T` exposes a `get()` method that expects an instance of `TElement`. A `TElement` represents an HTML element, but with some useful methods baked in. This class can be imported from `kahwah.js` as well; we'll go over that in a little bit. Once you use `T.get`, you have the following methods available to you:
+
 | Method | What does it do? |
-|-----|-----|-----|
+|-----|-----|
 | `click()` | Clicks the retrieved element. |
 | `getAttribute(attr: string)` | Returns the value of the given attribute on the retrieved element using the `getAttribute` API. |
 
