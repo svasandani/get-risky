@@ -627,6 +627,42 @@ button:focus {
     padding-top: 0.5rem;
 }
 
+#est-availability-container {
+    margin: 1rem 0;
+    flex: 1;
+    margin-left: 1rem;
+}
+
+#est-availability.low {
+    color: var(--red);
+}
+
+#est-availability.medium {
+    color: var(--blue);
+}
+
+#est-availability.high {
+    color: var(--darktheme);
+}
+
+.reveal-label-on-hover .to-reveal {
+    opacity: 0;
+    max-height: 0;
+    transition: 0.1s ease-in;
+}
+
+.reveal-label-on-hover:hover .to-reveal {
+    opacity: 1;
+    max-height: 1rem;
+}
+
+@media (max-width: 768px) {
+    .reveal-label-on-hover .to-reveal {
+        opacity: 1;
+        max-height: 1rem;
+    }
+}
+
 #risk-calculator .inputs {
     display: grid;
     grid-template-columns: 1fr 1fr;

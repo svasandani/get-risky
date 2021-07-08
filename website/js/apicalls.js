@@ -20,6 +20,13 @@ const datastore = {
             "riskFactors": [],
             "config": [
                 {
+                    "id": 11,
+                    "configId": "est-availability",
+                    "configDesc": "Shows the estimated availability if all risks are accepted with their current values.",
+                    "configCategory": "global",
+                    "configValue": true
+                },
+                {
                     "id": 1,
                     "configId": "budget",
                     "configDesc": "Shows the total number of minutes that a service can be down each year to meet the specified availability.",
@@ -145,6 +152,13 @@ const datastore = {
                 }
             ],
             "config": [
+                {
+                    "id": 11,
+                    "configId": "est-availability",
+                    "configDesc": "Shows the estimated availability if all risks are accepted with their current values.",
+                    "configCategory": "global",
+                    "configValue": true
+                },
                 {
                     "id": 1,
                     "configId": "budget",
@@ -272,6 +286,13 @@ const datastore = {
             ],
             "config": [
                 {
+                    "id": 11,
+                    "configId": "est-availability",
+                    "configDesc": "Shows the estimated availability if all risks are accepted with their current values.",
+                    "configCategory": "global",
+                    "configValue": true
+                },
+                {
                     "id": 1,
                     "configId": "budget",
                     "configDesc": "Shows the total number of minutes that a service can be down each year to meet the specified availability.",
@@ -397,6 +418,13 @@ const datastore = {
                 }
             ],
             "config": [
+                {
+                    "id": 11,
+                    "configId": "est-availability",
+                    "configDesc": "Shows the estimated availability if all risks are accepted with their current values.",
+                    "configCategory": "global",
+                    "configValue": true
+                },
                 {
                     "id": 1,
                     "configId": "budget",

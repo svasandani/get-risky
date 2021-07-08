@@ -1,5 +1,8 @@
 const state = {
     "uptime": 0,
+    get estAvailability() {
+        return f((1 - (this.risks.reduce((acc, curr) => acc += curr.affectedTime, 0) / (1440 * 365.25))) * 100, 3)
+    },
     get budget() {
         return f((1 - this.uptime) * 1440 * 365.25)
     },
@@ -308,6 +311,33 @@ function getState() {
 function recalculate() {
     // stub
     return new Promise((resolve, reject) => {
+        let estAvailability = document.querySelector("#est-availability");
+        estAvailability.textContent = `${state.estAvailability}%`;
+        const availabilities = [
+            {
+                min: 0,
+                max: 75,
+                className: "low"
+            },
+            {
+                min: 75,
+                max: 90,
+                className: "medium"
+            }, 
+            {
+                min: 90,
+                max: 100,
+                className: "high"
+            }
+        ];
+        availabilities.forEach(av => {
+            if (state.estAvailability > av.min && state.estAvailability <= av.max) {
+                estAvailability.classList.add(av.className);
+            } else {
+                if (estAvailability.classList.contains(av.className)) estAvailability.classList.remove(av.className);
+            }
+        })
+
         let budget = document.querySelector("#budget");
         budget.textContent = state.budget;
 
