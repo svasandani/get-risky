@@ -411,10 +411,11 @@ July 9
 ##### Frontend
 - Frontend using real API endpoints + real data
 - Different configuration types (toggle, input, select)
-- Default config options for availability and unacceptable risk threshold
+  - **Input:** availability, risk threshold, low/medium/high availabilities
 
 ##### Backend
 - Functional endpoints
+- Default config options for availability, unacceptable risk threshold, low/medium/high availabilities
 
 ### v2
 
