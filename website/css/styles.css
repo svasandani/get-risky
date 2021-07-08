@@ -661,6 +661,10 @@ button:focus {
         opacity: 1;
         max-height: 1rem;
     }
+
+    #est-availability-container {
+        margin-left: 0;
+    }
 }
 
 #risk-calculator .inputs {
