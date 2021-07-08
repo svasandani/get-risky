@@ -71,26 +71,26 @@ function appendRisk(toPopulate, risk) {
                 <label>
                     <span>
                         ETTD
-                        <span class="tooltip" data-tip="Estimated time to detect the risk">ⓘ</span>
+                        <span class="tooltip" data-tip="Estimated time to detect the risk (in minutes)">ⓘ</span>
                     </span>
                     <input id="${risk.riskId}-riskEttd" class="labelled-input" name="riskEttd" value="${risk.riskEttd}" type="number" placeholder="" required/>
                 </label>
                 <label>
                     <span>
                         ETTR
-                        <span class="tooltip" data-tip="Estimated time to recover from the risk">ⓘ</span>
+                        <span class="tooltip" data-tip="Estimated time to recover from the risk (in minutes)">ⓘ</span>
                     </span>
                     <input id="${risk.riskId}-riskEttr" class="labelled-input" name="riskEttr" value="${risk.riskEttr}" type="number" placeholder="" required/>
                 </label>
                 <label>
-                    Impact (% users)
+                    % Users impacted
                     <input id="${risk.riskId}-riskImpact" class="labelled-input" name="riskImpact" value="${risk.riskImpact}" type="number" min="0" max="100" step="0.001" placeholder="" required/>
                     <span class="percentage-input">%</span>
                 </label>
                 <label>
                     <span>
                         ETTF
-                        <span class="tooltip" data-tip="Estimated time to failure (i.e. frequency)">ⓘ</span>
+                        <span class="tooltip" data-tip="Estimated time to failure (in minutes)">ⓘ</span>
                     </span>
                     <input id="${risk.riskId}-riskEttf" class="labelled-input" name="riskEttf" value="${risk.riskEttf}" type="number" placeholder="" required/>
                 </label>
@@ -192,26 +192,26 @@ function appendRiskFactor(toPopulate, riskFactor) {
                 <label>
                     <span>
                         Δ ETTD
-                        <span class="tooltip" data-tip="Estimated difference in time to detect the risk">ⓘ</span>
+                        <span class="tooltip" data-tip="Estimated difference in time to detect the risk (in minutes)">ⓘ</span>
                     </span>
                     <input id="${riskFactor.riskFactorId}-riskFactorEttd" class="labelled-input" name="riskFactorEttd" value="${riskFactor.riskFactorEttd}" type="number" placeholder="" required/>
                 </label>
                 <label>
                     <span>
                         Δ ETTR
-                        <span class="tooltip" data-tip="Estimated difference in time to recover from the risk">ⓘ</span>
+                        <span class="tooltip" data-tip="Estimated difference in time to recover from the risk (in minutes)">ⓘ</span>
                     </span>
                     <input id="${riskFactor.riskFactorId}-riskFactorEttr" class="labelled-input" name="riskFactorEttr" value="${riskFactor.riskFactorEttr}" type="number" placeholder="" required/>
                 </label>
                 <label>
-                    Δ Impact (% users)
+                    Δ % Users impacted
                     <input id="${riskFactor.riskFactorId}-riskFactorImpact" class="labelled-input" name="riskFactorImpact" value="${riskFactor.riskFactorImpact}" type="number" min="0" max="100" step="0.001" placeholder="" required/>
                     <span class="percentage-input">%</span>
                 </label>
                 <label>
                     <span>
                         Δ ETTF
-                        <span class="tooltip" data-tip="Estimated difference in time to failure (i.e. frequency)">ⓘ</span>
+                        <span class="tooltip" data-tip="Estimated difference in time to failure (in minutes)">ⓘ</span>
                     </span>
                     <input id="${riskFactor.riskFactorId}-riskFactorEttf" class="labelled-input" name="riskFactorEttf" value="${riskFactor.riskFactorEttf}" type="number" placeholder="" required/>
                 </label>
